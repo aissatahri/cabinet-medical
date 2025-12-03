@@ -35,7 +35,7 @@
                         <FontIcon iconColor="WHITE" iconLiteral="fas-syringe" iconSize="12" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnTemplateAntiinflammatoires" onAction="#addTemplateAntiinflammatoires" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Anti-inflammatoires">
+                  <Button fx:id="btnTemplateAntiInflammatoires" onAction="#addTemplateAntiInflammatoires" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Anti-inflammatoires">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-tablets" iconSize="12" />
                      </graphic>
