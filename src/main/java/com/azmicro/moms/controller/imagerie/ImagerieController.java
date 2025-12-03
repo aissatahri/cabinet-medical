@@ -542,7 +542,13 @@ public class ImagerieController implements Initializable {
             if (imagerie.getResultat() != null && !imagerie.getResultat().isEmpty()) {
                 descArea.setText(imagerie.getResultat());
             }
+            
+            // Ajouter la ligne au container
+            vboxLignesImagerie.getChildren().add(line);
         }
+        
+        updateImageryCount();
     }
 }
+
 
