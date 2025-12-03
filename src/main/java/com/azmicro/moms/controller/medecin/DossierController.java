@@ -1341,26 +1341,60 @@ public class DossierController implements Initializable {
 
     @FXML
     private void editBilan(ActionEvent event) {
-        // Vérifier si une ligne est sélectionnée
-        Analyse selectedAnalyse = tvBilan.getSelectionModel().getSelectedItem();
-        if (selectedAnalyse != null) {
-            // Mettre à jour les informations de l'analyse sélectionnée avec les valeurs des contrôles
-            selectedAnalyse.setDateAnalyse(dpDateAnalyse.getValue());
-            selectedAnalyse.setResultat(txtRsltLigneBilan.getText());
+        // Vérifier si une consultation est sélectionnée
+        Consultations selectedDate = lvDateConsultationBilan.getSelectionModel().getSelectedItem();
 
-            // Sauvegarder les modifications dans la base de données
-            analyseService.updateAnalyse(selectedAnalyse);
-            System.out.println(selectedAnalyse.toString());
+        if (selectedDate != null) {
+            try {
+                // Charger la vue FXML
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/bilan/bilan-view.fxml"));
+                Parent root = fxmlLoader.load();
 
-            // Rafraîchir la TableView pour montrer les changements
-            tvBilan.refresh();
-            loadAnalyses();
+                // Récupérer le contrôleur de la vue Bilan
+                BilanController bilanController = fxmlLoader.getController();
 
-            // Afficher une alerte de succès
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Le bilan a été mis à jour avec succès.");
+                // Passer l'instance de Consultation au BilanController
+                bilanController.setConsultation(selectedConsultation);
+                bilanController.setDossierController(this);
+
+                // Créer une nouvelle scène
+                Scene scene = new Scene(root);
+
+                // Créer un nouveau stage (fenêtre)
+                Stage stage = new Stage();
+                stage.setTitle("Modifier Bilan");
+
+                // Appliquer la scène au stage
+                stage.setScene(scene);
+
+                // Configurer le stage comme une fenêtre modale
+                stage.initModality(Modality.WINDOW_MODAL);
+
+                // Lier le stage modal à la fenêtre principale
+                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.initOwner(primaryStage);
+
+                // Désactiver la possibilité d'agrandir la fenêtre
+                stage.setResizable(false);
+
+                // Afficher la fenêtre modale et attendre sa fermeture
+                stage.showAndWait();
+                loadAnalyses();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur de chargement");
+                alert.setContentText("Une erreur est survenue lors du chargement de la vue bilan. Veuillez réessayer.");
+                alert.showAndWait();
+            }
         } else {
-            // Gérer le cas où aucune ligne n'est sélectionnée (afficher un message d'alerte, par exemple)
-            showAlert(Alert.AlertType.WARNING, "Sélectionnez un bilan", "Veuillez sélectionner un bilan à modifier.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucune sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner une consultation dans la liste.");
+            alert.showAndWait();
         }
     }
 
@@ -1453,26 +1487,60 @@ public class DossierController implements Initializable {
 
     @FXML
     private void editImagerie(ActionEvent event) {
-        // Vérifier si une ligne est sélectionnée
-        Imagerie selectedImagerie = tvRadio.getSelectionModel().getSelectedItem();
-        if (selectedImagerie != null) {
-            // Mettre à jour les informations de l'analyse sélectionnée avec les valeurs des contrôles
-            selectedImagerie.setDateImagerie(dpDateImagerie.getValue());
-            selectedImagerie.setResultat(txtresultImagerie.getText());
+        // Vérifier si une consultation est sélectionnée
+        Consultations selectedDateConsultation = lvDateConsultationRadio.getSelectionModel().getSelectedItem();
+        
+        if (selectedDateConsultation != null) {
+            try {
+                // Charger la vue FXML
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/imagerie/imagerie-view.fxml"));
+                Parent root = fxmlLoader.load();
 
-            // Sauvegarder les modifications dans la base de données
-            imagerieService.updateImagerie(selectedImagerie);
-            System.out.println(selectedImagerie.toString());
+                // Récupérer le contrôleur de la vue Imagerie
+                ImagerieController imagerieController = fxmlLoader.getController();
 
-            // Rafraîchir la TableView pour montrer les changements
-            tvRadio.refresh();
-            loadImagerie();
+                // Passer l'instance de Consultation au ImagerieController
+                imagerieController.setConsultation(selectedConsultation);
+                imagerieController.setDossierController(this);
 
-            // Afficher une alerte de succès
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Le bilan a été mis à jour avec succès.");
+                // Créer une nouvelle scène
+                Scene scene = new Scene(root);
+
+                // Créer un nouveau stage (fenêtre)
+                Stage stage = new Stage();
+                stage.setTitle("Modifier Imagerie");
+
+                // Appliquer la scène au stage
+                stage.setScene(scene);
+
+                // Configurer le stage comme une fenêtre modale
+                stage.initModality(Modality.WINDOW_MODAL);
+
+                // Lier le stage modal à la fenêtre principale
+                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.initOwner(primaryStage);
+
+                // Désactiver la possibilité d'agrandir la fenêtre
+                stage.setResizable(false);
+
+                // Afficher la fenêtre modale et attendre sa fermeture
+                stage.showAndWait();
+                loadImagerie();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur de chargement");
+                alert.setContentText("Une erreur est survenue lors du chargement de la vue imagerie. Veuillez réessayer.");
+                alert.showAndWait();
+            }
         } else {
-            // Gérer le cas où aucune ligne n'est sélectionnée (afficher un message d'alerte, par exemple)
-            showAlert(Alert.AlertType.WARNING, "Sélectionnez un bilan", "Veuillez sélectionner un bilan à modifier.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucune sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner une consultation dans la liste.");
+            alert.showAndWait();
         }
     }
 

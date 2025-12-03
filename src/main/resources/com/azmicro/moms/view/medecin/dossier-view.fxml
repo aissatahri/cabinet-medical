@@ -721,6 +721,9 @@
                            </graphic>
                         </Tab>
                         <Tab text="Radiologies">
+                           <graphic>
+                              <FontIcon fill="#3498db" iconLiteral="fas-x-ray" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
