@@ -1,0 +1,232 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.azmicro.moms.util;
+
+/**
+ *
+ * @author Aissa
+ */
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class DatabaseInitializer {
+
+    public static void initializeDatabase() {
+        // Step 1: Create database if not exists
+        try (Connection connectionWithoutDB = DatabaseUtil.getConnectionWithoutDB(); Statement statement = connectionWithoutDB.createStatement()) {
+
+            // Création de la base de données si elle n'existe pas
+            statement.executeUpdate("CREATE DATABASE IF NOT EXISTS CabinetMedical CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return; // Arrêter l'initialisation en cas d'erreur
+        }
+
+        // Step 2: Create tables
+        try (Connection connection = DatabaseUtil.getConnection(); 
+              Statement statement = connection.createStatement()) {
+
+            // Utilisation de la base de données
+            statement.executeUpdate("USE CabinetMedical");
+
+            // Création des tables
+            createTables(statement);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void createTables(Statement statement) throws SQLException {
+    // Table des Spécialités Médicales
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Specialites (" +
+            "SpecialiteID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "NomSpecialite VARCHAR(100) NOT NULL)");
+
+    // Table des Médecins
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Medecins (" +
+            "MedecinID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "Nom VARCHAR(50) NOT NULL, " +
+            "Prenom VARCHAR(50) NOT NULL, " +
+            "SpecialiteID INT, " +
+            "Telephone VARCHAR(15), " +
+            "Email VARCHAR(100), " +
+            "Adresse VARCHAR(255), " +
+            "DateEmbauche DATE, " +
+            "FOREIGN KEY (SpecialiteID) REFERENCES Specialites(SpecialiteID), ");
+    // Table des Patients avec les nouveaux champs
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Patients (" +
+            "PatientID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "numDossier VARCHAR(10) NOT NULL, " +
+            "Nom VARCHAR(50) NOT NULL, " +
+            "Prenom VARCHAR(50) NOT NULL, " +
+            "DateNaissance DATE, " +
+            "age INT, " +
+            "Sexe ENUM('M', 'F') NOT NULL, " +
+            "Telephone VARCHAR(15), " +
+            "Email VARCHAR(100), " +
+            "Adresse VARCHAR(255), " +
+            "SituationFamiliale ENUM('CELIBATAIRE', 'MARIE', 'DIVORCE', 'VEUF') NOT NULL, " +
+            "Profession VARCHAR(100), ");
+
+    // Table des Rendez-vous
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS RendezVous (" +
+            "RendezVousID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "MedecinID INT, " +
+            "DateHeure DATETIME, " +
+            "Motif VARCHAR(255), " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID), " +
+            "FOREIGN KEY (MedecinID) REFERENCES Medecins(MedecinID))");
+
+    // Table des Consultations
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Consultations (" +
+            "ConsultationID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "RendezVousID INT, " +
+            "DateConsultation DATE, " +
+            "Diagnostic TEXT, " +
+            "Traitement TEXT, " +
+            "FOREIGN KEY (RendezVousID) REFERENCES RendezVous(RendezVousID))");
+
+    // Table des Médicaments
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Medicaments (" +
+            "MedicamentID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "NomMedicament VARCHAR(100) NOT NULL, " +
+            "Description TEXT, " +
+            "DateExpiration DATE)");
+
+    // Table des Prescriptions
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Prescriptions (" +
+            "PrescriptionID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "ConsultationID INT, " +
+            "MedicamentID INT, " +
+            "Dose VARCHAR(50), " +
+            "Duree VARCHAR(50), " +
+            "FOREIGN KEY (ConsultationID) REFERENCES Consultations(ConsultationID), " +
+            "FOREIGN KEY (MedicamentID) REFERENCES Medicaments(MedicamentID))");
+
+    // Table des Analyses
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Analyses (" +
+            "AnalyseID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "ConsultationID INT, " +
+            "TypeAnalyse VARCHAR(100), " +
+            "DateAnalyse DATE, " +
+            "Resultat TEXT, " +
+            "FOREIGN KEY (ConsultationID) REFERENCES Consultations(ConsultationID))");
+
+    // Table des Radiographies
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Radiographies (" +
+            "RadiographieID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "ConsultationID INT, " +
+            "TypeRadiographie VARCHAR(100), " +
+            "DateRadiographie DATE, " +
+            "Resultat TEXT, " +
+            "FOREIGN KEY (ConsultationID) REFERENCES Consultations(ConsultationID))");
+
+    // Table des Paiements
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Paiements (" +
+            "PaiementID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "RendezVousID INT, " +
+            "Montant DECIMAL(10, 2), " +
+            "DatePaiement DATE, " +
+            "ModePaiement ENUM('Carte', 'Espèces', 'Chèque'), " +
+            "FOREIGN KEY (RendezVousID) REFERENCES RendezVous(RendezVousID))");
+
+    // Table des Utilisateurs
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Utilisateurs (" +
+            "UtilisateurID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "NomUtilisateur VARCHAR(50) UNIQUE NOT NULL, " +
+            "MotDePasse VARCHAR(255) NOT NULL, " +
+            "Role ENUM('Admin', 'Secretaire', 'Medecin'), " +
+            "DateCreation DATE)");
+
+    // Table des Notes
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Notes (" +
+            "NoteID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "UtilisateurID INT, " +
+            "PatientID INT, " +
+            "ConsultationID INT, " +
+            "DateNote DATE, " +
+            "Contenu TEXT, " +
+            "FOREIGN KEY (UtilisateurID) REFERENCES Utilisateurs(UtilisateurID), " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID), " +
+            "FOREIGN KEY (ConsultationID) REFERENCES Consultations(ConsultationID))");
+
+    // Table des Historique Médical
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS HistoriqueMedical (" +
+            "HistoriqueID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "Type  ENUM('Médical', 'Chirurgical', 'Familial', 'Social', 'Autre'), " +
+            "Description TEXT, " +
+            "Date DATE, " +
+            "Note TEXT, " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID))");
+
+    // Table des Allergies
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Allergies (" +
+            "AllergieID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "NomAllergie VARCHAR(100), " +
+            "DateDetection DATE, " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID))");
+
+    // Table des Vaccins
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Vaccins (" +
+            "VaccinID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "NomVaccin VARCHAR(100), " +
+            "DateVaccination DATE, " +
+            "ProchainRappel DATE, " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID))");
+
+    // Table des Équipements Médicaux
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Equipements (" +
+            "EquipementID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "NomEquipement VARCHAR(100), " +
+            "Description TEXT, " +
+            "DateAcquisition DATE)");
+
+    // Table des Disponibilités Médecins
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Disponibilites (" +
+            "DisponibiliteID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "MedecinID INT, " +
+            "Date DATE, " +
+            "HeureDebut TIME, " +
+            "HeureFin TIME, " +
+            "FOREIGN KEY (MedecinID) REFERENCES Medecins(MedecinID))");
+
+    // Table des Files d'Attente
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS FilesAttente (" +
+            "FileAttenteID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "DateArrivee DATETIME, " +
+            "HeureArrivee DATETIME, " +
+            "Etat ENUM('NORMAL', 'URGENT', 'AGE', 'GRAVE', 'AUTRE')," +
+            "Statut ENUM('En attente', 'En consultation', 'Terminé'), " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID))");
+
+    // Table des Notifications
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Notifications (" +
+            "NotificationID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "DateNotification DATETIME, " +
+            "Message TEXT, " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID))");
+
+    // Table des Documents
+    statement.executeUpdate("CREATE TABLE IF NOT EXISTS Documents (" +
+            "DocumentID INT AUTO_INCREMENT PRIMARY KEY, " +
+            "PatientID INT, " +
+            "NomDocument VARCHAR(255), " +
+            "TypeDocument VARCHAR(50), " +
+            "DateEnregistrement DATE, " +
+            "Contenu BLOB, " +
+            "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE)");
+}
+
+
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane id="AnchorPane" prefHeight="593.0" prefWidth="677.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DashboardMedecinController">
+    <stylesheets>
+        <URL value="@../../css/dashboardmedecin.css" />
+    </stylesheets>
+   <children>
+      <HBox fx:id="rootHBox" prefHeight="100.0" prefWidth="200.0" stylesheets="@../../css/dashboardmedecin.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fx:id="sideBar" prefHeight="593.0" prefWidth="197.0" style="-fx-border-radius: 5;" styleClass="side-menu" stylesheets="@../../css/dashboardmedecin.css">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="39.0" prefWidth="177.0">
+                     <children>
+                        <ImageView fitHeight="58.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-image">
+                           <image>
+                              <Image url="@../../images/heart.gif" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox prefHeight="443.0" prefWidth="177.0" spacing="15.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="btnOpenHome" onAction="#openHome" prefHeight="48.0" prefWidth="176.0" styleClass="menu-button" text="Tableau de bord" />
+                        <Button fx:id="btnOpenPatients" onAction="#openPatient" prefHeight="48.0" prefWidth="177.0" styleClass="menu-button" text="Patients" />
+                        <Button fx:id="btnRendezVous" onAction="#openRendezVous" prefHeight="48.0" prefWidth="178.0" styleClass="menu-button" text="Planning" />
+                        <Button fx:id="btnDossier" onAction="#openDossier" prefHeight="48.0" prefWidth="179.0" styleClass="menu-button" text="Dossiers médicaux" />
+                        <Button fx:id="btnFacturation" onAction="#openFacturation" prefHeight="48.0" prefWidth="183.0" styleClass="menu-button" text="Facturation" />
+                        <Button fx:id="btnOpenParametre" onAction="#openParametre" prefHeight="48.0" prefWidth="177.0" styleClass="menu-button" text="Paramètres" />
+                        <Button fx:id="btnLogout" onAction="#logout" prefHeight="48.0" prefWidth="177.0" styleClass="menu-button">
+                           <graphic>
+                              <ImageView fitHeight="37.0" fitWidth="142.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/shutdown.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox fx:id="vbRight" prefHeight="593.0" prefWidth="320.0" stylesheets="@../../css/dashboardmedecin.css" HBox.hgrow="ALWAYS">
+               <children>
+                  <AnchorPane fx:id="header" prefHeight="45.0" prefWidth="458.0" style="-fx-border-radius: 5;">
+                     <children>
+                        <Button fx:id="btnHamburger" layoutY="12.0" mnemonicParsing="false" styleClass="hamburger-button" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="7.0">
+                           <graphic>
+                              <VBox alignment="CENTER" spacing="3">
+                                 <Line endX="20" startX="0" strokeWidth="2"/>
+                                 <Line endX="20" startX="0" strokeWidth="2"/>
+                                 <Line endX="20" startX="0" strokeWidth="2"/>
+                              </VBox>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="lblDateTime" alignment="CENTER" layoutX="226.0" layoutY="-2.0" prefHeight="41.0" prefWidth="103.0" styleClass="lblDateTime" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0" />
+                        <HBox alignment="CENTER" layoutX="307.0" layoutY="18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label fx:id="lblDoctor" prefHeight="27.0" prefWidth="197.0" text="Dr:" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <AnchorPane fx:id="container" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin></AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

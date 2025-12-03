@@ -1,0 +1,94 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2 août 2024, 00:32:11
+    Author     : Aissa
+*/
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.button {
+    -fx-padding: 10 20;
+    -fx-font-size: 16px;
+}
+
+.text-field, .password-field {
+    -fx-padding: 10;
+    -fx-font-size: 16px;
+}
+
+.label {
+    -fx-font-size: 16px;
+}
+
+.login-button {
+    -fx-background-color: linear-gradient(#4CAF50, #45A049);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 1);
+}
+
+.create-user-button {
+    -fx-background-color: linear-gradient(#2196F3, #1976D2);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 1);
+}
+
+.login-button:hover, .create-user-button:hover {
+    -fx-background-color: linear-gradient(#45A049, #4CAF50);
+}
+
+.login-button:pressed, .create-user-button:pressed {
+    -fx-background-color: linear-gradient(#3E8E41, #4CAF50);
+}
+
+.create-user-button:hover {
+    -fx-background-color: linear-gradient(#1976D2, #2196F3);
+}
+
+.create-user-button:pressed {
+    -fx-background-color: linear-gradient(#1565C0, #1976D2);
+}
+
+/* Header styles */
+.header {
+    -fx-background-color: #2c3e50;
+    -fx-border-color: #34495e;
+    -fx-border-width: 0 0 2px 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 0 2px 0 0;
+}
+
+/* Content area styles */
+.content {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+}
+
+/* Form styles */
+.form {
+    -fx-background-color: #f9f9f9;
+    -fx-padding: 20;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8;
+    -fx-border-width: 2;
+}
+
+
+
+

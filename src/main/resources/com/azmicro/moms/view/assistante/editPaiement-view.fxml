@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.azmicro.moms.controller.assistante.EditPaiementController">
+    <stylesheets>
+        <URL value="@../../css/editpaiement.css" />
+    </stylesheets>
+    
+    <VBox alignment="CENTER" layoutX="50" layoutY="50" prefHeight="362.0" prefWidth="497.0" spacing="10" styleClass="test-style" stylesheets="@../../css/parametre.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Formulaire de Paiement" />
+        
+        <GridPane hgap="10" vgap="10">
+            <Label text="Montant :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="montantField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            
+            <Label text="Versement :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="versementField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            
+            <Label text="Reste :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="resteField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            
+            <Label text="Date de Paiement :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <DatePicker fx:id="datePaiementPicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            
+            <Label text="Mode de Paiement :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox fx:id="modePaiementComboBox" GridPane.columnIndex="1" GridPane.rowIndex="4">
+<!--                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Espèces" />
+                        <String fx:value="Carte" />
+                        <String fx:value="Chèque" />
+                        <String fx:value="Virement bancaire" />
+                    </FXCollections>
+                </items>-->
+            </ComboBox>
+            
+            <Label text="État du Paiement :" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <CheckBox fx:id="etatPaiementCheckBox" text="Payé" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+        
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button onAction="#handleSavePaiement" text="Enregistrer" />
+            <Button onAction="#handleCancelPaiement" text="Annuler" />
+        </HBox>
+    </VBox>
+</AnchorPane>

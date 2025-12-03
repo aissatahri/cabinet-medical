@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="CENTER" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.CreateUserController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    
+    <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Create New User" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+    
+    <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="usernameField" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <PasswordField fx:id="passwordField" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Label text="Role:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <ComboBox fx:id="roleComboBox" prefHeight="25.0" prefWidth="176.0" promptText="Role" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <items>
+            
+        </items>
+    </ComboBox>
+
+    <Label text="Date of Creation:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <DatePicker fx:id="dateCreationPicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+
+    
+</GridPane>

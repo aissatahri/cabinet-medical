@@ -1,0 +1,10 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+}

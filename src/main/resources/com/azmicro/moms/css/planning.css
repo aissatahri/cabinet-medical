@@ -1,0 +1,127 @@
+/*.grid-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+}
+
+.label {
+    -fx-padding: 10;
+    -fx-border-color: #dcdcdc;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+}
+
+.label.appointment {
+    -fx-background-color: #ffcccc;
+    -fx-border-color: #ff6666;
+}
+ planning.css 
+.grid-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+}
+
+.label {
+    -fx-padding: 10;
+    -fx-border-color: #dcdcdc;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+    -fx-alignment: CENTER;
+}
+
+.label.appointment {
+    -fx-background-color: #ffcccc;
+    -fx-border-color: #ff6666;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 5;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+ For scaling the content to the parent size 
+.grid-cell {
+    -fx-background-color: #e8e8e8;
+    -fx-alignment: CENTER;
+}*/
+
+/* Container principal de l'agenda */
+.agenda-container {
+    -fx-padding: 20;
+    -fx-background-color: #f4f4f9;
+    -fx-spacing: 10;
+}
+
+/* Boutons de sélection de la vue (Jour, Semaine, Mois) */
+.view-button {
+    -fx-background-color: #6c63ff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.view-button:hover {
+    -fx-background-color: #534cff;
+}
+
+/* Boutons de navigation (Précédent, Suivant) */
+.nav-button {
+    -fx-background-color: #ff6f61;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.nav-button:hover {
+    -fx-background-color: #ff5a4c;
+}
+
+/* Label pour la date affichée au centre */
+.date-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+}
+
+/* Grille de l'agenda (jours/heures) */
+.agenda-grid {
+    -fx-padding: 20;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+}
+
+/* Style pour les rendez-vous (boîtes colorées) */
+.appointment-box {
+    -fx-background-color: #e0e0e0;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 12px;
+}
+
+/* Appliquer des couleurs différentes pour les rendez-vous selon l'index */
+.appointment-box:nth-child(odd) {
+    -fx-background-color: #d3e5ff;
+}
+
+.appointment-box:nth-child(even) {
+    -fx-background-color: #ffc4b2;
+}
+
+/* Transition de survol pour les boîtes de rendez-vous */
+.appointment-box:hover {
+    -fx-background-color: #ffe0b2;
+    -fx-cursor: hand;
+}
+
