@@ -41,6 +41,10 @@ import com.azmicro.moms.service.PaiementsService;
 import com.azmicro.moms.service.PrescriptionService;
 import com.azmicro.moms.service.RendezVousService;
 import com.azmicro.moms.util.DatabaseUtil;
+import com.azmicro.moms.util.MedicalCalculationService;
+import com.azmicro.moms.util.MedicalFieldValidator;
+import com.azmicro.moms.util.TableViewConfigurator;
+import com.azmicro.moms.util.ListViewConfigurator;
 import com.azmicro.moms.util.impression.ImpressionUtil;
 import com.azmicro.moms.util.impression.TypeImpression;
 import java.io.FileNotFoundException;
@@ -365,17 +369,26 @@ public class DossierController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initializeServices();
+        initializeDateAndComboBoxes();
+        initializeAntecedentsTable();
+        initializeConsultationsTable();
+        initializeBilansTable();
+        initializeImagerieTable();
+        initializeOrdonnancesTable();
+        initializePrescriptionsTable();
+        initializeRendezVousTable();
+        initializePaiementsTable();
+        initializeActesTable();
+    }
+
+    private void initializeServices() {
         try {
             this.consultationService = new ConsultationService(DatabaseUtil.getConnection());
-        } catch (SQLException ex) {
-            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        // TODO
-        HistoriqueMedicalDAO historiqueMedicalDAO;
-        try {
-            historiqueMedicalDAO = new HistoriqueMedicalDAOImpl(new PatientDAOImpl(DatabaseUtil.getConnection()));
+            HistoriqueMedicalDAO historiqueMedicalDAO = new HistoriqueMedicalDAOImpl(
+                new PatientDAOImpl(DatabaseUtil.getConnection())
+            );
             this.historiqueMedicalService = new HistoriqueMedicalService(historiqueMedicalDAO);
-            consultationService = new ConsultationService(DatabaseUtil.getConnection());
             this.analyseService = new AnalyseService(new AnalyseDAOImpl(DatabaseUtil.getConnection()));
             this.imagerieService = new ImagerieService();
             this.prescriptionService = new PrescriptionService();
@@ -383,16 +396,17 @@ public class DossierController implements Initializable {
             this.paiementsService = new PaiementsService();
             this.consultationActeService = new ConsultationActeService();
         } catch (SQLException ex) {
-            Logger.getLogger(FichePatientDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void initializeDateAndComboBoxes() {
         dateConsultaion.setValue(LocalDate.now());
-        cbxSituationFamilial.getItems().setAll(SituationFamiliale.values());
-        // Set the StringConverter to display only the description
         cbxSituationFamilial.setItems(FXCollections.observableArrayList(SituationFamiliale.values()));
         cbxSituationFamilial.setConverter(new StringConverter<SituationFamiliale>() {
             @Override
             public String toString(SituationFamiliale situationFamiliale) {
-                return situationFamiliale.getDescription();
+                return situationFamiliale != null ? situationFamiliale.getDescription() : "";
             }
 
             @Override
@@ -402,245 +416,134 @@ public class DossierController implements Initializable {
                         return situation;
                     }
                 }
-                return null; // or throw an exception
+                return null;
             }
         });
         cbxSituationFamilial.getSelectionModel().selectFirst();
 
         if (!cbxTypeAntecedent.getItems().isEmpty()) {
-            cbxTypeAntecedent.getSelectionModel().selectFirst(); // Select the first item
+            cbxTypeAntecedent.getSelectionModel().selectFirst();
         }
+    }
 
-        // Initialize Date Column
-        clmDateAntecedent.setCellValueFactory(new PropertyValueFactory<>("date"));
-
-        // Initialize Type Column
-        clmTypeAntecedent.setCellValueFactory(new PropertyValueFactory<>("type"));
-
-        // Initialize Description Column
-        clmDescriptionAntecedent.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        // Ajoutez un écouteur pour la sélection de ligne
+    private void initializeAntecedentsTable() {
+        TableViewConfigurator.configureAntecedentsTable(
+            tvAntecedent, clmDateAntecedent, clmTypeAntecedent, clmDescriptionAntecedent
+        );
+        
         tvAntecedent.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 populateForm(newValue);
             }
         });
-        tfPoid.textProperty().addListener((observable, oldValue, newValue) -> updateIMC());
-        tfTaille.textProperty().addListener((observable, oldValue, newValue) -> updateIMC());
-        setupPressionArterielleField();
+    }
 
-        clmDetailsConsultation.setCellValueFactory(new PropertyValueFactory<>("symptome"));
-        clmDateConsultation.setCellValueFactory(new PropertyValueFactory<>("dateConsultation"));
+    private void initializeConsultationsTable() {
+        TableViewConfigurator.configureConsultationsTable(
+            tvConsultation, clmDetailsConsultation, clmDateConsultation
+        );
 
-        //
         tvConsultation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 populateFields(newValue);
             }
         });
 
-        // Exemple de configuration avec une CellFactory
-        clmLigneBilan.setCellValueFactory(new PropertyValueFactory<>("typeAnalyse"));
+        tfPoid.textProperty().addListener((observable, oldValue, newValue) -> updateIMC());
+        tfTaille.textProperty().addListener((observable, oldValue, newValue) -> updateIMC());
+        setupPressionArterielleField();
+    }
 
-        clmLigneBilan.setCellFactory(column -> new TableCell<Analyse, TypeAnalyse>() {
-            @Override
-            protected void updateItem(TypeAnalyse item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    // Assurez-vous que toString() ou une autre méthode appropriée est utilisée pour afficher la valeur
-                    setText(item.getCodeAnalyseFr());
-                }
-            }
-        });
+    private void initializeBilansTable() {
+        TableViewConfigurator.configureBilansTable(tvBilan, clmLigneBilan);
 
-        // Ajouter un listener pour détecter les changements de sélection dans la TableView
-        tvBilan.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Analyse>() {
-            @Override
-            public void changed(ObservableValue<? extends Analyse> observable, Analyse oldValue, Analyse newValue) {
-                if (newValue != null) {
-                    // Charger les contrôles avec les données de l'analyse sélectionnée
-                    dpDateAnalyse.setValue(newValue.getDateAnalyse());
-                    txtRsltLigneBilan.setText(newValue.getResultat());
-                }
+        tvBilan.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                dpDateAnalyse.setValue(newValue.getDateAnalyse());
+                txtRsltLigneBilan.setText(newValue.getResultat());
             }
         });
 
         tvBilan.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && tvBilan.getSelectionModel().getSelectedItem() != null) {
-                // Récupérer l'analyse sélectionnée
                 Analyse selectedAnalyse = tvBilan.getSelectionModel().getSelectedItem();
-                // Charger les contrôles avec les données de l'analyse sélectionnée
                 dpDateAnalyse.setValue(selectedAnalyse.getDateAnalyse());
                 txtRsltLigneBilan.setText(selectedAnalyse.getResultat());
             }
         });
 
-        // Associer la colonne avec la propriété du modèle
-        clmLigneImagerie.setCellValueFactory(new PropertyValueFactory<>("TypeImagerie"));
-        clmLigneImagerie.setCellFactory(column -> new TableCell<Imagerie, TypeImagerie>() {
-            @Override
-            protected void updateItem(TypeImagerie item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    // Assurez-vous que toString() ou une autre méthode appropriée est utilisée pour afficher la valeur
-                    setText(item.getNomImagerieFr());
-                }
+        lvDateConsultationBilan.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                loadAnalyses(newValue);
             }
         });
+    }
 
-        // Ajouter un listener pour détecter les changements de sélection dans la TableView
-        tvRadio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Imagerie>() {
+    private void initializeImagerieTable() {
+        TableViewConfigurator.configureImagerieTable(tvRadio, clmLigneImagerie);
 
-            @Override
-            public void changed(ObservableValue<? extends Imagerie> observable, Imagerie oldValue, Imagerie newValue) {
-                if (newValue != null) {
-                    // Charger les contrôles avec les données de l'analyse sélectionnée
-                    dpDateImagerie.setValue(newValue.getDateImagerie());
-                    txtresultImagerie.setText(newValue.getResultat());
-                }
+        tvRadio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                dpDateImagerie.setValue(newValue.getDateImagerie());
+                txtresultImagerie.setText(newValue.getResultat());
             }
         });
 
         tvRadio.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && tvRadio.getSelectionModel().getSelectedItem() != null) {
-                // Récupérer l'analyse sélectionnée
                 Imagerie selectedImagerie = tvRadio.getSelectionModel().getSelectedItem();
-                // Charger les contrôles avec les données de l'analyse sélectionnée
                 dpDateImagerie.setValue(selectedImagerie.getDateImagerie());
                 txtresultImagerie.setText(selectedImagerie.getResultat());
             }
         });
 
-        lvDateConsultationBilan.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Consultations>() {
-            @Override
-            public void changed(ObservableValue<? extends Consultations> observable, Consultations oldValue, Consultations newValue) {
-                if (newValue != null) {
-                    loadAnalyses(newValue);
-                }
+        lvDateConsultationRadio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                loadImagerie(newValue);
             }
         });
+    }
 
-        lvDateConsultationRadio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Consultations>() {
-            @Override
-            public void changed(ObservableValue<? extends Consultations> observable, Consultations oldValue, Consultations newValue) {
-                if (newValue != null) {
-                    loadImagerie(newValue);
-                }
-            }
-        });
+    private void initializeOrdonnancesTable() {
+        TableViewConfigurator.configureConsultationOrdonnanceTable(
+            tvConsultationOrd, clmDateConsultationOrd, clmMotifConsultationOrd
+        );
 
-        clmDateConsultationOrd.setCellValueFactory(new PropertyValueFactory<>("dateConsultation"));
-        clmMotifConsultationOrd.setCellValueFactory(new PropertyValueFactory<>("symptome"));
-
-        // Optional: Set custom cell factories if needed (e.g., formatting date)
-        clmDateConsultationOrd.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                if (empty || date == null) {
-                    setText(null);
-                } else {
-                    setText(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                }
-            }
-        });
-
-        // Set up listener for selection changes in tvConsultationOrd
         tvConsultationOrd.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Fetch prescriptions based on selected consultation
-                System.out.println(newValue.toString());
                 loadPrescriptionsForConsultation(newValue);
             }
         });
-        // Ajoutez un ChangeListener pour la sélection dans tvConsultationOrd
-        tvConsultationOrd.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Consultations>() {
-            @Override
-            public void changed(ObservableValue<? extends Consultations> observable, Consultations oldValue, Consultations newValue) {
-                if (newValue != null) {
-                    loadPrescriptionsForConsultation(newValue);
-                }
-            }
-        });
+    }
 
-        // Initialize the medicament column
-        clmMedicament.setCellValueFactory(cellData
-                -> new SimpleObjectProperty<>(cellData.getValue().getMedicament())
+    private void initializePrescriptionsTable() {
+        TableViewConfigurator.configurePrescriptionsTable(
+            tvOrdonnance, clmMedicament, clmDetailsOrdonnance
         );
-        clmMedicament.setCellFactory(column -> new TableCell<Prescriptions, Medicaments>() {
-            @Override
-            protected void updateItem(Medicaments item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.getNomMedicament()); // Assuming Medicaments has a getName() method
-                }
-            }
-        });
+    }
 
-        // Initialize the details column
-        clmDetailsOrdonnance.setCellValueFactory(cellData
-                -> new SimpleStringProperty(cellData.getValue().getDose() + " / " + cellData.getValue().getDuree())
-        );
-
+    private void initializeRendezVousTable() {
         rendezVousList = FXCollections.observableArrayList();
-
-        // Configurer les colonnes de la TableView
-        clmTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        clmDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-        clmHourStart.setCellValueFactory(new PropertyValueFactory<>("hourStart"));
-        clmHourEnd.setCellValueFactory(new PropertyValueFactory<>("hourEnd"));
+        TableViewConfigurator.configureRendezVousTable(
+            tvRendezVous, clmTitre, clmDate, clmDesc, clmHourStart, clmHourEnd
+        );
 
         tvRendezVous.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             this.rendezVous = newSelection;
         });
+    }
 
-//        clmDatePayment.setCellValueFactory(new PropertyValueFactory<>("dateConsultation"));
-//        clmDatePayment.setCellFactory(column -> new TableCell<>() {
-//            @Override
-//            protected void updateItem(LocalDate date, boolean empty) {
-//                super.updateItem(date, empty);
-//                if (empty || date == null) {
-//                    setText(null);
-//                } else {
-//                    setText(date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-//                }
-//            }
-//        });
-        // Lier les colonnes aux propriétés de la classe Paiements
-        clmDatePayment.setCellValueFactory(new PropertyValueFactory<>("datePaiement"));
-        clmMontantPayement.setCellValueFactory(new PropertyValueFactory<>("montant"));
-        clmVersementPayment.setCellValueFactory(new PropertyValueFactory<>("versment"));
-        clmRestePayment.setCellValueFactory(new PropertyValueFactory<>("reste"));
+    private void initializePaiementsTable() {
+        TableViewConfigurator.configurePaiementsTable(
+            tvConsultationPaiement, clmDatePayment, clmMontantPayement, clmVersementPayment, clmRestePayment
+        );
 
-        // Set up listener for selection changes in tvConsultationOrd
         tvConsultationPaiement.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Fetch prescriptions based on selected consultation
-                System.out.println(newValue.toString());
-                //loadPrescriptionsForConsultation(newValue.getConsultation());
                 loadDataIntoTableView(newValue.getConsultation());
             }
         });
-        // Ajoutez un ChangeListener pour la sélection dans tvConsultationOrd
-        tvConsultationPaiement.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Paiements>() {
-            @Override
-            public void changed(ObservableValue<? extends Paiements> observable, Paiements oldValue, Paiements newValue) {
-                if (newValue != null) {
-                    //loadPrescriptionsForConsultation(newValue.getConsultation());
-                    loadDataIntoTableView(newValue.getConsultation());
-                }
-            }
-        });
 
-        // Ajout d'un gestionnaire d'événements pour détecter le double-clic sur la TableView
         tvConsultationPaiement.setRowFactory(tv -> {
             TableRow<Paiements> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -651,54 +554,10 @@ public class DossierController implements Initializable {
             });
             return row;
         });
-        // Configure the 'Acte' column to display the name of the Acte
-        // Colonne pour afficher le nom de l'acte
-        clmActe.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActe().getNomActe()));
+    }
 
-// Colonne pour afficher le montant de l'acte
-        clmMontantActe.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getActe().getPrix()).asObject());
-
-// Colonne pour les cases à cocher
-        TableColumn<ConsultationActe, Boolean> selectionClm = new TableColumn<>("Sélectionner");
-
-// Utiliser un CellFactory personnalisé pour créer des CheckBox
-        selectionClm.setCellFactory(column -> new TableCell<ConsultationActe, Boolean>() {
-            private final CheckBox checkBox = new CheckBox();
-            private final HBox hbox = new HBox(checkBox);
-
-            {
-                // Centrer le CheckBox dans l'HBox
-                hbox.setAlignment(Pos.CENTER);
-                hbox.setPadding(new Insets(5));
-            }
-
-            @Override
-            protected void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    // Récupérer l'élément actuel pour cette ligne
-                    ConsultationActe acte = getTableView().getItems().get(getIndex());
-
-                    // Décocher le CheckBox avant de le lier à la nouvelle ligne
-                    checkBox.setSelected(acte.isSelected());
-
-                    // Ajouter un Listener pour changer la valeur de l'objet ConsultationActe
-                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                        acte.setSelected(newValue);
-                    });
-
-                    // Afficher le CheckBox dans la cellule
-                    // Afficher le CheckBox dans la cellule
-                    setGraphic(hbox);
-                }
-            }
-        });
-
-// Ajouter la colonne à la TableView
-        tvActes.getColumns().add(selectionClm);
-
+    private void initializeActesTable() {
+        TableViewConfigurator.configureActesTable(tvActes, clmActe, clmMontantActe);
     }
 
     private void loadDataIntoTableView(Consultations consultations) {
@@ -730,13 +589,8 @@ public class DossierController implements Initializable {
     private void setupGlycemiaField() {
         tfGlycimie.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                // Convertir la saisie utilisateur en nombre entier
                 Double glycemyLevel = Double.parseDouble(newValue);
-
-                // Classifier la glycémie
-                String classification = classifyGlycemiaFastingInGl(glycemyLevel);
-
-                // Afficher le résultat dans un tooltip
+                String classification = MedicalCalculationService.classifyGlycemiaFastingInGl(glycemyLevel);
                 Tooltip tooltip = new Tooltip(classification);
                 tfGlycimie.setTooltip(tooltip);
             } catch (NumberFormatException e) {
@@ -745,24 +599,11 @@ public class DossierController implements Initializable {
         });
     }
 
-    private String classifyGlycemiaFastingInGl(Double glycemyLevel) {
-        // Conversion des niveaux en g/L
-        if (glycemyLevel < 0.7) {
-            return "Glycémie inférieure à la normale";
-        } else if (glycemyLevel <= 0.99) {
-            return "Glycémie normale à jeun";
-        } else if (glycemyLevel <= 1.25) {
-            return "Pré-diabète à jeun";
-        } else {
-            return "Diabète à jeun";
-        }
-    }
-
     private void setupSaturationOxygenField() {
         tfSaOpatient.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 int spo2 = Integer.parseInt(newValue);
-                String classification = classifyOxygenSaturation(spo2);
+                String classification = MedicalCalculationService.classifyOxygenSaturation(spo2);
                 Tooltip tooltip = new Tooltip(classification);
                 tfSaOpatient.setTooltip(tooltip);
             } catch (NumberFormatException e) {
@@ -772,179 +613,23 @@ public class DossierController implements Initializable {
 
     }
 
-    private String classifyOxygenSaturation(int spo2) {
-        if (spo2 >= 95) {
-            return "Saturation normale";
-        } else if (spo2 >= 91) {
-            return "Hypoxémie légère";
-        } else if (spo2 >= 86) {
-            return "Hypoxémie modérée";
-        } else {
-            return "Hypoxémie sévère";
-        }
-    }
-
     private void setupFrequenceRespiratoireField() {
+        MedicalFieldValidator.setupFrequenceField(tfFrequenceRespiratoire, 2);
+        
         tfFrequenceRespiratoire.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() < oldValue.length()) {
-                // Si l'utilisateur appuie sur 'Backspace', on ne modifie rien
-                return;
-            }
-
-            // Retirer tous les caractères non numériques
-            String cleanText = newValue.replaceAll("[^\\d]", "");
-
-            if (cleanText.length() > 2) {
-                cleanText = cleanText.substring(0, 2); // Limiter la longueur à 2 caractères
-            }
-
-            // Éviter la boucle infinie en ne mettant à jour le texte que s'il a réellement changé
-            if (!cleanText.equals(tfFrequenceRespiratoire.getText())) {
-                tfFrequenceRespiratoire.setText(cleanText);
-                tfFrequenceRespiratoire.positionCaret(cleanText.length());
-            }
-
-            // Ajouter la classification en fonction de la fréquence respiratoire saisie
-            if (!cleanText.isEmpty()) {
-                int frequence = Integer.parseInt(cleanText);
-
-                String classification = classifyRespiratoryRate(frequence, patient);
-
+            if (!newValue.isEmpty()) {
+                int frequence = Integer.parseInt(newValue);
+                String classification = MedicalCalculationService.classifyRespiratoryRate(frequence, patient);
                 Tooltip tooltip = new Tooltip(classification);
                 tfFrequenceRespiratoire.setTooltip(tooltip);
             } else {
-                tfFrequenceRespiratoire.setTooltip(null); // Supprime le tooltip si l'entrée est vide
+                tfFrequenceRespiratoire.setTooltip(null);
             }
         });
-    }
-
-    /**
-     * Classifie la fréquence respiratoire selon la valeur entrée et l'âge du
-     * patient.
-     *
-     * @param frequence la fréquence respiratoire
-     * @param age l'âge du patient
-     * @return la classification correspondante
-     */
-    private String classifyRespiratoryRate(int frequence, Patient patient) {
-        int ageInMonths = patient.getAgeInMonths();
-        int ageInYears = patient.getAgeInYears();
-
-        if (ageInMonths <= 12) {
-            if (frequence >= 30 && frequence <= 60) {
-                return "Fréquence respiratoire normale pour un nourrisson";
-            }
-        } else if (ageInYears <= 3) {
-            if (frequence >= 24 && frequence <= 40) {
-                return "Fréquence respiratoire normale pour un jeune enfant";
-            }
-        } else if (ageInYears <= 6) {
-            if (frequence >= 22 && frequence <= 34) {
-                return "Fréquence respiratoire normale pour un enfant d'âge préscolaire";
-            }
-        } else if (ageInYears <= 12) {
-            if (frequence >= 18 && frequence <= 30) {
-                return "Fréquence respiratoire normale pour un enfant d'âge scolaire";
-            }
-        } else if (ageInYears <= 18) {
-            if (frequence >= 12 && frequence <= 20) {
-                return "Fréquence respiratoire normale pour un adolescent";
-            }
-        } else {
-            if (frequence >= 12 && frequence <= 20) {
-                return "Fréquence respiratoire normale pour un adulte";
-            }
-        }
-
-        // Si la fréquence n'est pas dans la plage normale
-        if (frequence > 20) {
-            return "Tachypnée (fréquence respiratoire élevée)";
-        } else if (frequence < 12) {
-            return "Bradypnée (fréquence respiratoire basse)";
-        } else {
-            return "Classification non disponible";
-        }
     }
 
     private void setupPressionArterielleField() {
-        tfPressionPatient.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() < oldValue.length()) {
-                // Si l'utilisateur appuie sur 'Backspace', on ne modifie rien
-                return;
-            }
-
-            // Retirer tous les caractères non numériques
-            String cleanText = newValue.replaceAll("[^\\d]", "");
-
-            if (cleanText.length() > 5) {
-                cleanText = cleanText.substring(0, 5); // Limiter la longueur totale à 5 caractères
-            }
-
-            String formattedText;
-            if (cleanText.length() > 3) {
-                // Ajouter la barre oblique après les trois premiers chiffres
-                formattedText = cleanText.substring(0, 3) + "/" + cleanText.substring(3);
-            } else {
-                formattedText = cleanText; // Pas assez de chiffres pour ajouter la barre oblique
-            }
-
-            // Éviter la boucle infinie en ne mettant à jour le texte que s'il a réellement changé
-            if (!formattedText.equals(tfPressionPatient.getText())) {
-                int caretPosition = tfPressionPatient.getCaretPosition(); // Position actuelle du curseur
-
-                tfPressionPatient.setText(formattedText);
-
-                // Calcul de la nouvelle position du curseur
-                if (caretPosition <= 3) {
-                    tfPressionPatient.positionCaret(caretPosition);
-                } else if (caretPosition <= formattedText.length()) {
-                    tfPressionPatient.positionCaret(caretPosition + 1); // Ajustement pour le slash
-                } else {
-                    tfPressionPatient.positionCaret(formattedText.length()); // Positionner le curseur à la fin du texte valide
-                }
-            }
-
-            // Ajouter la classification en fonction de la pression artérielle saisie
-            if (cleanText.length() == 5) { // On s'assure que les deux valeurs sont présentes
-                int systolic = Integer.parseInt(cleanText.substring(0, 3));  // Extrait la valeur systolique
-                int diastolic = Integer.parseInt(cleanText.substring(3));    // Extrait la valeur diastolique
-
-                String classification = classifyBloodPressure(systolic, diastolic);
-
-                Tooltip tooltip = new Tooltip(classification);
-                tfPressionPatient.setTooltip(tooltip);
-            } else {
-                tfPressionPatient.setTooltip(null); // Supprime le tooltip si l'entrée est incomplète
-            }
-        });
-    }
-
-    /**
-     * Classifie la pression artérielle selon les valeurs systolique et
-     * diastolique.
-     *
-     * @param systolic la pression artérielle systolique
-     * @param diastolic la pression artérielle diastolique
-     * @return la classification correspondante
-     */
-    private String classifyBloodPressure(int systolic, int diastolic) {
-        if (systolic < 120 && diastolic < 80) {
-            return "Pression artérielle optimale";
-        } else if (systolic >= 120 && systolic <= 129 && diastolic >= 80 && diastolic <= 84) {
-            return "Pression artérielle normale";
-        } else if (systolic >= 130 && systolic <= 139 && diastolic >= 85 && diastolic <= 89) {
-            return "Pression artérielle normale haute";
-        } else if (systolic >= 140 && systolic <= 159 && diastolic >= 90 && diastolic <= 99) {
-            return "Hypertension de stade 1 (légère)";
-        } else if (systolic >= 160 && systolic <= 179 && diastolic >= 100 && diastolic <= 109) {
-            return "Hypertension de stade 2 (modérée)";
-        } else if (systolic >= 180 && diastolic >= 110) {
-            return "Hypertension de stade 3 (sévère)";
-        } else if (systolic >= 140 && diastolic < 90) {
-            return "Hypertension systolique isolée";
-        } else {
-            return "Classification non disponible";
-        }
+        MedicalFieldValidator.setupPressionArterielleField(tfPressionPatient);
     }
 
     private void setupFrequenceCardiaqueField() {
@@ -952,14 +637,13 @@ public class DossierController implements Initializable {
             if (!newValue.isEmpty()) {
                 try {
                     int frequenceCardiaque = Integer.parseInt(newValue);
-                    int age = patient.getAge(); // Assurez-vous d'avoir une méthode pour obtenir l'âge du patient
-                    String sexe = patient.getSexe().getDescription(); // Assurez-vous d'avoir une méthode pour obtenir le sexe du patient
+                    int age = patient.getAge();
+                    String sexe = patient.getSexe().getDescription();
 
-                    String interpretation = getInterpretation(age, sexe, frequenceCardiaque);
+                    String interpretation = MedicalCalculationService.getHeartRateInterpretation(age, sexe, frequenceCardiaque);
                     Tooltip tooltip = new Tooltip(interpretation);
                     tfFrquenceCardiaque.setTooltip(tooltip);
                 } catch (NumberFormatException e) {
-                    // Gérer le cas où la saisie n'est pas un entier
                     tfFrquenceCardiaque.setTooltip(new Tooltip("Veuillez entrer une valeur numérique valide."));
                 }
             } else {
@@ -967,81 +651,6 @@ public class DossierController implements Initializable {
             }
         });
 
-    }
-
-    public String getInterpretation(int age, String sexe, int frequenceCardiaque) {
-        if (sexe.equalsIgnoreCase("Masculin")) {
-            if (age >= 18 && age <= 25) {
-                if (frequenceCardiaque >= 49 && frequenceCardiaque <= 55) {
-                    return "Athlète";
-                }
-                if (frequenceCardiaque >= 56 && frequenceCardiaque <= 61) {
-                    return "Excellente";
-                }
-                if (frequenceCardiaque >= 62 && frequenceCardiaque <= 65) {
-                    return "Bonne";
-                }
-                if (frequenceCardiaque >= 66 && frequenceCardiaque <= 69) {
-                    return "Au-dessus de la moyenne";
-                }
-                if (frequenceCardiaque >= 70 && frequenceCardiaque <= 73) {
-                    return "Moyenne";
-                }
-                if (frequenceCardiaque >= 74 && frequenceCardiaque <= 81) {
-                    return "En dessous de la moyenne";
-                }
-                if (frequenceCardiaque >= 82) {
-                    return "Mauvaise";
-                }
-            }
-            // Ajoutez des conditions pour les autres tranches d'âge
-        } else if (sexe.equalsIgnoreCase("Féminin")) {
-            if (age >= 18 && age <= 25) {
-                if (frequenceCardiaque >= 56 && frequenceCardiaque <= 60) {
-                    return "Athlète";
-                }
-                if (frequenceCardiaque >= 61 && frequenceCardiaque <= 65) {
-                    return "Excellente";
-                }
-                if (frequenceCardiaque >= 66 && frequenceCardiaque <= 69) {
-                    return "Bonne";
-                }
-                if (frequenceCardiaque >= 70 && frequenceCardiaque <= 73) {
-                    return "Au-dessus de la moyenne";
-                }
-                if (frequenceCardiaque >= 74 && frequenceCardiaque <= 78) {
-                    return "Moyenne";
-                }
-                if (frequenceCardiaque >= 79 && frequenceCardiaque <= 84) {
-                    return "En dessous de la moyenne";
-                }
-                if (frequenceCardiaque >= 85) {
-                    return "Mauvaise";
-                }
-            }
-            // Ajoutez des conditions pour les autres tranches d'âge
-        }
-        return "Interprétation non disponible";
-    }
-// Méthode pour obtenir l'index de tranche d'âge
-
-    private int getIndexForAge(int age) {
-        if (age >= 18 && age <= 25) {
-            return 0;
-        }
-        if (age >= 26 && age <= 35) {
-            return 1;
-        }
-        if (age >= 36 && age <= 45) {
-            return 2;
-        }
-        if (age >= 46 && age <= 55) {
-            return 3;
-        }
-        if (age >= 56 && age <= 65) {
-            return 4;
-        }
-        return 5; // 65+
     }
 
     @FXML
@@ -1146,23 +755,22 @@ public class DossierController implements Initializable {
 
     @FXML
     private void ajouterConsultation(ActionEvent event) {
-        // Remplacer les virgules par des points avant d'analyser
-        double poids = Double.parseDouble(tfPoid.getText().replace(",", "."));
-        double taille = Double.parseDouble(tfTaille.getText().replace(",", ".")) / 100; // Convertir la taille de cm à m
+        double poids = MedicalFieldValidator.parseDecimal(tfPoid.getText());
+        double taille = MedicalFieldValidator.parseDecimal(tfTaille.getText()) / 100;
 
-        double imc = calculateIMC(poids, taille);
-        tfImc.setText(String.format("%.2f", imc)); // Afficher l'IMC avec deux décimales
+        double imc = MedicalCalculationService.calculateIMC(poids, taille);
+        tfImc.setText(String.format("%.2f", imc));
 
         this.consultation = new Consultations();
         consultation.setPoids(poids);
-        consultation.setTaille(taille * 100); // Convertir la taille de m à cm
+        consultation.setTaille(taille * 100);
         consultation.setImc(imc);
-        consultation.setFrequencequardiaque(Integer.parseInt(tfFrquenceCardiaque.getText().replace(",", ".")));
+        consultation.setFrequencequardiaque(MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
         consultation.setPression(tfPressionPatient.getText());
-        consultation.setFrequencerespiratoire(Integer.parseInt(tfFrequenceRespiratoire.getText().replace(",", ".")));
-        consultation.setGlycimie(Double.parseDouble(tfGlycimie.getText().replace(",", ".")));
-        consultation.setTemperature(Double.parseDouble(tfTmperature.getText().replace(",", ".")));
-        consultation.setSaO(Integer.parseInt(tfSaOpatient.getText().replace(",", ".")));
+        consultation.setFrequencerespiratoire(MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
+        consultation.setGlycimie(MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
+        consultation.setTemperature(MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
+        consultation.setSaO(MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
         consultation.setSymptome(txtSymptomes.getText());
         consultation.setExamenClinique(txtExamenClinique.getText());
         consultation.setDiagnostique(txtDiagnostiqueMedical.getText());
@@ -1217,9 +825,9 @@ public class DossierController implements Initializable {
             double tailleM = tailleCm / 100; // Convertir la taille en mètres
 
             if (tailleM > 0) { // Éviter la division par zéro
-                double imc = calculateIMC(poids, tailleM);
+                double imc = MedicalCalculationService.calculateIMC(poids, tailleM);
                 tfImc.setText(String.format("%.2f", imc));
-                formatImcField(imc); // Appeler la méthode pour formater le champ tfImc
+                formatImcField(imc);
             } else {
                 tfImc.setText("");
             }
@@ -1228,38 +836,10 @@ public class DossierController implements Initializable {
         }
     }
 
-// Méthode pour calculer l'IMC
-    private double calculateIMC(double poids, double taille) {
-        return poids / (taille * taille);
-    }
-
-// Méthode pour formater le champ tfImc selon les normes
     private void formatImcField(double imc) {
-        String interpretation;
-        String style;
-
-        if (imc < 18.5) {
-            interpretation = "Insuffisance pondérale (maigreur)";
-            style = "-fx-text-fill: blue;";
-        } else if (imc >= 18.5 && imc < 25) {
-            interpretation = "Corpulence normale";
-            style = "-fx-text-fill: green;";
-        } else if (imc >= 25 && imc < 30) {
-            interpretation = "Surpoids";
-            style = "-fx-text-fill: orange;";
-        } else if (imc >= 30 && imc < 35) {
-            interpretation = "Obésité modérée";
-            style = "-fx-text-fill: darkorange;";
-        } else if (imc >= 35 && imc < 40) {
-            interpretation = "Obésité sévère";
-            style = "-fx-text-fill: red;";
-        } else {
-            interpretation = "Obésité morbide ou massive";
-            style = "-fx-text-fill: darkred;";
-        }
-
-        tfImc.setTooltip(new Tooltip(interpretation)); // Ajouter une infobulle avec l'interprétation
-        tfImc.setStyle(style); // Appliquer le style au champ de texte
+        MedicalCalculationService.IMCClassification classification = MedicalCalculationService.classifyIMC(imc);
+        tfImc.setTooltip(new Tooltip(classification.getInterpretation()));
+        tfImc.setStyle(classification.getStyle());
     }
 
     @FXML
@@ -1327,18 +907,18 @@ public class DossierController implements Initializable {
         }
 
         // Lors de la validation des modifications
-        selectedConsultation.setPoids(Double.parseDouble(tfPoid.getText().replace(",", ".")));
-        selectedConsultation.setTaille(Double.parseDouble(tfTaille.getText().replace(",", ".")));
-        selectedConsultation.setImc(Double.parseDouble(tfImc.getText().replace(",", ".")));
-        selectedConsultation.setTemperature(Double.parseDouble(tfTmperature.getText().replace(",", ".")));
+        selectedConsultation.setPoids(MedicalFieldValidator.parseDecimal(tfPoid.getText()));
+        selectedConsultation.setTaille(MedicalFieldValidator.parseDecimal(tfTaille.getText()));
+        selectedConsultation.setImc(MedicalFieldValidator.parseDecimal(tfImc.getText()));
+        selectedConsultation.setTemperature(MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
         selectedConsultation.setPression(tfPressionPatient.getText());
-        selectedConsultation.setFrequencequardiaque(Integer.parseInt(tfFrquenceCardiaque.getText().replace(",", ".")));
-        selectedConsultation.setFrequencerespiratoire(Integer.parseInt(tfFrequenceRespiratoire.getText().replace(",", ".")));
+        selectedConsultation.setFrequencequardiaque(MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
+        selectedConsultation.setFrequencerespiratoire(MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
         selectedConsultation.setExamenClinique(txtExamenClinique.getText());
         selectedConsultation.setSymptome(txtSymptomes.getText());
         selectedConsultation.setDiagnostique(txtDiagnostiqueMedical.getText());
-        selectedConsultation.setGlycimie(Double.parseDouble(tfGlycimie.getText().replace(",", ".")));
-        selectedConsultation.setSaO(Integer.parseInt(tfSaOpatient.getText().replace(",", ".")));
+        selectedConsultation.setGlycimie(MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
+        selectedConsultation.setSaO(MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
         selectedConsultation.setCat(txtCat.getText());
         selectedConsultation.setPatient(patient);
         selectedConsultation.setDateConsultation(dateConsultaion.getValue());

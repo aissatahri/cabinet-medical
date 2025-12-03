@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -21,8 +20,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="830.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DossierController">
+<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="830.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DossierController">
     <stylesheets>
         <URL value="@../../css/dossier.css" />
     </stylesheets>
@@ -66,17 +66,17 @@
                                                    <children>
                                                       <Button contentDisplay="RIGHT" mnemonicParsing="false" text="Fiche">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button contentDisplay="RIGHT" mnemonicParsing="false" text="Modifier">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button contentDisplay="RIGHT" mnemonicParsing="false" text="Patient">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-upload" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-upload" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
@@ -97,7 +97,7 @@
                                                          <children>
                                                             <Label prefHeight="26.0" prefWidth="214.0" text="Informations Patient">
                                                                <graphic>
-                                                                  <FontIcon iconLiteral="fas-user" fill="#3627bc" iconSize="24" />
+                                                                  <FontIcon fill="#3627bc" iconLiteral="fas-user" iconSize="24" />
                                                                </graphic>
                                                             </Label>
                                                             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -196,7 +196,7 @@
                                                          <children>
                                                             <Label prefHeight="26.0" prefWidth="214.0" text="Antecedents de patient">
                                                                <graphic>
-                                                                  <FontIcon iconLiteral="fas-file-medical" fill="#3627bc" iconSize="24" />
+                                                                  <FontIcon fill="#3627bc" iconLiteral="fas-file-medical" iconSize="24" />
                                                                </graphic>
                                                             </Label>
                                                             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -265,14 +265,14 @@
                                                          <children>
                                                             <Label prefHeight="26.0" prefWidth="214.0" text="Autres">
                                                                <graphic>
-                                                                  <FontIcon iconLiteral="fas-clipboard-list" fill="#3627bc" iconSize="24" />
+                                                                  <FontIcon fill="#3627bc" iconLiteral="fas-clipboard-list" iconSize="24" />
                                                                </graphic>
                                                             </Label>
                                                             <HBox prefHeight="100.0" prefWidth="200.0">
                                                                <children>
                                                                   <VBox alignment="TOP_CENTER" prefHeight="193.0" prefWidth="7.0">
                                                                      <children>
-                                                                        <Line endX="-117.0126724243164" endY="384.30255126953125" startX="-116.3701171875" startY="-5.656975746154785" VBox.vgrow="ALWAYS" />
+                                                                        <Line endX="-115.72759246826172" endY="392.3026123046875" startX="-116.3701171875" startY="-5.656975746154785" VBox.vgrow="ALWAYS" />
                                                                      </children>
                                                                   </VBox>
                                                                   <VBox prefHeight="190.0" prefWidth="201.0" spacing="5.0">
@@ -298,7 +298,7 @@
                               </AnchorPane>
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-info-circle" fill="#0810f4" iconSize="24" />
+                              <FontIcon fill="#0810f4" iconLiteral="fas-info-circle" iconSize="16" />
                            </graphic>
                         </Tab>
                         <Tab text="Consultation">
@@ -309,26 +309,26 @@
                                        <children>
                                           <AnchorPane prefHeight="35.0" prefWidth="642.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="338.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="400.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnAjouterConsultation" mnemonicParsing="false" onAction="#ajouterConsultation" text="Ajouter">
+                                                      <Button fx:id="btnAjouterConsultation" mnemonicParsing="false" onAction="#ajouterConsultation" prefHeight="25.0" prefWidth="75.0" text="Ajouter">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-plus" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnEditConsultation" mnemonicParsing="false" onAction="#editConsultation" text="Modifier">
+                                                      <Button fx:id="btnEditConsultation" mnemonicParsing="false" onAction="#editConsultation" prefHeight="25.0" prefWidth="87.0" text="Modifier">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnSupprimerConsultation" mnemonicParsing="false" onAction="#supprimerConsultation" text="Supprimer">
+                                                      <Button fx:id="btnSupprimerConsultation" mnemonicParsing="false" onAction="#supprimerConsultation" prefHeight="25.0" prefWidth="108.0" text="Supprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-trash" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnImprimerConsultation" mnemonicParsing="false" onAction="#imprimeConsulation" text="Imprimer">
+                                                      <Button fx:id="btnImprimerConsultation" mnemonicParsing="false" onAction="#imprimeConsulation" prefHeight="25.0" prefWidth="97.0" text="Imprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
@@ -393,7 +393,7 @@
                                                                      <children>
                                                                         <Label prefHeight="26.0" prefWidth="214.0" text="Constantes Vitales">
                                                                            <graphic>
-                                                                              <FontIcon iconLiteral="fas-heartbeat" fill="#3627bc" iconSize="24" />
+                                                                              <FontIcon fill="#3627bc" iconLiteral="fas-heartbeat" iconSize="24" />
                                                                            </graphic>
                                                                         </Label>
                                                                         <HBox prefHeight="162.0" prefWidth="400.0">
@@ -491,7 +491,7 @@
                                                                      <children>
                                                                         <Label prefHeight="26.0" prefWidth="214.0" text="Resultats">
                                                                            <graphic>
-                                                                              <FontIcon iconLiteral="fas-chart-line" fill="#3627bc" iconSize="24" />
+                                                                              <FontIcon fill="#3627bc" iconLiteral="fas-chart-line" iconSize="24" />
                                                                            </graphic>
                                                                         </Label>
                                                                         <HBox prefHeight="268.0" prefWidth="400.0">
@@ -554,7 +554,7 @@
                               </AnchorPane>
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-search-plus" fill="#0a02f2" iconSize="24" />
+                              <FontIcon fill="#0a02f2" iconLiteral="fas-search-plus" iconSize="16" />
                            </graphic>
                         </Tab>
                         <Tab text="Bilans">
@@ -565,26 +565,26 @@
                                        <children>
                                           <AnchorPane prefHeight="35.0" prefWidth="642.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="338.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="375.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
                                                       <Button fx:id="btnAjouterBilan" mnemonicParsing="false" onAction="#ajouterBilan" text="Ajouter">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-plus" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnEditBilan" mnemonicParsing="false" onAction="#editBilan" text="Modifier">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnDeleteBilan" mnemonicParsing="false" onAction="#deleteBilan" text="Supprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-trash" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnOrdonnanceBilan" mnemonicParsing="false" onAction="#handlePrintAction" text="Imprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
@@ -680,7 +680,7 @@
                                                                <children>
                                                                   <Label prefHeight="26.0" prefWidth="214.0" text="Resultats des bilans">
                                                                      <graphic>
-                                                                        <FontIcon iconLiteral="fas-chart-bar" fill="#3627bc" iconSize="24" />
+                                                                        <FontIcon fill="#3627bc" iconLiteral="fas-chart-bar" iconSize="24" />
                                                                      </graphic>
                                                                   </Label>
                                                                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -717,7 +717,7 @@
                               </AnchorPane>
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-vial" fill="#3414c5" iconSize="24" />
+                              <FontIcon fill="#3414c5" iconLiteral="fas-vial" iconSize="16" />
                            </graphic>
                         </Tab>
                         <Tab text="Radiologies">
@@ -728,26 +728,26 @@
                                        <children>
                                           <AnchorPane prefHeight="35.0" prefWidth="642.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="338.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="372.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
                                                       <Button fx:id="btnSaveImagerie" mnemonicParsing="false" onAction="#saveImagerie" text="Ajouter">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-plus" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnEditEmagerie" mnemonicParsing="false" onAction="#editImagerie" text="Modifier">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnDeleteImagerie" mnemonicParsing="false" onAction="#deleteImagerie" text="Supprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-trash" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnOrdonnanceImagerie" mnemonicParsing="false" onAction="#handlePrintAction" text="Imprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
@@ -835,7 +835,7 @@
                                                                <children>
                                                                   <Label prefHeight="26.0" prefWidth="214.0" text="Resultats du Radio">
                                                                      <graphic>
-                                                                        <FontIcon iconLiteral="fas-image" fill="#3627bc" iconSize="24" />
+                                                                        <FontIcon fill="#3627bc" iconLiteral="fas-image" iconSize="24" />
                                                                      </graphic>
                                                                   </Label>
                                                                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -876,7 +876,7 @@
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-file-alt" fill="#ffd04b" iconSize="24" />
+                              <FontIcon fill="#ffd04b" iconLiteral="fas-file-alt" iconSize="16" />
                            </graphic>
                         </Tab>
                         <Tab text="Ordonnances">
@@ -891,22 +891,22 @@
                                                    <children>
                                                       <Button fx:id="btnAjouterOrdonnance" mnemonicParsing="false" onAction="#ajouterOrdonnace" text="Ajouter">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-plus" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnEditOrdonnance" mnemonicParsing="false" onAction="#editOrdonnance" text="Modifier">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnDeleteOrdonnance" mnemonicParsing="false" onAction="#deleteOrdonnance" text="Supprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-trash" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnOrdonnance" mnemonicParsing="false" onAction="#handlePrintAction" text="Imprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
@@ -986,7 +986,7 @@
                                                                <children>
                                                                   <Label prefHeight="26.0" prefWidth="214.0" text="Certificats Medicals">
                                                                      <graphic>
-                                                                        <FontIcon iconLiteral="fas-certificate" fill="#3627bc" iconSize="24" />
+                                                                        <FontIcon fill="#3627bc" iconLiteral="fas-certificate" iconSize="24" />
                                                                      </graphic>
                                                                   </Label>
                                                                   <HBox prefHeight="100.0" prefWidth="200.0">
@@ -1006,39 +1006,39 @@
                                                                                     <Font name="System Bold" size="24" />
                                                                                  </font>
                                                                               </Label>
-                                                                              <Button alignment="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="185.0" text="Certificat Medicale De Consultation" textOverrun="CLIP" VBox.vgrow="ALWAYS">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="33.0" prefWidth="185.0" text="Certificat Medicale De Consultation" textOverrun="CLIP" VBox.vgrow="ALWAYS">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-file-medical" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-file-medical" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Aptitude Sportive">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Aptitude Sportive">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-running" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-running" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat  D'Arret Scolaire">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat  D'Arret Scolaire">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-school" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-school" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat D'Arret De Travail">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat D'Arret De Travail">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-briefcase" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-briefcase" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Maladie Chronique">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Maladie Chronique">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-procedures" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-procedures" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="185.0" text="Fiche Soins Locaux">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="185.0" text="Fiche Soins Locaux">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-band-aid" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-band-aid" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
+                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
                                                                                  <graphic>
-                                                                                    <FontIcon iconLiteral="fas-share" iconSize="24" />
+                                                                                    <FontIcon iconLiteral="fas-share" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
                                                                            </children>
@@ -1059,7 +1059,7 @@
                               </AnchorPane>
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-pills" iconSize="24" />
+                              <FontIcon iconLiteral="fas-pills" iconSize="16" />
                            </graphic>
                         </Tab>
                         <Tab text="Rendez-vous">
@@ -1070,26 +1070,26 @@
                                        <children>
                                           <AnchorPane prefHeight="55.0" prefWidth="662.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="338.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="363.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
                                                       <Button fx:id="btnAjouterRendezVous" mnemonicParsing="false" onAction="#ajouterRendezVous" text="Ajouter">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-plus" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btnEditRendezVous" mnemonicParsing="false" onAction="#editRendezVous" text="Modifier">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button fx:id="btndeleteRendzVous" mnemonicParsing="false" onAction="#deleteRendezVous" text="Supprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-trash" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                       <Button mnemonicParsing="false" text="Imprimer">
                                                          <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="24" />
+                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
@@ -1138,7 +1138,7 @@
                               </AnchorPane>
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-dollar-sign" fill="#1871dd" iconSize="24" />
+                              <FontIcon fill="#1871dd" iconLiteral="fas-dollar-sign" iconSize="16" />
                            </graphic>
                         </Tab>
                         <Tab text="Paymemt">
@@ -1222,17 +1222,17 @@
                                                                <children>
                                                                   <Button fx:id="btnPrintFacture" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintAction" prefHeight="53.0" prefWidth="75.0" style="-fx-background-color: transparent;">
                                                                      <graphic>
-                                                                        <FontIcon iconLiteral="fas-print" fill="#2fe20b" iconSize="24" />
+                                                                        <FontIcon fill="#2fe20b" iconLiteral="fas-print" iconSize="18" />
                                                                      </graphic>
                                                                   </Button>
                                                                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="53.0" prefWidth="75.0" style="-fx-background-color: transparent;">
                                                                      <graphic>
-                                                                        <FontIcon iconLiteral="fas-edit" fill="#2fe20b" iconSize="24" />
+                                                                        <FontIcon fill="#2fe20b" iconLiteral="fas-edit" iconSize="18" />
                                                                      </graphic>
                                                                   </Button>
                                                                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="53.0" prefWidth="75.0" style="-fx-background-color: transparent;">
                                                                      <graphic>
-                                                                        <FontIcon iconLiteral="fas-file-invoice" fill="#2fe20b" iconSize="24" />
+                                                                        <FontIcon fill="#2fe20b" iconLiteral="fas-file-invoice" iconSize="18" />
                                                                      </graphic>
                                                                   </Button>
                                                                </children>
@@ -1252,7 +1252,7 @@
                               </AnchorPane>
                            </content>
                            <graphic>
-                              <FontIcon iconLiteral="fas-credit-card" fill="#0f39e2" iconSize="24" />
+                              <FontIcon fill="#0f39e2" iconLiteral="fas-credit-card" iconSize="16" />
                            </graphic>
                         </Tab>
                      </tabs>
