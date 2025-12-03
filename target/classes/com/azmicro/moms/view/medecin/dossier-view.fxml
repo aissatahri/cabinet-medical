@@ -1006,37 +1006,37 @@
                                                                                     <Font name="System Bold" size="24" />
                                                                                  </font>
                                                                               </Label>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="33.0" prefWidth="185.0" text="Certificat Medicale De Consultation" textOverrun="CLIP" VBox.vgrow="ALWAYS">
+                                                                              <Button fx:id="btnCertificatConsultation" onAction="#handlePrintCertificatConsultation" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="33.0" prefWidth="185.0" text="Certificat Medicale De Consultation" textOverrun="CLIP" VBox.vgrow="ALWAYS">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-file-medical" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Aptitude Sportive">
+                                                                              <Button fx:id="btnCertificatAptitudeSportive" onAction="#handlePrintCertificatAptitudeSportive" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Aptitude Sportive">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-running" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat  D'Arret Scolaire">
+                                                                              <Button fx:id="btnCertificatArretScolaire" onAction="#handlePrintCertificatArretScolaire" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat  D'Arret Scolaire">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-school" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat D'Arret De Travail">
+                                                                              <Button fx:id="btnCertificatArretTravail" onAction="#handlePrintCertificatArretTravail" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat D'Arret De Travail">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-briefcase" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Maladie Chronique">
+                                                                              <Button fx:id="btnCertificatMaladieChronique" onAction="#handlePrintCertificatMaladieChronique" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Maladie Chronique">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-procedures" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="185.0" text="Fiche Soins Locaux">
+                                                                              <Button fx:id="btnFicheSoinsLocaux" onAction="#handlePrintFicheSoinsLocaux" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="185.0" text="Fiche Soins Locaux">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-band-aid" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
+                                                                              <Button fx:id="btnLettreOrientation" onAction="#handlePrintLettreOrientation" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-share" iconSize="16" />
                                                                                  </graphic>

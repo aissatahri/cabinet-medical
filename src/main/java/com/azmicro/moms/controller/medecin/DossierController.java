@@ -1978,4 +1978,260 @@ public class DossierController implements Initializable {
         }
     }
 
+    // ==================== MÉTHODES D'IMPRESSION DES CERTIFICATS ====================
+    
+    @FXML
+    private Button btnCertificatConsultation;
+    @FXML
+    private Button btnCertificatAptitudeSportive;
+    @FXML
+    private Button btnCertificatArretScolaire;
+    @FXML
+    private Button btnCertificatArretTravail;
+    @FXML
+    private Button btnCertificatMaladieChronique;
+    @FXML
+    private Button btnFicheSoinsLocaux;
+    @FXML
+    private Button btnLettreOrientation;
+
+    @FXML
+    private void handlePrintCertificatConsultation(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+        
+        Consultations selectedConsultation = tvConsultation.getSelectionModel().getSelectedItem();
+        if (selectedConsultation == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner une consultation.");
+            return;
+        }
+
+        try {
+            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                + ", certifie avoir examiné " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + " le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + ".\n\nMotif de consultation : " + selectedConsultation.getSymptome()
+                + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(certificatText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Certificat Médical", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat médical généré avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+        }
+    }
+
+    @FXML
+    private void handlePrintCertificatAptitudeSportive(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+
+        try {
+            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                + ", certifie que " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + ", ne présente aucune contre-indication à la pratique du sport."
+                + "\n\nCertificat établi le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + " à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(certificatText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Certificat d'Aptitude Sportive", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'aptitude sportive généré avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+        }
+    }
+
+    @FXML
+    private void handlePrintCertificatArretScolaire(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+
+        try {
+            LocalDate dateDebut = LocalDate.now();
+            LocalDate dateFin = dateDebut.plusDays(3); // 3 jours d'arrêt par défaut
+            
+            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                + ", certifie que l'état de santé de " + patient.getNom() + " " + patient.getPrenom()
+                + " nécessite un arrêt scolaire"
+                + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
+                + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(certificatText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Certificat d'Arrêt Scolaire", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt scolaire généré avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+        }
+    }
+
+    @FXML
+    private void handlePrintCertificatArretTravail(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+
+        try {
+            LocalDate dateDebut = LocalDate.now();
+            LocalDate dateFin = dateDebut.plusDays(7); // 7 jours d'arrêt par défaut
+            
+            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                + ", certifie que l'état de santé de " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + " nécessite un arrêt de travail"
+                + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
+                + "\n\nSauf complication, la reprise du travail pourra avoir lieu le "
+                + dateFin.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "."
+                + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(certificatText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Certificat d'Arrêt de Travail", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt de travail généré avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+        }
+    }
+
+    @FXML
+    private void handlePrintCertificatMaladieChronique(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+
+        try {
+            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                + ", certifie que " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + " est atteint(e) d'une affection de longue durée nécessitant un traitement prolongé et une thérapeutique particulièrement coûteuse."
+                + "\n\nCe certificat est établi conformément aux dispositions réglementaires en vigueur."
+                + "\n\nCertificat établi le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + " à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(certificatText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Certificat Maladie Chronique", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat maladie chronique généré avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+        }
+    }
+
+    @FXML
+    private void handlePrintFicheSoinsLocaux(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+
+        try {
+            String ficheText = "FICHE DE SOINS LOCAUX"
+                + "\n\nPatient : " + patient.getNom() + " " + patient.getPrenom()
+                + "\nDate de naissance : " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + "\nÂge : " + patient.getAge() + " ans"
+                + "\n\nPrescription de soins locaux :"
+                + "\n- Pansements à renouveler quotidiennement"
+                + "\n- Désinfection locale"
+                + "\n- Surveillance de l'évolution"
+                + "\n\nDurée des soins : À poursuivre selon évolution"
+                + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(ficheText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Fiche de Soins Locaux", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Fiche de soins locaux générée avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération de la fiche.");
+        }
+    }
+
+    @FXML
+    private void handlePrintLettreOrientation(ActionEvent event) {
+        if (patient == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
+            return;
+        }
+
+        try {
+            String lettreText = "LETTRE D'ORIENTATION"
+                + "\n\nÀ l'attention du confrère spécialiste,"
+                + "\n\nJe vous adresse " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + ", pour avis spécialisé et prise en charge."
+                + "\n\nMotif de la consultation : [À compléter]"
+                + "\n\nAntécédents notables : [À compléter]"
+                + "\n\nTraitement en cours : [À compléter]"
+                + "\n\nJe vous remercie de bien vouloir me tenir informé(e) de vos conclusions."
+                + "\n\nAvec mes confraternels salutations."
+                + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            
+            List<String> elements = new ArrayList<>();
+            elements.add(lettreText);
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
+                "Lettre d'Orientation", patient, elements, medecin
+            );
+            
+            ImpressionUtil.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Lettre d'orientation générée avec succès.");
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération de la lettre.");
+        }
+    }
+
 }
