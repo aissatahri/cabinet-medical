@@ -1,0 +1,10 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.details-button {
+    -fx-background-color: #2196F3; /* Blue color */
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 5 10 5 10;
+}

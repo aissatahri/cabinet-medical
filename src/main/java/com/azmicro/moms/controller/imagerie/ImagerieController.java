@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -64,6 +66,15 @@ public class ImagerieController implements Initializable {
     private ImagerieService imagerieService;
     private Consultations consultation;
     private DossierController dossierController;
+    private List<Imagerie> historique = new ArrayList<>();
+    
+    // Templates prédéfinis
+    private static final String[] QUICK_TEMPLATES = {
+        "Radiographie thoracique",
+        "Scanner cérébral",
+        "IRM lombaire",
+        "Échographie abdominale"
+    };
 
     public void setDossierController(DossierController dossierController) {
         this.dossierController = dossierController;
@@ -86,6 +97,103 @@ public class ImagerieController implements Initializable {
         VBox ligneVBox = createImagerieLine();
         vboxLignesImagerie.getChildren().add(ligneVBox);
         updateImageryCount();
+    }
+    
+    @FXML
+    private void addTemplateRadio(ActionEvent event) {
+        addQuickTemplate("Radiographie thoracique", "Radio thorax de face et profil");
+    }
+    
+    @FXML
+    private void addTemplateScanner(ActionEvent event) {
+        addQuickTemplate("Scanner cérébral", "Scanner cérébral sans injection");
+    }
+    
+    @FXML
+    private void addTemplateIRM(ActionEvent event) {
+        addQuickTemplate("IRM lombaire", "IRM lombaire avec injection de produit de contraste");
+    }
+    
+    @FXML
+    private void addTemplateEcho(ActionEvent event) {
+        addQuickTemplate("Échographie abdominale", "Échographie abdominale complète");
+    }
+    
+    private void addQuickTemplate(String type, String description) {
+        VBox ligneVBox = createImagerieLine();
+        
+        // Remplir automatiquement les champs
+        VBox typeVBox = (VBox) ligneVBox.getChildren().get(2);
+        HBox typeBox = (HBox) typeVBox.getChildren().get(1);
+        @SuppressWarnings("unchecked")
+        ComboBox<String> typeComboBox = (ComboBox<String>) typeBox.getChildren().get(1);
+        typeComboBox.getEditor().setText(type);
+        
+        VBox descVBox = (VBox) ligneVBox.getChildren().get(3);
+        javafx.scene.control.TextArea descArea = (javafx.scene.control.TextArea) descVBox.getChildren().get(1);
+        descArea.setText(description);
+        
+        vboxLignesImagerie.getChildren().add(ligneVBox);
+        updateImageryCount();
+    }
+    
+    @FXML
+    private void clearAll(ActionEvent event) {
+        if (vboxLignesImagerie.getChildren().isEmpty()) {
+            return;
+        }
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Tout effacer");
+        alert.setContentText("Voulez-vous vraiment supprimer toutes les imageries ?");
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Animation de suppression
+            for (Node node : new ArrayList<>(vboxLignesImagerie.getChildren())) {
+                javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(200), node);
+                fade.setFromValue(1);
+                fade.setToValue(0);
+                fade.setOnFinished(e -> {
+                    vboxLignesImagerie.getChildren().remove(node);
+                    updateImageryCount();
+                });
+                fade.play();
+            }
+        }
+    }
+    
+    private VBox duplicateLine(VBox original) {
+        VBox newLine = createImagerieLine();
+        
+        // Copier la date
+        HBox origDateBox = (HBox) original.getChildren().get(1);
+        DatePicker origDatePicker = (DatePicker) origDateBox.getChildren().get(1);
+        HBox newDateBox = (HBox) newLine.getChildren().get(1);
+        DatePicker newDatePicker = (DatePicker) newDateBox.getChildren().get(1);
+        newDatePicker.setValue(origDatePicker.getValue());
+        
+        // Copier le type
+        VBox origTypeVBox = (VBox) original.getChildren().get(2);
+        HBox origTypeBox = (HBox) origTypeVBox.getChildren().get(1);
+        @SuppressWarnings("unchecked")
+        ComboBox<String> origTypeCombo = (ComboBox<String>) origTypeBox.getChildren().get(1);
+        
+        VBox newTypeVBox = (VBox) newLine.getChildren().get(2);
+        HBox newTypeBox = (HBox) newTypeVBox.getChildren().get(1);
+        @SuppressWarnings("unchecked")
+        ComboBox<String> newTypeCombo = (ComboBox<String>) newTypeBox.getChildren().get(1);
+        newTypeCombo.getEditor().setText(origTypeCombo.getEditor().getText());
+        
+        // Copier la description
+        VBox origDescVBox = (VBox) original.getChildren().get(3);
+        javafx.scene.control.TextArea origDescArea = (javafx.scene.control.TextArea) origDescVBox.getChildren().get(1);
+        VBox newDescVBox = (VBox) newLine.getChildren().get(3);
+        javafx.scene.control.TextArea newDescArea = (javafx.scene.control.TextArea) newDescVBox.getChildren().get(1);
+        newDescArea.setText(origDescArea.getText());
+        
+        return newLine;
     }
 
     private VBox createImagerieLine() {
@@ -131,90 +239,151 @@ public class ImagerieController implements Initializable {
         datePicker.setStyle("-fx-font-size: 12px;");
         dateBox.getChildren().addAll(dateLabel, datePicker);
 
-        // Type d'imagerie avec recherche améliorée
-        HBox typeBox = new HBox(10.0);
-        typeBox.setAlignment(Pos.CENTER_LEFT);
-        
+        // Type d'imagerie avec ComboBox éditable combiné
         VBox typeVBox = new VBox(5.0);
         Label typeLabel = new Label("Type d'imagerie :");
         typeLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         
-        HBox searchComboBox = new HBox(5.0);
-        searchComboBox.setAlignment(Pos.CENTER_LEFT);
+        HBox typeBox = new HBox(8.0);
+        typeBox.setAlignment(Pos.CENTER_LEFT);
         
         // Icône de recherche
         FontIcon searchIcon = new FontIcon("fas-search");
         searchIcon.setIconSize(14);
         searchIcon.setIconColor(javafx.scene.paint.Color.web("#7f8c8d"));
         
-        TextField searchField = new TextField();
-        searchField.setPromptText("Rechercher un type d'imagerie...");
-        searchField.setPrefWidth(200);
-        searchField.setStyle("-fx-font-size: 12px; -fx-border-color: #3498db; -fx-border-radius: 3px;");
-        
+        // ComboBox éditable qui combine recherche et saisie libre
         ComboBox<String> typeComboBox = new ComboBox<>();
         typeComboBox.setItems(FXCollections.observableArrayList(allTypeImageries));
-        typeComboBox.setPrefWidth(300);
-        typeComboBox.setPromptText("Sélectionner un type");
+        typeComboBox.setPrefWidth(450);
+        typeComboBox.setPromptText("Tapez pour rechercher ou saisir librement...");
+        typeComboBox.setEditable(true);
         typeComboBox.setStyle("-fx-font-size: 12px;");
-        typeComboBox.setEditable(false);
         
-        // Logique de recherche améliorée
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+        // Filtrage automatique lors de la saisie
+        typeComboBox.getEditor().textProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == null || newVal.isEmpty()) {
                 typeComboBox.setItems(FXCollections.observableArrayList(allTypeImageries));
                 typeComboBox.hide();
             } else {
+                String input = newVal.toLowerCase();
                 ObservableList<String> filtered = allTypeImageries.stream()
-                    .filter(item -> item.toLowerCase().contains(newVal.toLowerCase()))
+                    .filter(item -> item.toLowerCase().contains(input))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList));
-                typeComboBox.setItems(filtered);
                 
-                // Ouvrir automatiquement le ComboBox si des résultats existent
+                // Garder le texte saisi même s'il n'est pas dans la liste
                 if (!filtered.isEmpty()) {
+                    typeComboBox.setItems(filtered);
                     if (!typeComboBox.isShowing()) {
                         typeComboBox.show();
                     }
-                    
-                    // Sélectionner automatiquement si un seul résultat
-                    if (filtered.size() == 1) {
-                        typeComboBox.getSelectionModel().selectFirst();
-                    }
                 } else {
+                    // Permettre la saisie libre
                     typeComboBox.hide();
                 }
             }
         });
         
-        // Remplir le champ de recherche quand un élément est sélectionné dans le ComboBox
-        typeComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && !newVal.isEmpty()) {
-                searchField.setText(newVal);
-                typeComboBox.hide();
+        // Validation visuelle
+        typeComboBox.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) { // Perte de focus
+                String text = typeComboBox.getEditor().getText();
+                if (text == null || text.trim().isEmpty()) {
+                    typeComboBox.setStyle("-fx-font-size: 12px; -fx-border-color: #e74c3c; -fx-border-width: 2px;");
+                } else {
+                    typeComboBox.setStyle("-fx-font-size: 12px; -fx-border-color: #27ae60; -fx-border-width: 2px;");
+                }
             }
         });
         
-        // Focus sur le champ de recherche efface la sélection du ComboBox pour permettre une nouvelle recherche
-        searchField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                searchField.selectAll();
-            }
-        });
-        
-        searchComboBox.getChildren().addAll(searchIcon, searchField, typeComboBox);
-        typeVBox.getChildren().addAll(typeLabel, searchComboBox);
+        typeBox.getChildren().addAll(searchIcon, typeComboBox);
+        typeVBox.getChildren().addAll(typeLabel, typeBox);
 
-        // Description/Résultat
+        // Description/Résultat avec TextArea enrichie
         VBox descVBox = new VBox(5.0);
+        HBox descHeaderBox = new HBox(10.0);
+        descHeaderBox.setAlignment(Pos.CENTER_LEFT);
+        
         Label descLabel = new Label("Résultat / Description :");
         descLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
-        TextField descField = new TextField();
-        descField.setPromptText("Entrez le résultat ou une description...");
-        descField.setPrefWidth(600);
-        descField.setStyle("-fx-font-size: 12px;");
-        descVBox.getChildren().addAll(descLabel, descField);
+        
+        Region spacer2 = new Region();
+        HBox.setHgrow(spacer2, Priority.ALWAYS);
+        
+        Label charCountLabel = new Label("0 / 500");
+        charCountLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #95a5a6;");
+        
+        descHeaderBox.getChildren().addAll(descLabel, spacer2, charCountLabel);
+        
+        javafx.scene.control.TextArea descArea = new javafx.scene.control.TextArea();
+        descArea.setPromptText("Entrez le résultat, description ou indication...");
+        descArea.setPrefRowCount(3);
+        descArea.setPrefWidth(600);
+        descArea.setWrapText(true);
+        descArea.setStyle("-fx-font-size: 12px;");
+        
+        // Compteur de caractères
+        descArea.textProperty().addListener((obs, oldVal, newVal) -> {
+            int length = newVal != null ? newVal.length() : 0;
+            charCountLabel.setText(length + " / 500");
+            if (length > 500) {
+                charCountLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+            } else if (length > 400) {
+                charCountLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #f39c12;");
+            } else {
+                charCountLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #95a5a6;");
+            }
+        });
+        
+        // Boutons snippets
+        HBox snippetsBox = new HBox(5.0);
+        snippetsBox.setAlignment(Pos.CENTER_LEFT);
+        
+        Button btnNormal = new Button("Normal");
+        btnNormal.setStyle("-fx-font-size: 10px; -fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;");
+        btnNormal.setOnAction(e -> descArea.appendText("Examen normal, pas d'anomalie décelée. "));
+        
+        Button btnAnormal = new Button("Anomalie détectée");
+        btnAnormal.setStyle("-fx-font-size: 10px; -fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");
+        btnAnormal.setOnAction(e -> descArea.appendText("Anomalie détectée nécessitant investigation complémentaire. "));
+        
+        Button btnSuivi = new Button("À suivre");
+        btnSuivi.setStyle("-fx-font-size: 10px; -fx-background-color: #f39c12; -fx-text-fill: white; -fx-cursor: hand;");
+        btnSuivi.setOnAction(e -> descArea.appendText("À contrôler lors du prochain suivi. "));
+        
+        snippetsBox.getChildren().addAll(btnNormal, btnAnormal, btnSuivi);
+        
+        descVBox.getChildren().addAll(descHeaderBox, descArea, snippetsBox);
 
-        ligneVBox.getChildren().addAll(headerBox, dateBox, typeVBox, descVBox);
+        // Bouton dupliquer
+        HBox actionBox = new HBox(8.0);
+        actionBox.setAlignment(Pos.CENTER_RIGHT);
+        
+        Button btnDuplicate = new Button("Dupliquer");
+        btnDuplicate.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;");
+        FontIcon dupIcon = new FontIcon("fas-copy");
+        dupIcon.setIconSize(12);
+        dupIcon.setIconColor(javafx.scene.paint.Color.WHITE);
+        btnDuplicate.setGraphic(dupIcon);
+        btnDuplicate.setOnAction(e -> {
+            VBox duplicatedLine = duplicateLine(ligneVBox);
+            int currentIndex = vboxLignesImagerie.getChildren().indexOf(ligneVBox);
+            vboxLignesImagerie.getChildren().add(currentIndex + 1, duplicatedLine);
+            updateImageryCount();
+            renumberImageries();
+        });
+        
+        actionBox.getChildren().add(btnDuplicate);
+
+        ligneVBox.getChildren().addAll(headerBox, dateBox, typeVBox, descVBox, actionBox);
+        
+        // Animation d'apparition
+        ligneVBox.setOpacity(0);
+        javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(300), ligneVBox);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+        
         return ligneVBox;
     }
 
@@ -256,16 +425,17 @@ public class ImagerieController implements Initializable {
                 DatePicker datePicker = (DatePicker) dateBox.getChildren().get(1);
 
                 VBox typeVBox = (VBox) ligneVBox.getChildren().get(2);
-                HBox searchComboBox = (HBox) typeVBox.getChildren().get(1);
+                HBox typeBox = (HBox) typeVBox.getChildren().get(1);
                 @SuppressWarnings("unchecked")
-                ComboBox<String> typeComboBox = (ComboBox<String>) searchComboBox.getChildren().get(1);
+                ComboBox<String> typeComboBox = (ComboBox<String>) typeBox.getChildren().get(1);
 
                 VBox descVBox = (VBox) ligneVBox.getChildren().get(3);
-                TextField descField = (TextField) descVBox.getChildren().get(1);
+                javafx.scene.control.TextArea descArea = (javafx.scene.control.TextArea) descVBox.getChildren().get(1);
 
                 // Validation
-                if (typeComboBox.getValue() == null || typeComboBox.getValue().trim().isEmpty()) {
-                    showAlert("Validation", "Veuillez sélectionner un type d'imagerie pour toutes les lignes.");
+                String typeText = typeComboBox.getEditor().getText();
+                if (typeText == null || typeText.trim().isEmpty()) {
+                    showAlert("Validation", "Veuillez sélectionner ou saisir un type d'imagerie pour toutes les lignes.");
                     hasError = true;
                     break;
                 }
@@ -278,15 +448,17 @@ public class ImagerieController implements Initializable {
 
                 // Créer l'objet Imagerie
                 Imagerie imagerie = new Imagerie();
-                String selectedItem = typeComboBox.getValue();
+                
+                // Rechercher le type dans la base ou créer avec le texte saisi
+                String selectedItem = typeText;
                 String[] parts = selectedItem.split(":");
-                if (parts.length == 2) {
+                if (parts.length >= 1) {
                     String nomImagerie = parts[0].trim();
                     imagerie.setTypeImagerie(typeImagerieService.findByNomImagerieFr(nomImagerie));
                 }
 
-                imagerie.setDescription(descField.getText());
-                imagerie.setResultat(descField.getText());
+                imagerie.setDescription(descArea.getText());
+                imagerie.setResultat(descArea.getText());
                 imagerie.setDateImagerie(datePicker.getValue());
                 imagerie.setConsultationID(consultation.getConsultationID());
 

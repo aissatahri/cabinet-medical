@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="458.0" prefWidth="625.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.LoginController">
+    <children>
+        <HBox prefHeight="40.0" prefWidth="698.0" style="-fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 1px;">
+            <children>
+                <AnchorPane fx:id="header" prefHeight="40.0" prefWidth="698.0" styleClass="header" stylesheets="@../css/login.css" HBox.hgrow="ALWAYS">
+                    <children>
+                        <!-- Close Button -->
+                        <Button fx:id="btnClose" onAction="#close" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: transparent; -fx-padding: 0;" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/close.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </children>
+        </HBox>
+        <HBox>
+            <children>
+                <VBox alignment="CENTER" prefHeight="557.0" prefWidth="240.0" style="-fx-background-color: #f0f4f8; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Text strokeType="OUTSIDE" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #333;" text="Coin cardiologue" />
+                        <ImageView fitHeight="190.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                            <image>
+                                <Image url="@../images/heart.gif" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="557.0" prefWidth="458.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-padding: 40; -fx-border-color: #e0e0e0; -fx-border-width: 1px;" HBox.hgrow="ALWAYS">
+                    <children>
+                        <!-- Main Content -->
+                        <VBox alignment="CENTER" prefHeight="463.0" prefWidth="375.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <!-- Title -->
+                                <Text style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-fill: #333333;" text="Login" />
+
+                                <!-- Login Form -->
+                                <VBox alignment="CENTER" spacing="15" style="-fx-background-color: #f9f9f9; -fx-padding: 20; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-border-width: 2;">
+                                    <children>
+                                        <VBox alignment="CENTER" spacing="10">
+                                            <Label style="-fx-font-size: 16px; -fx-text-fill: #666;" text="Username:" />
+                                            <TextField fx:id="usernameField" promptText="Enter your username" style="-fx-padding: 10; -fx-font-size: 16px; -fx-background-radius: 5; -fx-border-radius: 5;" text="Fadoua" />
+                                        </VBox>
+
+                                        <VBox alignment="CENTER" spacing="10">
+                                            <Label style="-fx-font-size: 16px; -fx-text-fill: #666;" text="Password:" />
+                                            <VBox alignment="CENTER" spacing="5">
+                                                <children>
+                                                    <AnchorPane fx:id="passwordContainer" VBox.vgrow="ALWAYS">
+                                                        <children>
+                                                            <PasswordField fx:id="passwordField" promptText="Enter your password" style="-fx-padding: 10; -fx-font-size: 16px; -fx-background-radius: 5; -fx-border-radius: 5;" text="123" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <TextField fx:id="passwordTextField" promptText="Enter your password" style="-fx-padding: 10; -fx-font-size: 16px; -fx-background-radius: 5; -fx-border-radius: 5;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <Button fx:id="togglePasswordVisibility" layoutX="291.0" mnemonicParsing="false" onAction="#togglePasswordVisibility" style="-fx-background-color: transparent; -fx-border-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                <graphic>
+                                                                    <ImageView fx:id="togglePasswordIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                        <image>
+                                                                            <Image url="@../images/eye.png" />
+                                                                        </image>
+                                                                    </ImageView>
+                                                                </graphic>
+                                                            </Button>
+                                                        </children>
+                                                    </AnchorPane>
+                                                </children>
+                                            </VBox>
+                                        </VBox>
+
+                                        <HBox alignment="CENTER" spacing="10">
+                                            <children>
+                                                <Button fx:id="btnLogin" onAction="#login" styleClass="login-button" text="Login" />
+                                                <Button fx:id="btnCreateUser" onAction="#createNewUser" styleClass="create-user-button" text="Create New User">
+                                       <font>
+                                          <Font />
+                                       </font></Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <!-- Status Message -->
+                                <Label fx:id="statusMessage" style="-fx-font-size: 14px; -fx-text-fill: #FF3B3B;" />
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>

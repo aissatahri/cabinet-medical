@@ -1,0 +1,79 @@
+/* General styling for AnchorPane */
+.mainFxmlClass {
+    -fx-background-color: #f5f5f5; /* Light gray background */
+}
+
+/* Style for the form label */
+.formLabel {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333; /* Darker text color */
+    -fx-padding: 5;
+}
+
+/* Style for the title label */
+.titleLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #007bff; /* Blue color for the title */
+    -fx-padding: 10;
+}
+
+/* Style for ComboBox */
+.combo-box {
+    -fx-background-color: #fff; /* White background */
+    -fx-border-color: #ccc; /* Light gray border */
+    -fx-border-width: 1px;
+}
+
+/* Style for DatePicker */
+.date-picker {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+}
+
+/* Style for TextField */
+.text-field {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+}
+
+/* Style for TextArea */
+.text-area {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+}
+
+/* Style for buttons */
+.actionButton {
+    -fx-padding: 10 20;
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.actionButton:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Add some spacing and styling to HBox and VBox */
+.hbox {
+    -fx-padding: 10;
+}
+
+.vbox {
+    -fx-padding: 10;
+}
+/*.roundedGridPane {
+    -fx-background-color: #ffffff;  Couleur de fond du GridPane 
+    -fx-background-radius: 10px;  Rayon des coins arrondis 
+    -fx-border-color: #000000;  Couleur de la bordure du GridPane 
+    -fx-border-radius: 5px;  Rayon des coins arrondis pour la bordure 
+    -fx-border-width: 1px;  Épaisseur de la bordure 
+}*/
