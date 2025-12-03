@@ -512,9 +512,17 @@ public class ImagerieController implements Initializable {
         for (Imagerie imagerie : imageries) {
             VBox line = createImagerieLine();
             
-            DatePicker datePicker = (DatePicker) line.getChildren().get(3);
-            ComboBox<String> typeCombo = (ComboBox<String>) line.getChildren().get(5);
-            TextArea descArea = (TextArea) line.getChildren().get(7);
+            // Structure: 0=header, 1=dateBox(HBox), 2=typeVBox, 3=descVBox
+            HBox dateBox = (HBox) line.getChildren().get(1);
+            DatePicker datePicker = (DatePicker) dateBox.getChildren().get(1);
+            
+            VBox typeVBox = (VBox) line.getChildren().get(2);
+            HBox typeBox = (HBox) typeVBox.getChildren().get(1);
+            @SuppressWarnings("unchecked")
+            ComboBox<String> typeCombo = (ComboBox<String>) typeBox.getChildren().get(1);
+            
+            VBox descVBox = (VBox) line.getChildren().get(3);
+            TextArea descArea = (TextArea) descVBox.getChildren().get(1);
             
             if (imagerie.getDateImagerie() != null) {
                 datePicker.setValue(imagerie.getDateImagerie());
