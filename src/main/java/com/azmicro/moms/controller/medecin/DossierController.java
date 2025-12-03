@@ -81,10 +81,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -99,6 +101,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -962,6 +965,15 @@ public class DossierController implements Initializable {
 
     private void showAlert(AlertType type, String title, String message) {
         Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showAlert(AlertType type, String title, String message, javafx.stage.Window owner) {
+        Alert alert = new Alert(type);
+        alert.initOwner(owner);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -2002,32 +2014,47 @@ public class DossierController implements Initializable {
             return;
         }
         
+        // Essayer d'obtenir la consultation sélectionnée, sinon utiliser la dernière consultation
         Consultations selectedConsultation = tvConsultation.getSelectionModel().getSelectedItem();
-        if (selectedConsultation == null) {
-            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner une consultation.");
-            return;
+        
+        // Si aucune consultation n'est sélectionnée, prendre la dernière de la liste
+        if (selectedConsultation == null && tvConsultation.getItems() != null && !tvConsultation.getItems().isEmpty()) {
+            selectedConsultation = tvConsultation.getItems().get(tvConsultation.getItems().size() - 1);
         }
 
         try {
+            String motifConsultation = "";
+            String dateConsultation = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            
+            if (selectedConsultation != null) {
+                motifConsultation = selectedConsultation.getSymptome();
+                if (selectedConsultation.getDateConsultation() != null) {
+                    dateConsultation = selectedConsultation.getDateConsultation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                }
+            }
+            
             String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie avoir examiné " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
-                + " le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                + ".\n\nMotif de consultation : " + selectedConsultation.getSymptome()
-                + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+                + ", certifie avoir examiné " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                + " le " + dateConsultation + ".";
             
-            List<String> elements = new ArrayList<>();
-            elements.add(certificatText);
+            if (!motifConsultation.isEmpty()) {
+                certificatText += "\n\nMotif de consultation : " + motifConsultation;
+            }
             
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Certificat Médical", patient, elements, medecin
+            certificatText += "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+            
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatConsultationPdf(
+                certificatText, patient, medecin
             );
             
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat médical généré avec succès.");
+            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat médical généré avec succès.", 
+                     btnCertificatConsultation.getScene().getWindow());
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.",
+                     btnCertificatConsultation.getScene().getWindow());
         }
     }
 
@@ -2040,25 +2067,24 @@ public class DossierController implements Initializable {
 
         try {
             String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie que " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", certifie que " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
                 + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + ", ne présente aucune contre-indication à la pratique du sport."
                 + "\n\nCertificat établi le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + " à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
             
-            List<String> elements = new ArrayList<>();
-            elements.add(certificatText);
-            
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Certificat d'Aptitude Sportive", patient, elements, medecin
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatAptitudeSportivePdf(
+                certificatText, patient, medecin
             );
             
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'aptitude sportive généré avec succès.");
+            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'aptitude sportive généré avec succès.",
+                     btnCertificatAptitudeSportive.getScene().getWindow());
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.",
+                     btnCertificatAptitudeSportive.getScene().getWindow());
         }
     }
 
@@ -2069,31 +2095,73 @@ public class DossierController implements Initializable {
             return;
         }
 
-        try {
-            LocalDate dateDebut = LocalDate.now();
-            LocalDate dateFin = dateDebut.plusDays(3); // 3 jours d'arrêt par défaut
+        // Créer un dialogue pour saisir les dates
+        Dialog<LocalDate[]> dialog = new Dialog<>();
+        dialog.setTitle("Certificat d'Arrêt Scolaire");
+        dialog.setHeaderText("Veuillez saisir la période d'arrêt scolaire");
+
+        // Configurer les boutons
+        ButtonType validerButtonType = new ButtonType("Générer", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(validerButtonType, ButtonType.CANCEL);
+
+        // Créer les champs de saisie
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        DatePicker dateDebutPicker = new DatePicker(LocalDate.now());
+        DatePicker dateFinPicker = new DatePicker(LocalDate.now().plusDays(3));
+
+        grid.add(new Label("Date de début:"), 0, 0);
+        grid.add(dateDebutPicker, 1, 0);
+        grid.add(new Label("Date de fin:"), 0, 1);
+        grid.add(dateFinPicker, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Convertir le résultat
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == validerButtonType) {
+                return new LocalDate[]{dateDebutPicker.getValue(), dateFinPicker.getValue()};
+            }
+            return null;
+        });
+
+        Optional<LocalDate[]> result = dialog.showAndWait();
+        
+        result.ifPresent(dates -> {
+            LocalDate dateDebut = dates[0];
+            LocalDate dateFin = dates[1];
             
-            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie que l'état de santé de " + patient.getNom() + " " + patient.getPrenom()
-                + " nécessite un arrêt scolaire"
-                + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
-                + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
-            
-            List<String> elements = new ArrayList<>();
-            elements.add(certificatText);
-            
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Certificat d'Arrêt Scolaire", patient, elements, medecin
-            );
-            
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt scolaire généré avec succès.");
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
-        }
+            if (dateFin.isBefore(dateDebut)) {
+                showAlert(AlertType.ERROR, "Erreur", "La date de fin doit être après la date de début.",
+                         btnCertificatArretScolaire.getScene().getWindow());
+                return;
+            }
+
+            try {
+                String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                    + ", certifie que l'état de santé de " + patient.getNom() + " " + patient.getPrenom()
+                    + " nécessite un arrêt scolaire"
+                    + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
+                    + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+                
+                String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatArretScolairePdf(
+                    certificatText, patient, medecin
+                );
+                
+                com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+                showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt scolaire généré avec succès.",
+                         btnCertificatArretScolaire.getScene().getWindow());
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+                showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.",
+                         btnCertificatArretScolaire.getScene().getWindow());
+            }
+        });
     }
 
     @FXML
@@ -2103,33 +2171,75 @@ public class DossierController implements Initializable {
             return;
         }
 
-        try {
-            LocalDate dateDebut = LocalDate.now();
-            LocalDate dateFin = dateDebut.plusDays(7); // 7 jours d'arrêt par défaut
+        // Créer un dialogue pour saisir les dates
+        Dialog<LocalDate[]> dialog = new Dialog<>();
+        dialog.setTitle("Certificat d'Arrêt de Travail");
+        dialog.setHeaderText("Veuillez saisir la période d'arrêt de travail");
+
+        // Configurer les boutons
+        ButtonType validerButtonType = new ButtonType("Générer", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(validerButtonType, ButtonType.CANCEL);
+
+        // Créer les champs de saisie
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        DatePicker dateDebutPicker = new DatePicker(LocalDate.now());
+        DatePicker dateFinPicker = new DatePicker(LocalDate.now().plusDays(7));
+
+        grid.add(new Label("Date de début:"), 0, 0);
+        grid.add(dateDebutPicker, 1, 0);
+        grid.add(new Label("Date de fin:"), 0, 1);
+        grid.add(dateFinPicker, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Convertir le résultat
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == validerButtonType) {
+                return new LocalDate[]{dateDebutPicker.getValue(), dateFinPicker.getValue()};
+            }
+            return null;
+        });
+
+        Optional<LocalDate[]> result = dialog.showAndWait();
+        
+        result.ifPresent(dates -> {
+            LocalDate dateDebut = dates[0];
+            LocalDate dateFin = dates[1];
             
-            String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie que l'état de santé de " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
-                + " nécessite un arrêt de travail"
-                + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
-                + "\n\nSauf complication, la reprise du travail pourra avoir lieu le "
-                + dateFin.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "."
-                + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
-            
-            List<String> elements = new ArrayList<>();
-            elements.add(certificatText);
-            
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Certificat d'Arrêt de Travail", patient, elements, medecin
-            );
-            
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt de travail généré avec succès.");
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
-        }
+            if (dateFin.isBefore(dateDebut)) {
+                showAlert(AlertType.ERROR, "Erreur", "La date de fin doit être après la date de début.",
+                         btnCertificatArretTravail.getScene().getWindow());
+                return;
+            }
+
+            try {
+                String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
+                    + ", certifie que l'état de santé de " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                    + " nécessite un arrêt de travail"
+                    + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
+                    + "\n\nSauf complication, la reprise du travail pourra avoir lieu le "
+                    + dateFin.plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "."
+                    + "\n\nCertificat établi à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
+                
+                String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatArretTravailPdf(
+                    certificatText, patient, medecin
+                );
+                
+                com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+                showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt de travail généré avec succès.",
+                         btnCertificatArretTravail.getScene().getWindow());
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
+                showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.",
+                         btnCertificatArretTravail.getScene().getWindow());
+            }
+        });
     }
 
     @FXML
@@ -2141,25 +2251,24 @@ public class DossierController implements Initializable {
 
         try {
             String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie que " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", certifie que " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
                 + " est atteint(e) d'une affection de longue durée nécessitant un traitement prolongé et une thérapeutique particulièrement coûteuse."
                 + "\n\nCe certificat est établi conformément aux dispositions réglementaires en vigueur."
                 + "\n\nCertificat établi le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + " à la demande de l'intéressé(e) pour faire valoir ce que de droit.";
             
-            List<String> elements = new ArrayList<>();
-            elements.add(certificatText);
-            
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Certificat Maladie Chronique", patient, elements, medecin
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatMaladieChroniquePdf(
+                certificatText, patient, medecin
             );
             
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat maladie chronique généré avec succès.");
+            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Certificat maladie chronique généré avec succès.",
+                     btnCertificatMaladieChronique.getScene().getWindow());
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.");
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération du certificat.",
+                     btnCertificatMaladieChronique.getScene().getWindow());
         }
     }
 
@@ -2182,19 +2291,18 @@ public class DossierController implements Initializable {
                 + "\n\nDurée des soins : À poursuivre selon évolution"
                 + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             
-            List<String> elements = new ArrayList<>();
-            elements.add(ficheText);
-            
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Fiche de Soins Locaux", patient, elements, medecin
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateFicheSoinsLocauxPdf(
+                ficheText, patient, medecin
             );
             
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Fiche de soins locaux générée avec succès.");
+            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Fiche de soins locaux générée avec succès.",
+                     btnFicheSoinsLocaux.getScene().getWindow());
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération de la fiche.");
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération de la fiche.",
+                     btnFicheSoinsLocaux.getScene().getWindow());
         }
     }
 
@@ -2208,7 +2316,7 @@ public class DossierController implements Initializable {
         try {
             String lettreText = "LETTRE D'ORIENTATION"
                 + "\n\nÀ l'attention du confrère spécialiste,"
-                + "\n\nJe vous adresse " + patient.getCivilite() + " " + patient.getNom() + " " + patient.getPrenom()
+                + "\n\nJe vous adresse " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
                 + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + ", pour avis spécialisé et prise en charge."
                 + "\n\nMotif de la consultation : [À compléter]"
@@ -2218,19 +2326,18 @@ public class DossierController implements Initializable {
                 + "\n\nAvec mes confraternels salutations."
                 + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             
-            List<String> elements = new ArrayList<>();
-            elements.add(lettreText);
-            
-            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateCertificatPdf(
-                "Lettre d'Orientation", patient, elements, medecin
+            String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateLettreOrientationPdf(
+                lettreText, patient, medecin
             );
             
-            ImpressionUtil.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Lettre d'orientation générée avec succès.");
+            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
+            showAlert(AlertType.INFORMATION, "Succès", "Lettre d'orientation générée avec succès.",
+                     btnLettreOrientation.getScene().getWindow());
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
-            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération de la lettre.");
+            showAlert(AlertType.ERROR, "Erreur", "Erreur lors de la génération de la lettre.",
+                     btnLettreOrientation.getScene().getWindow());
         }
     }
 

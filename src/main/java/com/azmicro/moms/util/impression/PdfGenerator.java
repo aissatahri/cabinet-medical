@@ -534,4 +534,165 @@ public class PdfGenerator {
 
         return pdfPath;
     }
+
+    // Méthodes spécifiques pour chaque type de certificat avec noms de fichiers uniques
+    
+    public static String generateCertificatConsultationPdf(String certificatText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/certificat_consultation_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Certificat Médical de Consultation", certificatText, patient, medecin);
+    }
+
+    public static String generateCertificatAptitudeSportivePdf(String certificatText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/certificat_aptitude_sportive_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Certificat d'Aptitude Sportive", certificatText, patient, medecin);
+    }
+
+    public static String generateCertificatArretScolairePdf(String certificatText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/certificat_arret_scolaire_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Certificat d'Arrêt Scolaire", certificatText, patient, medecin);
+    }
+
+    public static String generateCertificatArretTravailPdf(String certificatText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/certificat_arret_travail_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Certificat d'Arrêt de Travail", certificatText, patient, medecin);
+    }
+
+    public static String generateCertificatMaladieChroniquePdf(String certificatText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/certificat_maladie_chronique_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Certificat Maladie Chronique", certificatText, patient, medecin);
+    }
+
+    public static String generateFicheSoinsLocauxPdf(String ficheText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/fiche_soins_locaux_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Fiche de Soins Locaux", ficheText, patient, medecin);
+    }
+
+    public static String generateLettreOrientationPdf(String lettreText, Patient patient, Medecin medecin) throws FileNotFoundException {
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/lettre_orientation_" + dateStr + ".pdf";
+        
+        return generateGenericCertificat(pdfPath, "Lettre d'Orientation", lettreText, patient, medecin);
+    }
+
+    private static String generateGenericCertificat(String pdfPath, String titre, String contenu, Patient patient, Medecin medecin) throws FileNotFoundException {
+        PdfWriter writer = new PdfWriter(pdfPath);
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document document = new Document(pdfDoc, PageSize.A4);
+        document.setMargins(127, 40, 48.24f, 40);
+
+        float fontSize = 10f;
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dateStr = dateFormat.format(new Date());
+
+        // Titre
+        Paragraph title = new Paragraph(titre)
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(fontSize + 6)
+                .setUnderline();
+
+        document.add(new Paragraph("\n").setFontSize(fontSize));
+        document.add(title);
+        
+        // Date
+        Paragraph dateParagraph = new Paragraph("Date : " + dateStr)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fontSize);
+        document.add(dateParagraph);
+
+        document.add(new LineSeparator(new CustomLineDrawer(1f, new DeviceRgb(0, 0, 0))));
+        document.add(new Paragraph("\n").setFontSize(fontSize));
+
+        // Contenu du certificat
+        Paragraph contenuParagraph = new Paragraph(contenu)
+                .setTextAlignment(TextAlignment.LEFT)
+                .setFontSize(fontSize);
+        document.add(contenuParagraph);
+
+        document.add(new Paragraph("\n\n").setFontSize(fontSize));
+
+        // Signature
+        Paragraph signature = new Paragraph("Signature et cachet du médecin\n\n\n\n")
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fontSize);
+        document.add(signature);
+
+        Paragraph medecinInfo = new Paragraph("Dr " + medecin.getNom() + " " + medecin.getPrenom())
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fontSize)
+                .setBold();
+        document.add(medecinInfo);
+
+        document.close();
+        return pdfPath;
+    }
 }
