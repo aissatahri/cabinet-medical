@@ -35,6 +35,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -500,4 +501,40 @@ public class ImagerieController implements Initializable {
         alert.initOwner(btnSaveImagerie.getScene().getWindow());
         alert.showAndWait();
     }
+
+    public void loadExistingImageries() {
+        if (consultation == null) {
+            return;
+        }
+        
+        List<Imagerie> imageries = imagerieService.findByConsultationId(consultation.getConsultationID());
+        
+        for (Imagerie imagerie : imageries) {
+            VBox line = createImagerieLine();
+            
+            DatePicker datePicker = (DatePicker) line.getChildren().get(3);
+            ComboBox<String> typeCombo = (ComboBox<String>) line.getChildren().get(5);
+            TextArea descArea = (TextArea) line.getChildren().get(7);
+            
+            if (imagerie.getDateImagerie() != null) {
+                datePicker.setValue(imagerie.getDateImagerie());
+            }
+            
+            if (imagerie.getTypeImagerie() != null) {
+                String typeName = imagerie.getTypeImagerie().getNomImagerieFr();
+                String typeCode = imagerie.getTypeImagerie().getCodeImagerieFr();
+                if (typeCode != null && !typeCode.isEmpty()) {
+                    typeCombo.getEditor().setText(typeName + ":" + typeCode);
+                } else {
+                    typeCombo.getEditor().setText(typeName);
+                }
+                typeCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+            }
+            
+            if (imagerie.getResultat() != null && !imagerie.getResultat().isEmpty()) {
+                descArea.setText(imagerie.getResultat());
+            }
+        }
+    }
 }
+

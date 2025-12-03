@@ -1356,6 +1356,9 @@ public class DossierController implements Initializable {
                 // Passer l'instance de Consultation au BilanController
                 bilanController.setConsultation(selectedConsultation);
                 bilanController.setDossierController(this);
+                
+                // Charger les analyses existantes
+                bilanController.loadExistingAnalyses();
 
                 // Créer une nouvelle scène
                 Scene scene = new Scene(root);
@@ -1502,6 +1505,9 @@ public class DossierController implements Initializable {
                 // Passer l'instance de Consultation au ImagerieController
                 imagerieController.setConsultation(selectedConsultation);
                 imagerieController.setDossierController(this);
+                
+                // Charger les imageries existantes
+                imagerieController.loadExistingImageries();
 
                 // Créer une nouvelle scène
                 Scene scene = new Scene(root);

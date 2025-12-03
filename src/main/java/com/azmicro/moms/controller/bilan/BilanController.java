@@ -387,4 +387,42 @@ private void ajouterBilan(ActionEvent event) {
     });
 }
 
+    public void loadExistingAnalyses() {
+        if (consultation == null) {
+            return;
+        }
+        
+        List<Analyse> analyses = analyseService.getAnalysesByConsultationId(consultation.getConsultationID());
+        
+        for (Analyse analyse : analyses) {
+            VBox line = createAnalyseLine();
+            
+            DatePicker datePicker = (DatePicker) line.getChildren().get(3);
+            ComboBox<String> typeCombo = (ComboBox<String>) line.getChildren().get(5);
+            TextArea resultArea = (TextArea) line.getChildren().get(7);
+            
+            if (analyse.getDateAnalyse() != null) {
+                datePicker.setValue(analyse.getDateAnalyse());
+            }
+            
+            if (analyse.getTypeAnalyse() != null) {
+                String typeName = analyse.getTypeAnalyse().getNomAnalyseFr();
+                String typeCode = analyse.getTypeAnalyse().getCodeAnalyseFr();
+                if (typeCode != null && !typeCode.isEmpty()) {
+                    typeCombo.getEditor().setText(typeName + ":" + typeCode);
+                } else {
+                    typeCombo.getEditor().setText(typeName);
+                }
+                typeCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+            }
+            
+            if (analyse.getDescription() != null && !analyse.getDescription().isEmpty()) {
+                resultArea.setText(analyse.getDescription());
+            } else if (analyse.getResultat() != null && !analyse.getResultat().isEmpty()) {
+                resultArea.setText(analyse.getResultat());
+            }
+        }
+    }
+
 }
+
