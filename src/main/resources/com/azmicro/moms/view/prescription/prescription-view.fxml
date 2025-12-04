@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.prescription.PrescriptionController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="500.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.prescription.PrescriptionController">
     <stylesheets>
         <URL value="@../../css/prescription.css" />
     </stylesheets>
@@ -26,28 +26,18 @@
                </children>
             </HBox>
             
-            <!-- Quick Templates -->
-            <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5; -fx-padding: 8;">
+            <!-- Mode Selection -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-padding: 10;">
                <children>
-                  <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #34495e;" text="Catégories fréquentes :" />
-                  <Button fx:id="btnTemplateAntibiotiques" onAction="#addTemplateAntibiotiques" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Antibiotiques">
+                  <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Mode de prescription :" />
+                  <Button fx:id="btnModeBatch" mnemonicParsing="false" onAction="#openBatchMode" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="🎯 Multi-sélection">
                      <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-syringe" iconSize="12" />
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-check-double" iconSize="14" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnTemplateAntiInflammatoires" onAction="#addTemplateAntiInflammatoires" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Anti-inflammatoires">
+                  <Button fx:id="btnAjouterLignePrescription" mnemonicParsing="false" onAction="#ajouterLigneImagerie" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="➕ Manuel">
                      <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-tablets" iconSize="12" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnTemplateAntalgiques" onAction="#addTemplateAntalgiques" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Antalgiques">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-prescription-bottle" iconSize="12" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnTemplateVitamines" onAction="#addTemplateVitamines" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Vitamines">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-capsules" iconSize="12" />
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="14" />
                      </graphic>
                   </Button>
                </children>
@@ -56,11 +46,6 @@
             <!-- Add Buttons -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Button fx:id="btnAjouterLignePrescription" mnemonicParsing="false" onAction="#ajouterLigneImagerie" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Ajouter un médicament">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="16" />
-                     </graphic>
-                  </Button>
                   <Button fx:id="btnClearAll" mnemonicParsing="false" onAction="#clearAll" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="Tout effacer">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-trash-alt" iconSize="14" />

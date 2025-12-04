@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.CheckBoxTableCell?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.azmicro.moms.controller.prescription.BatchSelectionController"
+      prefWidth="650.0" prefHeight="550.0" spacing="15.0" style="-fx-background-color: white;">
+   <padding>
+      <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+   </padding>
+   
+   <children>
+      <!-- Header -->
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <FontIcon iconColor="#3498db" iconLiteral="fas-check-double" iconSize="24" />
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Sélection Multiple de Médicaments"/>
+         </children>
+      </HBox>
+      
+      <Separator />
+      
+      <!-- Info -->
+      <Label style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" 
+             text="Cochez les médicaments souhaités, puis vous remplirez les posologies pour chacun." wrapText="true"/>
+      
+      <!-- Search -->
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <FontIcon iconColor="#95a5a6" iconLiteral="fas-search" iconSize="16" />
+            <TextField fx:id="txtSearch" promptText="Rechercher un médicament..." HBox.hgrow="ALWAYS" 
+                       style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 8;"/>
+         </children>
+      </HBox>
+      
+      <!-- Table -->
+      <TableView fx:id="tableMedicaments" VBox.vgrow="ALWAYS" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5;">
+         <columns>
+            <TableColumn fx:id="colSelect" text="✓" prefWidth="50.0" editable="true"/>
+            <TableColumn fx:id="colNom" text="Nom du Médicament" prefWidth="400.0"/>
+            <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="150.0"/>
+         </columns>
+      </TableView>
+      
+      <!-- Selection Count -->
+      <HBox alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5; -fx-padding: 8;">
+         <children>
+            <FontIcon iconColor="#3498db" iconLiteral="fas-info-circle" iconSize="14" />
+            <Label fx:id="lblSelectionCount" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="0 médicament(s) sélectionné(s)"/>
+         </children>
+      </HBox>
+      
+      <!-- Buttons -->
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
+         <children>
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handleCancel" 
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="Annuler"/>
+            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#handleNext" 
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="Suivant ➜" disable="true">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-arrow-right" iconSize="14" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

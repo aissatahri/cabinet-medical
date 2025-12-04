@@ -96,8 +96,7 @@ public class PaiementController implements Initializable {
         setupTableColumns();
         setupRadioButtons();  // Initialiser les boutons radio
         loadTableData();      // Charger les données par défaut (jour)
-        loadTableData();
-        addRowClickListener();;
+        addRowClickListener();
     }
 
     private void addRowClickListener() {

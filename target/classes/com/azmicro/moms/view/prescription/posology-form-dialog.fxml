@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.azmicro.moms.controller.prescription.PosologyFormController"
+      prefWidth="650.0" prefHeight="700.0" spacing="15.0" style="-fx-background-color: white;">
+   <padding>
+      <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+   </padding>
+   
+   <children>
+      <!-- Header -->
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <FontIcon iconColor="#3498db" iconLiteral="fas-pills" iconSize="24" />
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Posologie Rapide"/>
+                  <Label fx:id="lblProgress" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" text="Médicament 1 sur X"/>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      
+      <Separator />
+      
+      <!-- Current Medication -->
+      <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5; -fx-padding: 10;">
+         <children>
+            <FontIcon iconColor="#27ae60" iconLiteral="fas-capsules" iconSize="20" />
+            <Label fx:id="lblCurrentMedicament" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Nom du médicament"/>
+         </children>
+      </HBox>
+      
+      <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+         <content>
+            <VBox spacing="15.0">
+               <children>
+                  <!-- Posologie -->
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Posologie"/>
+                        <TextField fx:id="txtPosologie" promptText="Ex: 1 comprimé de 500mg, 5ml, 10 gouttes, 1 application..." 
+                                   style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 8;"/>
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" text="Comprimés / Gélules"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="5">
+                           <children>
+                              <Button text="1 cp" onAction="#setPosologie" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="2 cp" onAction="#setPosologie" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="1/2 cp" onAction="#setPosologie" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="1 gélule" onAction="#setPosologie" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="500mg" onAction="#setPosologie" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d; -fx-padding: 5 0 0 0;" text="Liquides (Sirop, Solution)"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="5">
+                           <children>
+                              <Button text="5ml" onAction="#setPosologie" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="10ml" onAction="#setPosologie" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="15ml" onAction="#setPosologie" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="1 c. à café" onAction="#setPosologie" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="1 c. à soupe" onAction="#setPosologie" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d; -fx-padding: 5 0 0 0;" text="Gouttes / Injections / Application"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="5">
+                           <children>
+                              <Button text="5 gouttes" onAction="#setPosologie" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="10 gouttes" onAction="#setPosologie" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="1 ampoule" onAction="#setPosologie" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="1 application" onAction="#setPosologie" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Massage local" onAction="#setPosologie" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Fréquence -->
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Fréquence"/>
+                        <TextField fx:id="txtFrequence" promptText="Ex: 2x/jour" 
+                                   style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 8;"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="4">
+                           <children>
+                              <Button text="1x/jour" onAction="#setFrequence" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10;"/>
+                              <Button text="2x/jour" onAction="#setFrequence" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10;"/>
+                              <Button text="3x/jour" onAction="#setFrequence" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10;"/>
+                              <Button text="4x/jour" onAction="#setFrequence" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10;"/>
+                           </children>
+                        </TilePane>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Durée -->
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Durée du traitement"/>
+                        <TextField fx:id="txtDuree" promptText="Ex: 7 jours, 2 semaines, 3 mois..." 
+                                   style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 8;"/>
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" text="Courte durée"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="6">
+                           <children>
+                              <Button text="3 jours" onAction="#setDuree" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="5 jours" onAction="#setDuree" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="7 jours" onAction="#setDuree" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="10 jours" onAction="#setDuree" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="14 jours" onAction="#setDuree" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="21 jours" onAction="#setDuree" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d; -fx-padding: 5 0 0 0;" text="Moyenne et longue durée"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="6">
+                           <children>
+                              <Button text="1 mois" onAction="#setDuree" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="2 mois" onAction="#setDuree" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="3 mois" onAction="#setDuree" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="4 mois" onAction="#setDuree" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="5 mois" onAction="#setDuree" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="6 mois" onAction="#setDuree" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                        <Label style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d; -fx-padding: 5 0 0 0;" text="Autres durées"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="4">
+                           <children>
+                              <Button text="En continu" onAction="#setDuree" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="À vie" onAction="#setDuree" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Si besoin" onAction="#setDuree" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="À renouveler" onAction="#setDuree" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Instructions -->
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Instructions"/>
+                        <TextArea fx:id="txtInstructions" promptText="Instructions additionnelles..." prefRowCount="3"
+                                  style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5;"/>
+                        <TilePane hgap="8.0" vgap="8.0" prefColumns="4">
+                           <children>
+                              <Button text="Après repas" onAction="#setInstruction" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Avant repas" onAction="#setInstruction" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="À jeun" onAction="#setInstruction" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Avec eau" onAction="#setInstruction" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Au coucher" onAction="#setInstruction" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Si douleur" onAction="#setInstruction" style="-fx-background-color: #ecf0f1; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Agiter avant usage" onAction="#setInstruction" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Voie orale" onAction="#setInstruction" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Usage externe" onAction="#setInstruction" style="-fx-background-color: #d5f4e6; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Ne pas dépasser" onAction="#setInstruction" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="À conserver au frais" onAction="#setInstruction" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                              <Button text="Matin et soir" onAction="#setInstruction" style="-fx-background-color: #ffeaa7; -fx-cursor: hand; -fx-padding: 5 10; -fx-font-size: 11px;"/>
+                           </children>
+                        </TilePane>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      
+      <!-- Buttons -->
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handleCancel" 
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="Annuler"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnPrevious" mnemonicParsing="false" onAction="#handlePrevious" 
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="◄ Précédent" visible="false"/>
+            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#handleNext" 
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="Suivant ►"/>
+            <Button fx:id="btnFinish" mnemonicParsing="false" onAction="#handleFinish" 
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="✓ Terminer" visible="false"/>
+         </children>
+      </HBox>
+   </children>
+</VBox>

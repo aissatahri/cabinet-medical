@@ -91,6 +91,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -307,6 +309,10 @@ public class DossierController implements Initializable {
     private TableColumn<Paiements, Double> clmVersementPayment;
     @FXML
     private TableColumn<Paiements, Double> clmRestePayment;
+    @FXML
+    private TabPane mainTabPane;
+    @FXML
+    private Tab tabPayment;
 
     private ObservableList<RendezVous> rendezVousList;
     private RendezVousService rendezVousService;
@@ -366,7 +372,7 @@ public class DossierController implements Initializable {
         // Charger les données dans la TableView
         loadRendezVousData();
 
-        loadPaiments();
+        // loadPaiments(); - Déjà appelé dans loadConsultations()
 
     }
 
@@ -383,6 +389,7 @@ public class DossierController implements Initializable {
         initializeRendezVousTable();
         initializePaiementsTable();
         initializeActesTable();
+        initializeTabPaneListener();
     }
 
     private void initializeServices() {
@@ -561,6 +568,16 @@ public class DossierController implements Initializable {
 
     private void initializeActesTable() {
         TableViewConfigurator.configureActesTable(tvActes, clmActe, clmMontantActe);
+    }
+
+    private void initializeTabPaneListener() {
+        // Ajouter un listener pour détecter le changement d'onglet
+        mainTabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+            if (newTab == tabPayment && this.patient != null) {
+                System.out.println("Onglet Payment sélectionné - Chargement des paiements...");
+                loadPaiments();
+            }
+        });
     }
 
     private void loadDataIntoTableView(Consultations consultations) {
@@ -758,22 +775,28 @@ public class DossierController implements Initializable {
 
     @FXML
     private void ajouterConsultation(ActionEvent event) {
-        double poids = MedicalFieldValidator.parseDecimal(tfPoid.getText());
-        double taille = MedicalFieldValidator.parseDecimal(tfTaille.getText()) / 100;
+        // Parse optional vital signs fields
+        double poids = tfPoid.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfPoid.getText());
+        double taille = tfTaille.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTaille.getText());
 
-        double imc = MedicalCalculationService.calculateIMC(poids, taille);
-        tfImc.setText(String.format("%.2f", imc));
+        // Calculate IMC only if both poids and taille are provided
+        double imc = 0.0;
+        if (poids > 0 && taille > 0) {
+            double tailleM = taille / 100;
+            imc = MedicalCalculationService.calculateIMC(poids, tailleM);
+            tfImc.setText(String.format("%.2f", imc));
+        }
 
         this.consultation = new Consultations();
         consultation.setPoids(poids);
-        consultation.setTaille(taille * 100);
+        consultation.setTaille(taille);
         consultation.setImc(imc);
-        consultation.setFrequencequardiaque(MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
+        consultation.setFrequencequardiaque(tfFrquenceCardiaque.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
         consultation.setPression(tfPressionPatient.getText());
-        consultation.setFrequencerespiratoire(MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
-        consultation.setGlycimie(MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
-        consultation.setTemperature(MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
-        consultation.setSaO(MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
+        consultation.setFrequencerespiratoire(tfFrequenceRespiratoire.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
+        consultation.setGlycimie(tfGlycimie.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
+        consultation.setTemperature(tfTmperature.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
+        consultation.setSaO(tfSaOpatient.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
         consultation.setSymptome(txtSymptomes.getText());
         consultation.setExamenClinique(txtExamenClinique.getText());
         consultation.setDiagnostique(txtDiagnostiqueMedical.getText());
@@ -909,19 +932,19 @@ public class DossierController implements Initializable {
             return;
         }
 
-        // Lors de la validation des modifications
-        selectedConsultation.setPoids(MedicalFieldValidator.parseDecimal(tfPoid.getText()));
-        selectedConsultation.setTaille(MedicalFieldValidator.parseDecimal(tfTaille.getText()));
-        selectedConsultation.setImc(MedicalFieldValidator.parseDecimal(tfImc.getText()));
-        selectedConsultation.setTemperature(MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
+        // Lors de la validation des modifications (with optional fields)
+        selectedConsultation.setPoids(tfPoid.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfPoid.getText()));
+        selectedConsultation.setTaille(tfTaille.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTaille.getText()));
+        selectedConsultation.setImc(tfImc.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfImc.getText()));
+        selectedConsultation.setTemperature(tfTmperature.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
         selectedConsultation.setPression(tfPressionPatient.getText());
-        selectedConsultation.setFrequencequardiaque(MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
-        selectedConsultation.setFrequencerespiratoire(MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
+        selectedConsultation.setFrequencequardiaque(tfFrquenceCardiaque.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
+        selectedConsultation.setFrequencerespiratoire(tfFrequenceRespiratoire.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
         selectedConsultation.setExamenClinique(txtExamenClinique.getText());
         selectedConsultation.setSymptome(txtSymptomes.getText());
         selectedConsultation.setDiagnostique(txtDiagnostiqueMedical.getText());
-        selectedConsultation.setGlycimie(MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
-        selectedConsultation.setSaO(MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
+        selectedConsultation.setGlycimie(tfGlycimie.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
+        selectedConsultation.setSaO(tfSaOpatient.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
         selectedConsultation.setCat(txtCat.getText());
         selectedConsultation.setPatient(patient);
         selectedConsultation.setDateConsultation(dateConsultaion.getValue());
@@ -988,11 +1011,50 @@ public class DossierController implements Initializable {
         //tvConsultationPaiement.setItems(consultationsObservableList);
         initializeConsultationsDates(this.patient.getPatientID());
         getConsultationSelected();
+        
+        // Les paiements seront chargés automatiquement quand l'utilisateur clique sur l'onglet Payment
+        // via le listener initializeTabPaneListener()
     }
 
     public void loadPaiments() {
+        if (this.patient == null) {
+            System.out.println("loadPaiments: Patient is null!");
+            return;
+        }
+        
+        System.out.println("loadPaiments: Loading payments for patient ID=" + this.patient.getPatientID());
+        
+        // Vérifier et créer les paiements manquants pour les consultations sans paiement
+        List<Consultations> consultations = consultationService.findAllByIdPatient(this.patient.getPatientID());
+        for (Consultations consultation : consultations) {
+            List<Paiements> existingPaiements = paiementsService.getPaiementsByConsultation(consultation);
+            if (existingPaiements.isEmpty()) {
+                // Créer un paiement par défaut pour cette consultation
+                System.out.println("  Création d'un paiement par défaut pour la consultation ID=" + consultation.getConsultationID());
+                Paiements paiement = new Paiements();
+                paiement.setConsultation(consultation);
+                paiement.setDatePaiement(consultation.getDateConsultation());
+                paiement.setEtatPayment(false);
+                paiement.setModePaiement(ModePaiement.ESPECES);
+                paiement.setMontant(0.0);
+                paiement.setReste(0.0);
+                paiement.setVersment(0.0);
+                paiementsService.savePaiement(paiement);
+            }
+        }
+        
         List<Paiements> paiementsList = paiementsService.getPaiementsByConsultation(this.patient);
-        System.out.println("taille loadPaiments " + paiementsList.size());
+        System.out.println("loadPaiments: Found " + paiementsList.size() + " payments");
+        
+        if (!paiementsList.isEmpty()) {
+            for (int i = 0; i < Math.min(3, paiementsList.size()); i++) {
+                Paiements p = paiementsList.get(i);
+                System.out.println("  Payment " + (i+1) + ": ID=" + p.getPaiementID() + 
+                                 ", Montant=" + p.getMontant() + 
+                                 ", Date=" + p.getDatePaiement());
+            }
+        }
+        
         ObservableList<Paiements> paiementObservableList = FXCollections.observableArrayList(paiementsList);
         tvConsultationPaiement.setItems(paiementObservableList);
         if (!paiementObservableList.isEmpty()) {

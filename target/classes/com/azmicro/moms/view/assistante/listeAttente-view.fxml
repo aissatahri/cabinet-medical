@@ -110,6 +110,7 @@
                               <TableColumn fx:id="nomClm" prefWidth="75.0" text="Nom" />
                               <TableColumn fx:id="prenomClm" prefWidth="72.66666412353516" text="Prénom" />
                               <TableColumn fx:id="birthClm" prefWidth="125.99998474121094" text="Date Naissance" />
+                              <TableColumn fx:id="dateConsultationClm" prefWidth="120.0" text="Date Consultation" />
                               <TableColumn fx:id="telephoneClm" prefWidth="75.0" text="Téléphone" />
                               <TableColumn fx:id="adressClm" prefWidth="75.0" text="Adresse" />
                               <TableColumn fx:id="sexeClm" prefWidth="75.0" text="Sexe" />

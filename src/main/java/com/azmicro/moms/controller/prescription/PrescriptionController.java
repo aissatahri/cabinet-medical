@@ -237,23 +237,57 @@ public class PrescriptionController implements Initializable {
 
     private Button createSnippetButton(String text, String color, TextArea targetArea) {
         Button btn = new Button(text);
-        btn.setStyle(
+        
+        String baseStyle = 
             "-fx-background-color: " + color + ";" +
             "-fx-text-fill: white;" +
             "-fx-font-size: 10px;" +
             "-fx-padding: 4 8 4 8;" +
             "-fx-background-radius: 4;" +
-            "-fx-cursor: hand;"
-        );
+            "-fx-cursor: hand;";
+        
+        btn.setStyle(baseStyle);
+        
+        // Effet hover - couleur plus claire
+        btn.setOnMouseEntered(e -> {
+            btn.setStyle(baseStyle + "-fx-opacity: 0.8; -fx-scale-x: 1.05; -fx-scale-y: 1.05;");
+        });
+        
+        btn.setOnMouseExited(e -> {
+            btn.setStyle(baseStyle);
+        });
+        
+        // Effet pressed - couleur plus foncée
+        btn.setOnMousePressed(e -> {
+            btn.setStyle(baseStyle + "-fx-opacity: 0.6; -fx-scale-x: 0.95; -fx-scale-y: 0.95;");
+        });
+        
+        btn.setOnMouseReleased(e -> {
+            btn.setStyle(baseStyle + "-fx-opacity: 0.8; -fx-scale-x: 1.05; -fx-scale-y: 1.05;");
+        });
+        
         btn.setOnAction(e -> {
             String current = targetArea.getText();
             String snippet = text + " ";
             if (!current.isEmpty() && !current.endsWith("\n") && !current.endsWith(" ")) {
                 snippet = " " + snippet;
             }
+            
+            // Sauvegarder le style original
+            String originalStyle = targetArea.getStyle();
+            
+            // Ajouter le texte
             targetArea.appendText(snippet);
             targetArea.requestFocus();
             targetArea.positionCaret(targetArea.getLength());
+            
+            // Animation flash pour montrer que le texte a été ajouté
+            targetArea.setStyle(originalStyle + "-fx-border-color: " + color + "; -fx-border-width: 2px;");
+            
+            // Retour au style original après 500ms
+            javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(Duration.millis(500));
+            pause.setOnFinished(ev -> targetArea.setStyle(originalStyle));
+            pause.play();
         });
         return btn;
     }
@@ -386,17 +420,28 @@ public class PrescriptionController implements Initializable {
                 }
                 
                 String instructions = instructionArea.getText();
-                prescription.setDescription(instructions);
                 
                 String[] lines = instructions.split("\n");
-                if (lines.length > 0) {
-                    prescription.setDose(lines[0].length() > 100 ? lines[0].substring(0, 100) : lines[0]);
+                String dose = "";
+                String duree = "";
+                String description = "";
+                
+                // Parse each line and extract values by removing prefixes
+                for (String line : lines) {
+                    line = line.trim();
+                    if (line.startsWith("Posologie:")) {
+                        dose = line.substring("Posologie:".length()).trim();
+                    } else if (line.startsWith("Durée:")) {
+                        duree = line.substring("Durée:".length()).trim();
+                    } else if (line.startsWith("Instructions:")) {
+                        description = line.substring("Instructions:".length()).trim();
+                    }
                 }
-                if (lines.length > 1) {
-                    prescription.setDuree(lines[1].length() > 50 ? lines[1].substring(0, 50) : lines[1]);
-                } else {
-                    prescription.setDuree("");
-                }
+                
+                // Set cleaned values
+                prescription.setDose(dose.length() > 100 ? dose.substring(0, 100) : dose);
+                prescription.setDuree(duree.length() > 50 ? duree.substring(0, 50) : duree);
+                prescription.setDescription(description);
 
                 try {
                     boolean result = prescriptionService.savePrescription(prescription);
@@ -497,5 +542,137 @@ public class PrescriptionController implements Initializable {
             
             instructionArea.setText(instructions.toString());
         }
+    }
+
+    @FXML
+    private void openTemplateMode(ActionEvent event) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/prescription/template-selection-dialog.fxml")
+            );
+            
+            javafx.scene.Parent root = loader.load();
+            TemplateSelectionController controller = loader.getController();
+            
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("Choisir un Template");
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            
+            com.azmicro.moms.model.PrescriptionTemplate template = controller.getSelectedTemplate();
+            if (template != null) {
+                for (com.azmicro.moms.model.MedicamentTemplate medTemplate : template.getMedicaments()) {
+                    createPrescriptionLineFromTemplate(medTemplate);
+                }
+                showInfo("Template appliqué avec succès! " + template.getMedicaments().size() + " médicaments ajoutés.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture du mode template: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void openBatchMode(ActionEvent event) {
+        try {
+            // Step 1: Select medications
+            javafx.fxml.FXMLLoader loader1 = new javafx.fxml.FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/prescription/batch-selection-dialog.fxml")
+            );
+            
+            javafx.scene.Parent root1 = loader1.load();
+            BatchSelectionController controller1 = loader1.getController();
+            
+            javafx.stage.Stage stage1 = new javafx.stage.Stage();
+            stage1.setTitle("Sélection Multiple");
+            stage1.setScene(new javafx.scene.Scene(root1));
+            stage1.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage1.showAndWait();
+            
+            List<String> selectedMeds = controller1.getSelectedMedicaments();
+            if (selectedMeds == null || selectedMeds.isEmpty()) {
+                return;
+            }
+            
+            // Step 2: Fill posology for each
+            javafx.fxml.FXMLLoader loader2 = new javafx.fxml.FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/prescription/posology-form-dialog.fxml")
+            );
+            
+            javafx.scene.Parent root2 = loader2.load();
+            PosologyFormController controller2 = loader2.getController();
+            controller2.setMedicaments(selectedMeds);
+            
+            javafx.stage.Stage stage2 = new javafx.stage.Stage();
+            stage2.setTitle("Posologie Rapide");
+            stage2.setScene(new javafx.scene.Scene(root2));
+            stage2.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage2.showAndWait();
+            
+            List<com.azmicro.moms.model.MedicamentTemplate> completed = controller2.getCompletedMedicaments();
+            if (completed != null && !completed.isEmpty()) {
+                for (com.azmicro.moms.model.MedicamentTemplate medTemplate : completed) {
+                    createPrescriptionLineFromTemplate(medTemplate);
+                }
+                showInfo("Ajout réussi! " + completed.size() + " médicaments ajoutés avec posologie.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture du mode batch: " + e.getMessage());
+        }
+    }
+
+    private void createPrescriptionLineFromTemplate(com.azmicro.moms.model.MedicamentTemplate template) {
+        VBox line = createPrescriptionLine();
+        
+        // Get controls
+        DatePicker datePicker = (DatePicker) line.getChildren().get(3);
+        ComboBox<String> medCombo = (ComboBox<String>) line.getChildren().get(5);
+        TextArea instructionArea = (TextArea) line.getChildren().get(7);
+        
+        // Set medication name
+        medCombo.getEditor().setText(template.getNomMedicament());
+        medCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+        
+        // Build instruction text
+        StringBuilder instructions = new StringBuilder();
+        if (template.getPosologie() != null && !template.getPosologie().isEmpty()) {
+            instructions.append("Posologie: ").append(template.getPosologie()).append("\n");
+        }
+        if (template.getDuree() != null && !template.getDuree().isEmpty()) {
+            instructions.append("Durée: ").append(template.getDuree()).append("\n");
+        }
+        if (template.getInstructions() != null && !template.getInstructions().isEmpty()) {
+            instructions.append("Instructions: ").append(template.getInstructions());
+        }
+        
+        instructionArea.setText(instructions.toString());
+        
+        // Animate
+        FadeTransition fade = new FadeTransition(Duration.millis(400), line);
+        fade.setFromValue(0.0);
+        fade.setToValue(1.0);
+        fade.play();
+        
+        updateMedicamentCount();
+    }
+
+    private void showInfo(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(rootPane.getScene().getWindow());
+        alert.showAndWait();
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(rootPane.getScene().getWindow());
+        alert.showAndWait();
     }
 }

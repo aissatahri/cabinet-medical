@@ -16,7 +16,6 @@ import com.azmicro.moms.model.Patient;
 import com.azmicro.moms.model.Prescriptions;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.LineSeparator;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
@@ -36,6 +35,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.properties.VerticalAlignment;
 
 public class PdfGenerator {
@@ -68,94 +68,161 @@ public class PdfGenerator {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String dateStr = dateFormat.format(new Date());
         
-        SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyy");
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
         String dateSt = date.format(new Date());
         String pdfPath = patientDir.getPath() + "/ordonnance_" + dateStr + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A5);
 
-        // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
-        document.setMargins(140f, 40, 48.24f, 20);
+        // Set margins
+        document.setMargins(140f, 30, 50f, 30);
 
-        float fontSize = 8f;
+        float fontSize = 9f;
 
-        // Date paragraph, positioned at 4 cm from the top
-        Paragraph dateParagraph = new Paragraph(" " + dateSt)
+        // En-tête avec date
+        Paragraph dateParagraph = new Paragraph(dateSt)
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize + 2)
-                .setBold();
-
-        // Add date at 4 cm from the top
+                .setFontSize(fontSize + 1)
+                .setBold()
+                .setMarginBottom(15);
         document.add(dateParagraph);
 
-        // Add empty paragraph to create space between date and patient info (1 cm space)
-        document.add(new Paragraph("").setFontSize(12f));
+        // Informations patient - Encadré
+        Table patientTable = new Table(UnitValue.createPercentArray(new float[]{1}));
+        patientTable.setWidth(UnitValue.createPercentValue(100));
+        
+        Cell patientCell = new Cell()
+                .add(new Paragraph()
+                    .add(new Text(patient.getNom().toUpperCase() + " " + patient.getPrenom())
+                        .setFontSize(14)
+                        .setBold())
+                    .add(new Text("\n" + patient.getAge() + " ans")
+                        .setFontSize(fontSize))
+                    .add(new Text(patient.getSexe() != null ? " • " + patient.getSexe() : "")
+                        .setFontSize(fontSize)))
+                .setBackgroundColor(new DeviceRgb(240, 248, 255))
+                .setPadding(10)
+                .setBorder(new SolidBorder(new DeviceRgb(22, 160, 133), 1));
+        
+        patientTable.addCell(patientCell);
+        document.add(patientTable);
+        
+        // Espacement
+        document.add(new Paragraph("\n").setFontSize(8));
 
-        // Create the name and age text with different font sizes
-        Text nameText = new Text(patient.getNom() + " " + patient.getPrenom())
-                .setFontSize(16) // Bold and size 16 for the name
-                .setBold();
-
-        Text ageText = new Text(" (" + patient.getAge() + " ans)")
-                .setFontSize(fontSize + 3);  // Smaller font size for age
-
-        // Combine the name and age into one paragraph
-        Paragraph patientInfo = new Paragraph()
-                .add(nameText)
-                .add(ageText)
-                .setMarginLeft(85.04f) // Set left margin to 3 cm
-                .setTextAlignment(TextAlignment.LEFT);
-
-        // Add the patient info paragraph to the document
-        document.add(patientInfo);
-
-        document.add(new Paragraph("\n").setFontSize(fontSize));
-
+        // Liste des prescriptions
+        int index = 1;
         for (Prescriptions prescription : prescriptions) {
-            String description = (prescription.getDescription() != null) ? prescription.getDescription() : "";
-
-            // Création d'un paragraphe pour le nom et la forme de dosage du médicament avec une puce
-            Paragraph prescriptionParagraph = new Paragraph()
-                    .setFontSize(fontSize + 2)
-                    .add("- " + prescription.getMedicament().getNomMedicament() + " " + prescription.getMedicament().getFormeDosage());
-
-            // Création d'un nouveau paragraphe pour la dose et la durée
-            Paragraph doseDurationParagraph = new Paragraph()
-                    .setFontSize(fontSize + 2)
-                    .add(" - " + prescription.getDose() + " " + prescription.getDuree())
-                    .setMarginLeft(50); // Décalage à gauche pour simuler une tabulation
-
-            // Ajout du paragraphe pour la description (si elle est présente)
-            Paragraph descriptionParagraph = new Paragraph()
-                    .setFontSize(fontSize + 2)
-                    .setMarginLeft(50); // Décalage à gauche pour simuler une tabulation
-            if (!description.isEmpty()) {
-                descriptionParagraph.add(" - " + description);
+            // Clean description - extract ONLY the Instructions line, ignore Posologie and Durée lines
+            String description = "";
+            if (prescription.getDescription() != null && !prescription.getDescription().trim().isEmpty()) {
+                String fullDesc = prescription.getDescription();
+                String[] descLines = fullDesc.split("\n");
+                
+                for (String line : descLines) {
+                    line = line.trim();
+                    // Only keep the Instructions line
+                    if (line.startsWith("Instructions:")) {
+                        description = line.substring("Instructions:".length()).trim();
+                        break; // Stop after finding instructions
+                    }
+                }
+            }
+            
+            // Clean dose by removing prefix and any embedded duplicates
+            String dose = prescription.getDose() != null ? prescription.getDose() : "";
+            if (dose.startsWith("Posologie:")) {
+                dose = dose.substring("Posologie:".length()).trim();
+            }
+            // Remove any "• Posologie: ..." that might be embedded
+            if (dose.contains("• Posologie:")) {
+                dose = dose.substring(0, dose.indexOf("• Posologie:")).trim();
+            }
+            // Remove any "Posologie: ..." that might be embedded  
+            if (dose.contains("Posologie:")) {
+                dose = dose.substring(0, dose.indexOf("Posologie:")).trim();
+            }
+            // Remove any "• Durée: ..." that might be embedded
+            if (dose.contains("• Durée:")) {
+                dose = dose.substring(0, dose.indexOf("• Durée:")).trim();
+            }
+            // Remove any "Durée: ..." that might be embedded
+            if (dose.contains("Durée:")) {
+                dose = dose.substring(0, dose.indexOf("Durée:")).trim();
+            }
+            // Remove any "• Instructions: ..." that might be embedded
+            if (dose.contains("• Instructions:")) {
+                dose = dose.substring(0, dose.indexOf("• Instructions:")).trim();
+            }
+            // Remove any "Instructions: ..." that might be embedded
+            if (dose.contains("Instructions:")) {
+                dose = dose.substring(0, dose.indexOf("Instructions:")).trim();
+            }
+            
+            // Clean duree by removing prefix if exists
+            String duree = prescription.getDuree() != null ? prescription.getDuree() : "";
+            if (duree.startsWith("Durée:")) {
+                duree = duree.substring("Durée:".length()).trim();
             }
 
-            // Ajout des paragraphes au document dans l'ordre voulu
-            document.add(prescriptionParagraph);
-            document.add(doseDurationParagraph);
-            if (!description.isEmpty()) {
-                document.add(descriptionParagraph);
+            // Numéro et nom du médicament
+            Paragraph medNamePara = new Paragraph()
+                    .add(new Text(index + ". ")
+                        .setFontSize(fontSize + 1)
+                        .setBold()
+                        .setFontColor(new DeviceRgb(22, 160, 133)))
+                    .add(new Text(prescription.getMedicament().getNomMedicament())
+                        .setFontSize(fontSize + 2)
+                        .setBold())
+                    .add(new Text(" " + prescription.getMedicament().getFormeDosage())
+                        .setFontSize(fontSize)
+                        .setItalic())
+                    .setMarginBottom(3);
+            document.add(medNamePara);
+
+            // Construire la posologie complète sur une seule ligne
+            StringBuilder posologyText = new StringBuilder();
+            posologyText.append(dose);
+            
+            // Ajouter la durée seulement si elle n'est pas vide et pas déjà dans dose
+            if (!duree.trim().isEmpty() && !dose.toLowerCase().contains(duree.toLowerCase())) {
+                if (posologyText.length() > 0) {
+                    posologyText.append(" • pdt ");
+                }
+                posologyText.append(duree);
             }
+            
+            Paragraph posologyPara = new Paragraph()
+                    .add(new Text("   ➤ ")
+                        .setFontColor(new DeviceRgb(52, 152, 219)))
+                    .add(new Text(posologyText.toString())
+                        .setFontSize(fontSize + 1));
+            
+            // Ajouter les instructions sur la même ligne si elles existent
+            if (!description.isEmpty()) {
+                posologyPara.add(new Text("  •  ")
+                        .setFontColor(new DeviceRgb(241, 196, 15)))
+                    .add(new Text(description)
+                        .setFontSize(fontSize)
+                        .setItalic()
+                        .setFontColor(new DeviceRgb(52, 73, 94)));
+            }
+            
+            posologyPara.setMarginLeft(10).setMarginBottom(5);
+            document.add(posologyPara);
+
+            // Ligne de séparation entre les médicaments
+            if (index < prescriptions.size()) {
+                document.add(new Paragraph("")
+                    .setMarginTop(3)
+                    .setMarginBottom(6)
+                    .setBorderBottom(new SolidBorder(new DeviceRgb(236, 240, 241), 1)));
+            }
+            
+            index++;
         }
 
-//        document.add(new Paragraph("\n").setFontSize(fontSize + 2));
-//        document.add(new Paragraph("\n").setFontSize(48.24f + 30));
-//
-//        // Add signature
-//        Paragraph signature = new Paragraph("Signature du médecin : _____________________\n\n")
-//                .setTextAlignment(TextAlignment.RIGHT)
-//                .setFontSize(fontSize);
-//        document.add(signature);
-//
-//        // Add stamp
-//        Paragraph stamp = new Paragraph("[Cachet du médecin]")
-//                .setTextAlignment(TextAlignment.RIGHT)
-//                .setFontSize(fontSize);
-//        document.add(stamp);
         document.close();
 
         return pdfPath;
@@ -169,15 +236,15 @@ public class PdfGenerator {
             patientDir.mkdirs();
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(new Date());
-        String pdfPath = patientDir.getPath() + "/demande_imagerie_" + dateStr + ".pdf";
+        String pdfPath = patientDir.getPath() + "/demande_imagerie_" + dateStr.replace("/", "-") + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A5);
 
         // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
-        document.setMargins(113.39f, 20, 48.24f, 20);
+        document.setMargins(140f, 30, 50f, 30);
 
         float fontSize = 8f;
 
@@ -230,12 +297,21 @@ public class PdfGenerator {
 
         document.add(new Paragraph("\n").setFontSize(fontSize));
 
-        // Add imageries
+        // Add imageries with improved formatting
+        int index = 1;
         for (Imagerie imagerie : imageries) {
+            String displayText = imagerie.getTypeImagerie().getCodeImagerieFr() + " - " + imagerie.getTypeImagerie().getNomImagerieFr();
             Paragraph imagerieParagraph = new Paragraph()
-                    .setFontSize(fontSize + 2)
-                    .add("\t - " + imagerie.getTypeImagerie().getCodeImagerieFr());
+                    .add(new Text(index + ". ")
+                        .setFontSize(fontSize + 2)
+                        .setBold()
+                        .setFontColor(new DeviceRgb(22, 160, 133)))
+                    .add(new Text(displayText)
+                        .setFontSize(fontSize + 2))
+                    .setMarginLeft(10)
+                    .setMarginBottom(5);
             document.add(imagerieParagraph);
+            index++;
         }
 
         document.add(new Paragraph("\n").setFontSize(fontSize + 2));
@@ -266,15 +342,15 @@ public class PdfGenerator {
             patientDir.mkdirs();
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(new Date());
-        String pdfPath = patientDir.getPath() + "/demande_analyse_" + dateStr + ".pdf";
+        String pdfPath = patientDir.getPath() + "/demande_analyse_" + dateStr.replace("/", "-") + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A5);
 
         // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
-        document.setMargins(113.39f, 20, 48.24f, 20);
+        document.setMargins(140f, 30, 50f, 30);
 
         float fontSize = 8f;
 
@@ -327,12 +403,21 @@ public class PdfGenerator {
 
         document.add(new Paragraph("\n").setFontSize(fontSize));
 
-        // Add analyses
+        // Add analyses with improved formatting
+        int index = 1;
         for (Analyse analyse : bilans) {
+            String displayText = analyse.getTypeAnalyse().getCodeAnalyseFr() + " - " + analyse.getTypeAnalyse().getNomAnalyseFr();
             Paragraph analyseParagraph = new Paragraph()
-                    .setFontSize(fontSize + 2)
-                    .add("\t - " + analyse.getTypeAnalyse().getCodeAnalyseFr());
+                    .add(new Text(index + ". ")
+                        .setFontSize(fontSize + 2)
+                        .setBold()
+                        .setFontColor(new DeviceRgb(22, 160, 133)))
+                    .add(new Text(displayText)
+                        .setFontSize(fontSize + 2))
+                    .setMarginLeft(10)
+                    .setMarginBottom(5);
             document.add(analyseParagraph);
+            index++;
         }
 
         document.add(new Paragraph("\n").setFontSize(fontSize + 2));
@@ -387,7 +472,9 @@ public class PdfGenerator {
         document.add(title);
         document.add(dateParagraph);
 
-        document.add(new LineSeparator(new CustomLineDrawer(1f, new DeviceRgb(0, 0, 0))));
+        document.add(new Paragraph("")
+            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
+            .setMarginBottom(10));
         document.add(new Paragraph("\n").setFontSize(fontSize));
 
         // Informations du patient
@@ -437,96 +524,100 @@ public class PdfGenerator {
         }
 
         // Générer la date et un horodatage pour le nom du fichier
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(new Date());
         String uniqueTimeStamp = "_" + System.currentTimeMillis(); // Ajouter un horodatage unique
-        String pdfPath = patientDir.getPath() + "/facture_" + dateStr + uniqueTimeStamp + ".pdf";
+        String pdfPath = patientDir.getPath() + "/facture_" + dateStr.replace("/", "-") + uniqueTimeStamp + ".pdf";
 
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A5);
-        document.setMargins(127, 20, 48.24f, 20);
+        // Réduire les marges pour maximiser l'espace sur une seule page
+        document.setMargins(80, 20, 30, 20);
 
-        float fontSize = 8f;
+        float fontSize = 7f;
 
-        // Titre "Facture" centré et date alignée à droite sur la même ligne
-        Paragraph title = new Paragraph("Facture")
+        // Titre "Facture" centré et date sur la même ligne (compact)
+        Table headerTable = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
+        headerTable.setWidth(UnitValue.createPercentValue(100));
+        headerTable.setBorder(Border.NO_BORDER);
+        
+        Cell titleCell = new Cell().add(new Paragraph("Facture")
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
-                .setFontSize(fontSize + 4);
-
-        Paragraph dateParagraph = new Paragraph("Date : " + dateStr)
+                .setFontSize(fontSize + 4))
+                .setBorder(Border.NO_BORDER);
+        
+        Cell dateCell = new Cell().add(new Paragraph("Date : " + dateStr)
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize + 2);
+                .setFontSize(fontSize + 1))
+                .setBorder(Border.NO_BORDER);
+        
+        headerTable.addCell(titleCell);
+        headerTable.addCell(dateCell);
+        document.add(headerTable);
 
-        document.add(new Paragraph("\n").setFontSize(fontSize));
-        document.add(title);
-        document.add(dateParagraph);
+        // Ligne séparatrice compacte
+        document.add(new Paragraph("")
+            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
+            .setMarginTop(3)
+            .setMarginBottom(5));
 
-        // Ajouter une ligne séparatrice
-        LineSeparator lineSeparator = new LineSeparator(new CustomLineDrawer(1f, new DeviceRgb(0, 0, 0)));
-        document.add(lineSeparator);
-
-        document.add(new Paragraph("\n").setFontSize(fontSize));
-
-        // Informations du patient
-        Paragraph patientInfo = new Paragraph("Patient : " + patient.getNom() + " " + patient.getPrenom() + "\n"
-                + "Âge : " + patient.getAge() + " ans")
+        // Informations du patient compactes
+        Paragraph patientInfo = new Paragraph("Patient : " + patient.getNom() + " " + patient.getPrenom() + " - Âge : " + patient.getAge() + " ans")
                 .setTextAlignment(TextAlignment.LEFT)
-                .setFontSize(fontSize + 3);
+                .setFontSize(fontSize + 1)
+                .setMarginBottom(8);
         document.add(patientInfo);
 
-        document.add(new Paragraph("\n").setFontSize(fontSize));
+        // Créer un tableau compact
+        Table table = new Table(new float[]{3, 1});  // Description plus large, montant plus étroit
+        table.setWidth(UnitValue.createPercentValue(100));
+        table.setFontSize(fontSize);
 
-        // Créer un tableau qui s'ajuste à la largeur de la fenêtre
-        Table table = new Table(new float[]{1, 1});  // Deux colonnes de même largeur
-        table.setWidth(UnitValue.createPercentValue(100));  // 100% de la largeur disponible
-        table.setFontSize(fontSize + 3);
-
-        table.addCell(new Cell().add(new Paragraph("Description")));
-        table.addCell(new Cell().add(new Paragraph("Montant (DH)")));
+        // En-têtes du tableau
+        table.addCell(new Cell().add(new Paragraph("Description").setBold()).setPadding(3));
+        table.addCell(new Cell().add(new Paragraph("Montant (DH)").setBold()).setPadding(3));
 
         // Calculer le montant total
         double totalMontant = 0;
 
-        // Ajouter chaque acte à la facture
+        // Ajouter chaque acte à la facture avec padding réduit
         for (ConsultationActe acte : selectedConsultationActes) {
-            table.addCell(new Cell().add(new Paragraph(acte.getActe().getNomActe())));
-            // Aligner le montant à droite
+            table.addCell(new Cell().add(new Paragraph(acte.getActe().getNomActe())).setPadding(3));
             Cell montantCell = new Cell().add(new Paragraph(String.valueOf(acte.getActe().getPrix())))
-                    .setTextAlignment(TextAlignment.RIGHT);
+                    .setTextAlignment(TextAlignment.RIGHT)
+                    .setPadding(3);
             table.addCell(montantCell);
-
-            // Ajouter au total
             totalMontant += acte.getActe().getPrix();
         }
 
-        // Ajouter la ligne de total au tableau
-        table.addCell(new Cell().add(new Paragraph("Total"))
-                .setBold()
-                .setTextAlignment(TextAlignment.RIGHT));
-        table.addCell(new Cell().add(new Paragraph(String.format("%.2f DH", totalMontant)))
-                .setBold()
-                .setTextAlignment(TextAlignment.RIGHT));
+        // Ligne de total
+        table.addCell(new Cell().add(new Paragraph("Total").setBold())
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setPadding(5)
+                .setBackgroundColor(new DeviceRgb(240, 240, 240)));
+        table.addCell(new Cell().add(new Paragraph(String.format("%.2f DH", totalMontant)).setBold())
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setPadding(5)
+                .setBackgroundColor(new DeviceRgb(240, 240, 240)));
 
         document.add(table);
 
-        document.add(new Paragraph("\n").setFontSize(fontSize + 2));
+        // Espace flexible avant la signature (s'adapte à l'espace disponible)
+        document.add(new Paragraph("\n").setMarginTop(15));
 
-        // Ajouter de l'espace pour positionner la signature et le cachet près de la marge inférieure
-        float spaceAboveFooter = 48.24f + 30; // Ajuster pour positionner la signature et le cachet au-dessus de la marge inférieure
-        document.add(new Paragraph("\n").setFontSize(spaceAboveFooter));
-
-        // Signature
-        Paragraph signature = new Paragraph("Signature du médecin : _____________________\n\n")
+        // Signature et cachet compacts
+        Paragraph signature = new Paragraph("Signature du médecin : _____________________")
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize);
+                .setFontSize(fontSize)
+                .setMarginTop(10);
         document.add(signature);
 
-        // Placeholder pour le cachet du médecin
         Paragraph stamp = new Paragraph("[Cachet du médecin]")
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize);
+                .setFontSize(fontSize)
+                .setMarginTop(5);
         document.add(stamp);
 
         // Fermer le document
@@ -669,7 +760,9 @@ public class PdfGenerator {
                 .setFontSize(fontSize);
         document.add(dateParagraph);
 
-        document.add(new LineSeparator(new CustomLineDrawer(1f, new DeviceRgb(0, 0, 0))));
+        document.add(new Paragraph("")
+            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
+            .setMarginBottom(10));
         document.add(new Paragraph("\n").setFontSize(fontSize));
 
         // Contenu du certificat

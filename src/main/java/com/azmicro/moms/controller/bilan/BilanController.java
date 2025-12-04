@@ -4,6 +4,7 @@ import com.azmicro.moms.controller.medecin.DossierController;
 import com.azmicro.moms.dao.AnalyseDAOImpl;
 import com.azmicro.moms.model.Analyse;
 import com.azmicro.moms.model.Consultations;
+import com.azmicro.moms.model.TypeAnalyse;
 import com.azmicro.moms.service.AnalyseService;
 import java.net.URL;
 import java.sql.Connection;
@@ -45,6 +46,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class BilanController implements Initializable {
@@ -345,6 +347,8 @@ public class BilanController implements Initializable {
     }
 @FXML
 private void ajouterBilan(ActionEvent event) {
+    int savedCount = 0;
+    
     for (Node node : vboxLignesBilan.getChildren()) {
         if (node instanceof VBox) {
             VBox lineContainer = (VBox) node;
@@ -354,35 +358,69 @@ private void ajouterBilan(ActionEvent event) {
             TextArea resultArea = (TextArea) lineContainer.getChildren().get(7);
 
             String typeText = typeComboBox.getEditor().getText().trim();
+            System.out.println("DEBUG - Type: " + typeText + ", Date: " + datePicker.getValue() + ", Desc: " + resultArea.getText());
+            
             if (typeText.isEmpty()) {
+                System.out.println("DEBUG - Ligne ignorée car type vide");
                 continue;
             }
 
             Analyse analyse = new Analyse();
             
+            TypeAnalyse typeAnalyse = null;
             if (typeText.contains(":")) {
                 String[] parts = typeText.split(":", 2);
                 String nomAnalyse = parts[0].trim();
-                analyse.setTypeAnalyse(typeAnalyseService.findByNomAnalyseFr(nomAnalyse));
+                typeAnalyse = typeAnalyseService.findByNomAnalyseFr(nomAnalyse);
             } else {
-                analyse.setTypeAnalyse(typeAnalyseService.findByNomAnalyseFr(typeText));
+                typeAnalyse = typeAnalyseService.findByNomAnalyseFr(typeText);
             }
             
+            // Si le type n'existe pas en base, créer un nouveau type
+            if (typeAnalyse == null) {
+                typeAnalyse = new com.azmicro.moms.model.TypeAnalyse();
+                typeAnalyse.setNomAnalyseFr(typeText);
+                typeAnalyse.setCodeAnalyseFr("");
+                // Sauvegarder le nouveau type
+                if (typeAnalyseService.save(typeAnalyse)) {
+                    // Récupérer le type sauvegardé avec son ID
+                    typeAnalyse = typeAnalyseService.findByNomAnalyseFr(typeText);
+                }
+            }
+            
+            analyse.setTypeAnalyse(typeAnalyse);
             analyse.setDescription(resultArea.getText());
             analyse.setDateAnalyse(datePicker.getValue() != null ? datePicker.getValue() : LocalDate.now());
             analyse.setConsultationID(this.consultation.getConsultationID());
             
-            analyseService.saveAnalyse(analyse);
+            System.out.println("DEBUG - Sauvegarde analyse: TypeID=" + (typeAnalyse != null ? typeAnalyse.getIdTypeAnalyse() : "NULL") + ", ConsultationID=" + this.consultation.getConsultationID());
+            boolean saved = analyseService.saveAnalyse(analyse);
+            System.out.println("DEBUG - Résultat sauvegarde: " + saved);
+            if (saved) {
+                savedCount++;
+            }
         }
     }
 
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    final int count = savedCount;
+    Stage stage = (Stage) rootPane.getScene().getWindow();
+    final Window owner = stage.getOwner();
     stage.close();
 
     Platform.runLater(() -> {
         if (dossierController != null) {
             dossierController.refreshBilan();
             dossierController.initializeConsultationsDates(consultation.getPatient().getPatientID());
+        }
+        
+        // Afficher message de succès
+        if (count > 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText(count + " analyse(s) ajoutée(s) avec succès!");
+            alert.initOwner(owner);
+            alert.showAndWait();
         }
     });
 }
@@ -422,6 +460,84 @@ private void ajouterBilan(ActionEvent event) {
                 resultArea.setText(analyse.getResultat());
             }
         }
+    }
+
+    @FXML
+    private void openBatchMode(ActionEvent event) {
+        try {
+            // Step 1: Select analyses
+            FXMLLoader loader1 = new FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/bilan/batch-analyse-dialog.fxml")
+            );
+            
+            Parent root1 = loader1.load();
+            BatchAnalyseController controller1 = loader1.getController();
+            
+            Stage stage1 = new Stage();
+            stage1.setTitle("Sélection Multiple");
+            stage1.setScene(new javafx.scene.Scene(root1));
+            stage1.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage1.showAndWait();
+            
+            List<String> selectedAnalyses = controller1.getSelectedAnalyses();
+            if (selectedAnalyses == null || selectedAnalyses.isEmpty()) {
+                return;
+            }
+            
+            // Step 2: Fill descriptions
+            FXMLLoader loader2 = new FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/bilan/description-form-dialog.fxml")
+            );
+            
+            Parent root2 = loader2.load();
+            DescriptionFormController controller2 = loader2.getController();
+            controller2.setAnalyses(selectedAnalyses);
+            
+            Stage stage2 = new Stage();
+            stage2.setTitle("Description Rapide");
+            stage2.setScene(new javafx.scene.Scene(root2));
+            stage2.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage2.showAndWait();
+            
+            List<com.azmicro.moms.model.AnalyseTemplate> completed = controller2.getCompletedAnalyses();
+            if (completed != null && !completed.isEmpty()) {
+                for (com.azmicro.moms.model.AnalyseTemplate template : completed) {
+                    createAnalyseLineFromTemplate(template);
+                }
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succès");
+                alert.setHeaderText(null);
+                alert.setContentText(completed.size() + " analyse(s) ajoutée(s) avec succès!");
+                alert.initOwner(rootPane.getScene().getWindow());
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de l'ouverture du mode batch: " + e.getMessage());
+            alert.initOwner(rootPane.getScene().getWindow());
+            alert.showAndWait();
+        }
+    }
+
+    private void createAnalyseLineFromTemplate(com.azmicro.moms.model.AnalyseTemplate template) {
+        VBox line = createAnalyseLine();
+        
+        DatePicker datePicker = (DatePicker) line.getChildren().get(3);
+        ComboBox<String> typeCombo = (ComboBox<String>) line.getChildren().get(5);
+        TextArea descArea = (TextArea) line.getChildren().get(7);
+        
+        typeCombo.getEditor().setText(template.getTypeAnalyse());
+        typeCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+        
+        if (template.getDescription() != null && !template.getDescription().isEmpty()) {
+            descArea.setText(template.getDescription());
+        }
+        
+        updateAnalyseCount();
     }
 
 }

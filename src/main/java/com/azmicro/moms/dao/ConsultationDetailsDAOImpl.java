@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ConsultationDetailsDAOImpl implements ConsultationDetailsDAO {
 
-     private static final String QUERY = "SELECT "
+     private static final String QUERY = "SELECT DISTINCT "
             + "p.Nom AS NomPatient, "
             + "p.Prenom AS PrenomPatient, "
             + "c.DateConsultation, "
@@ -30,9 +30,9 @@ public class ConsultationDetailsDAOImpl implements ConsultationDetailsDAO {
             + "pa.ModePaiement AS ModePaiement, "
             + "pa.etatPayment AS EtatPaiement "
             + "FROM patients p "
-            + "JOIN filesattente f ON p.PatientID = f.PatientID "
-            + "JOIN consultations c ON f.PatientID = c.idPatient "
+            + "JOIN consultations c ON p.PatientID = c.idPatient "
             + "LEFT JOIN paiements pa ON c.ConsultationID = pa.ConsultationID "
+            + "JOIN filesattente f ON f.PatientID = p.PatientID AND DATE(f.DateArrivee) = DATE(c.DateConsultation) "
             + "WHERE f.Statut = 'TERMINE'";
 
     

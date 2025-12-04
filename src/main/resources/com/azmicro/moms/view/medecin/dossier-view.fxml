@@ -52,7 +52,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="328.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TabPane prefHeight="200.0" prefWidth="583.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="583.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <tabs>
                         <Tab text="Info">
                            <content>
@@ -1144,7 +1144,7 @@
                               <FontIcon fill="#1871dd" iconLiteral="fas-dollar-sign" iconSize="16" />
                            </graphic>
                         </Tab>
-                        <Tab text="Paymemt">
+                        <Tab fx:id="tabPayment" text="Paymemt">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

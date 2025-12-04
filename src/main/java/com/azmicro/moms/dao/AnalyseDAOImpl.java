@@ -24,14 +24,13 @@ public class AnalyseDAOImpl implements AnalyseDAO {
 
     @Override
     public boolean save(Analyse analyse) {
-        String sql = "INSERT INTO analyses (AnalyseID, ConsultationID, IdTypeAnalyse, description, DateAnalyse, Resultat) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO analyses (ConsultationID, IdTypeAnalyse, description, DateAnalyse, Resultat) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, analyse.getAnalyseID());
-            stmt.setInt(2, analyse.getConsultationID());
-            stmt.setInt(3, analyse.getTypeAnalyse().getIdTypeAnalyse()); // Updated to get ID from TypeAnalyse
-            stmt.setString(4, analyse.getDescription());
-            stmt.setDate(5, Date.valueOf(analyse.getDateAnalyse()));
-            stmt.setString(6, analyse.getResultat());
+            stmt.setInt(1, analyse.getConsultationID());
+            stmt.setInt(2, analyse.getTypeAnalyse().getIdTypeAnalyse()); // Updated to get ID from TypeAnalyse
+            stmt.setString(3, analyse.getDescription());
+            stmt.setDate(4, Date.valueOf(analyse.getDateAnalyse()));
+            stmt.setString(5, analyse.getResultat());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

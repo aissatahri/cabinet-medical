@@ -23,28 +23,18 @@
                </children>
             </HBox>
             
-            <!-- Quick Templates -->
-            <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5; -fx-padding: 8;">
+            <!-- Mode Selection -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-padding: 10;">
                <children>
-                  <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #34495e;" text="Accès rapide :" />
-                  <Button fx:id="btnTemplateSang" onAction="#addTemplateSang" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Bilan sanguin">
+                  <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Mode d'ajout :" />
+                  <Button fx:id="btnModeBatch" mnemonicParsing="false" onAction="#openBatchMode" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="🎯 Multi-sélection">
                      <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-tint" iconSize="12" />
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-check-double" iconSize="14" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnTemplateUrine" onAction="#addTemplateUrine" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Analyse urine">
+                  <Button fx:id="btnAjouterLigneBilan" mnemonicParsing="false" onAction="#ajouterLigneBilan" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="➕ Manuel">
                      <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-vial" iconSize="12" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnTemplateHormonal" onAction="#addTemplateHormonal" style="-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Bilan hormonal">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-dna" iconSize="12" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnTemplateThyroid" onAction="#addTemplateThyroid" style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Bilan thyroïdien">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-capsules" iconSize="12" />
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="14" />
                      </graphic>
                   </Button>
                </children>
@@ -53,11 +43,6 @@
             <!-- Add Buttons -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Button fx:id="btnAjouterLigneBilan" mnemonicParsing="false" onAction="#ajouterLigneBilan" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Ajouter une analyse">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="16" />
-                     </graphic>
-                  </Button>
                   <Button fx:id="btnClearAll" mnemonicParsing="false" onAction="#clearAll" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="Tout effacer">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-trash-alt" iconSize="14" />

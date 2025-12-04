@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.azmicro.moms.controller.prescription.TemplateSelectionController"
+      prefWidth="700.0" prefHeight="500.0" spacing="15.0" style="-fx-background-color: white;">
+   <padding>
+      <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+   </padding>
+   
+   <children>
+      <!-- Header -->
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <FontIcon iconColor="#9b59b6" iconLiteral="fas-file-medical" iconSize="24" />
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Choisir un Template de Prescription"/>
+         </children>
+      </HBox>
+      
+      <Separator />
+      
+      <!-- Info -->
+      <Label style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" 
+             text="Sélectionnez un template prédéfini pour ajouter plusieurs médicaments en un clic." wrapText="true"/>
+      
+      <!-- Templates List -->
+      <ListView fx:id="listViewTemplates" VBox.vgrow="ALWAYS" style="-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 5;"/>
+      
+      <!-- Details Panel -->
+      <VBox fx:id="detailsPanel" spacing="5.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5; -fx-padding: 10;" visible="false">
+         <children>
+            <Label fx:id="lblTemplateName" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <Label fx:id="lblTemplateDescription" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" wrapText="true"/>
+            <Separator />
+            <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Médicaments inclus :"/>
+            <VBox fx:id="vboxMedicaments" spacing="3.0" style="-fx-padding: 0 0 0 10;"/>
+         </children>
+      </VBox>
+      
+      <!-- Buttons -->
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
+         <children>
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handleCancel" 
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="Annuler"/>
+            <Button fx:id="btnUseTemplate" mnemonicParsing="false" onAction="#handleUseTemplate" 
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20;" 
+                    text="Utiliser ce Template" disable="true">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-check" iconSize="14" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

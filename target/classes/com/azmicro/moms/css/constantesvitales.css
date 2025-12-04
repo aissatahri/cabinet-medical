@@ -1,0 +1,41 @@
+/* Style pour le formulaire de constantes vitales */
+
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 14px;
+}
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: normal;
+}
+
+.text-field {
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.text-field:focused {
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2px;
+}
+
+.date-picker {
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.button {
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8px 16px;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.9;
+}

@@ -26,28 +26,18 @@
                </children>
             </HBox>
             
-            <!-- Quick Templates -->
-            <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5; -fx-padding: 8;">
+            <!-- Mode Selection -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-padding: 10;">
                <children>
-                  <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #34495e;" text="Accès rapide :" />
-                  <Button fx:id="btnTemplateRadio" onAction="#addTemplateRadio" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Radio thorax">
+                  <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Mode d'ajout :" />
+                  <Button fx:id="btnModeBatch" mnemonicParsing="false" onAction="#openBatchMode" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="🎯 Multi-sélection">
                      <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-lungs" iconSize="12" />
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-check-double" iconSize="14" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btnTemplateScanner" onAction="#addTemplateScanner" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Scanner">
+                  <Button fx:id="btnAjouterLigneImagerie" mnemonicParsing="false" onAction="#ajouterLigneImagerie" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="➕ Manuel">
                      <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-brain" iconSize="12" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnTemplateIRM" onAction="#addTemplateIRM" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="IRM">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-magnet" iconSize="12" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnTemplateEcho" onAction="#addTemplateEcho" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;" text="Échographie">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-heartbeat" iconSize="12" />
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="14" />
                      </graphic>
                   </Button>
                </children>
@@ -56,11 +46,6 @@
             <!-- Add Button -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Button fx:id="btnAjouterLigneImagerie" mnemonicParsing="false" onAction="#ajouterLigneImagerie" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Ajouter une imagerie">
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="16" />
-                     </graphic>
-                  </Button>
                   <Button fx:id="btnClearAll" mnemonicParsing="false" onAction="#clearAll" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="Tout effacer">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="fas-trash-alt" iconSize="14" />

@@ -42,6 +42,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
@@ -417,6 +418,8 @@ public class ImagerieController implements Initializable {
         }
 
         boolean hasError = false;
+        int savedCount = 0;
+        
         for (Node node : vboxLignesImagerie.getChildren()) {
             if (node instanceof VBox) {
                 VBox ligneVBox = (VBox) node;
@@ -453,11 +456,26 @@ public class ImagerieController implements Initializable {
                 // Rechercher le type dans la base ou créer avec le texte saisi
                 String selectedItem = typeText;
                 String[] parts = selectedItem.split(":");
+                com.azmicro.moms.model.TypeImagerie typeImagerie = null;
+                
                 if (parts.length >= 1) {
                     String nomImagerie = parts[0].trim();
-                    imagerie.setTypeImagerie(typeImagerieService.findByNomImagerieFr(nomImagerie));
+                    typeImagerie = typeImagerieService.findByNomImagerieFr(nomImagerie);
                 }
-
+                
+                // Si le type n'existe pas en base, créer un nouveau type
+                if (typeImagerie == null) {
+                    typeImagerie = new com.azmicro.moms.model.TypeImagerie();
+                    typeImagerie.setNomImagerieFr(parts[0].trim());
+                    typeImagerie.setCodeImagerieFr("");
+                    // Sauvegarder le nouveau type
+                    if (typeImagerieService.saveTypeImagerie(typeImagerie)) {
+                        // Récupérer le type sauvegardé avec son ID
+                        typeImagerie = typeImagerieService.findByNomImagerieFr(parts[0].trim());
+                    }
+                }
+                
+                imagerie.setTypeImagerie(typeImagerie);
                 imagerie.setDescription(descArea.getText());
                 imagerie.setResultat(descArea.getText());
                 imagerie.setDateImagerie(datePicker.getValue());
@@ -465,6 +483,7 @@ public class ImagerieController implements Initializable {
 
                 // Sauvegarder
                 imagerieService.saveImagerie(imagerie);
+                savedCount++;
             }
         }
 
@@ -475,10 +494,21 @@ public class ImagerieController implements Initializable {
 
             // Rafraîchir le dossier
             if (dossierController != null) {
+                final int count = savedCount;
                 Platform.runLater(() -> {
                     try {
                         dossierController.refreshImagerie();
                         dossierController.initializeConsultationsDates(consultation.getPatient().getPatientID());
+                        
+                        // Afficher message de succès
+                        if (count > 0) {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Succès");
+                            alert.setHeaderText(null);
+                            alert.setContentText(count + " imagerie(s) ajoutée(s) avec succès!");
+                            alert.initOwner(stage.getOwner());
+                            alert.showAndWait();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -549,6 +579,95 @@ public class ImagerieController implements Initializable {
         
         updateImageryCount();
     }
+
+    @FXML
+    private void openBatchMode(ActionEvent event) {
+        try {
+            // Step 1: Select imageries
+            FXMLLoader loader1 = new FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/imagerie/batch-imagerie-dialog.fxml")
+            );
+            
+            Parent root1 = loader1.load();
+            BatchImagerieController controller1 = loader1.getController();
+            
+            Stage stage1 = new Stage();
+            stage1.setTitle("Sélection Multiple");
+            stage1.setScene(new javafx.scene.Scene(root1));
+            stage1.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage1.showAndWait();
+            
+            List<String> selectedImageries = controller1.getSelectedImageries();
+            if (selectedImageries == null || selectedImageries.isEmpty()) {
+                return;
+            }
+            
+            // Step 2: Fill descriptions
+            FXMLLoader loader2 = new FXMLLoader(
+                getClass().getResource("/com/azmicro/moms/view/imagerie/description-imagerie-dialog.fxml")
+            );
+            
+            Parent root2 = loader2.load();
+            DescriptionImagerieController controller2 = loader2.getController();
+            controller2.setImageries(selectedImageries);
+            
+            Stage stage2 = new Stage();
+            stage2.setTitle("Description Rapide");
+            stage2.setScene(new javafx.scene.Scene(root2));
+            stage2.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage2.showAndWait();
+            
+            List<com.azmicro.moms.model.ImagerieTemplate> completed = controller2.getCompletedImageries();
+            if (completed != null && !completed.isEmpty()) {
+                for (com.azmicro.moms.model.ImagerieTemplate template : completed) {
+                    createImagerieLineFromTemplate(template);
+                }
+                
+                // Success message with proper parent attachment
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succès");
+                alert.setHeaderText(null);
+                alert.setContentText("Ajout réussi! " + completed.size() + " imagerie(s) ajoutée(s).");
+                alert.initOwner(btnSaveImagerie.getScene().getWindow());
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+            // Error message with proper parent attachment
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de l'ouverture du mode batch: " + e.getMessage());
+            alert.initOwner(btnSaveImagerie.getScene().getWindow());
+            alert.showAndWait();
+        }
+    }
+
+    private void createImagerieLineFromTemplate(com.azmicro.moms.model.ImagerieTemplate template) {
+        VBox line = createImagerieLine();
+        
+        // Structure: 0=header, 1=dateBox(HBox), 2=typeVBox, 3=descVBox
+        VBox typeVBox = (VBox) line.getChildren().get(2);
+        HBox typeBox = (HBox) typeVBox.getChildren().get(1);
+        @SuppressWarnings("unchecked")
+        ComboBox<String> typeCombo = (ComboBox<String>) typeBox.getChildren().get(1);
+        
+        VBox descVBox = (VBox) line.getChildren().get(3);
+        TextArea descArea = (TextArea) descVBox.getChildren().get(1);
+        
+        typeCombo.getEditor().setText(template.getTypeImagerie());
+        typeCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+        
+        if (template.getDescription() != null && !template.getDescription().isEmpty()) {
+            descArea.setText(template.getDescription());
+        }
+        
+        vboxLignesImagerie.getChildren().add(line);
+        updateImageryCount();
+    }
 }
+
+
 
 

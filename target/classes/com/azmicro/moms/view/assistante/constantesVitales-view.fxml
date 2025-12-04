@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.assistante.ConstantesVitalesController">
+   <children>
+      <VBox prefHeight="500.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Constantes Vitales - Patient:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPatientName" text="Nom Prénom" textFill="#2196f3">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Date de consultation:" />
+                  <DatePicker fx:id="dpDateConsultation" prefWidth="200.0" />
+               </children>
+            </HBox>
+
+            <VBox spacing="15.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="214.0" text="Constantes Vitales">
+                     <graphic>
+                        <FontIcon fill="#3627bc" iconLiteral="fas-heartbeat" iconSize="24" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+
+                  <HBox prefHeight="60.0" spacing="10.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Poids (Kg) :" />
+                              <TextField fx:id="tfPoids" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Taille (m) :" />
+                              <TextField fx:id="tfTaille" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="IMC" />
+                              <TextField fx:id="tfIMC" editable="false" prefHeight="25.0" style="-fx-background-color: #f0f0f0;" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <HBox prefHeight="60.0" spacing="10.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Temperature(C):" />
+                              <TextField fx:id="tfTemperature" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Fré cardiaque (bpm):" />
+                              <TextField fx:id="tfFrequenceCardiaque" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Pres artérielle (mm Hg) :" />
+                              <TextField fx:id="tfPressionArterielle" alignment="CENTER" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <HBox prefHeight="60.0" spacing="10.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Fré respiratoire (cpm):" />
+                              <TextField fx:id="tfFrequenceRespiratoire" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="SaO2 (%):" />
+                              <TextField fx:id="tfSaO2" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Glycimie (g/l):" />
+                              <TextField fx:id="tfGlycimie" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="btnAnnuler" mnemonicParsing="false" onAction="#handleAnnuler" prefWidth="100.0" text="Annuler">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-times" iconSize="16" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnEnregistrer" mnemonicParsing="false" onAction="#handleEnregistrer" prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Enregistrer">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-save" iconSize="16" fill="WHITE" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

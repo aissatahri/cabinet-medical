@@ -45,15 +45,54 @@ public class TableViewConfigurator {
      */
     public static void configureBilansTable(TableView<Analyse> tvBilan,
                                             TableColumn<Analyse, TypeAnalyse> clmLigneBilan) {
-        clmLigneBilan.setCellValueFactory(new PropertyValueFactory<>("typeAnalyse"));
+        clmLigneBilan.setCellValueFactory(cellData -> 
+            new SimpleObjectProperty<>(cellData.getValue().getTypeAnalyse())
+        );
         clmLigneBilan.setCellFactory(column -> new TableCell<Analyse, TypeAnalyse>() {
             @Override
-            protected void updateItem(TypeAnalyse item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
+            protected void updateItem(TypeAnalyse typeAnalyse, boolean empty) {
+                super.updateItem(typeAnalyse, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setText(null);
+                    setGraphic(null);
                 } else {
-                    setText(item.getCodeAnalyseFr());
+                    Analyse analyse = getTableRow().getItem();
+                    if (typeAnalyse != null) {
+                        // Format: "NomAnalyse - Date - Description"
+                        StringBuilder display = new StringBuilder();
+                        
+                        // Nom de l'analyse
+                        String nom = typeAnalyse.getNomAnalyseFr();
+                        if (nom != null && !nom.isEmpty()) {
+                            display.append(nom);
+                        } else {
+                            String code = typeAnalyse.getCodeAnalyseFr();
+                            if (code != null && !code.isEmpty()) {
+                                display.append(code);
+                            }
+                        }
+                        
+                        // Date
+                        if (analyse.getDateAnalyse() != null) {
+                            if (display.length() > 0) display.append(" - ");
+                            display.append(analyse.getDateAnalyse().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                        }
+                        
+                        // Description (tronquée si trop longue)
+                        String desc = analyse.getDescription();
+                        if (desc != null && !desc.isEmpty()) {
+                            if (display.length() > 0) display.append(" - ");
+                            if (desc.length() > 50) {
+                                display.append(desc.substring(0, 50)).append("...");
+                            } else {
+                                display.append(desc);
+                            }
+                        }
+                        
+                        setText(display.toString());
+                    } else {
+                        setText("Type d'analyse non défini");
+                    }
                 }
             }
         });
@@ -64,15 +103,54 @@ public class TableViewConfigurator {
      */
     public static void configureImagerieTable(TableView<Imagerie> tvRadio,
                                               TableColumn<Imagerie, TypeImagerie> clmLigneImagerie) {
-        clmLigneImagerie.setCellValueFactory(new PropertyValueFactory<>("TypeImagerie"));
+        clmLigneImagerie.setCellValueFactory(cellData -> 
+            new SimpleObjectProperty<>(cellData.getValue().getTypeImagerie())
+        );
         clmLigneImagerie.setCellFactory(column -> new TableCell<Imagerie, TypeImagerie>() {
             @Override
-            protected void updateItem(TypeImagerie item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
+            protected void updateItem(TypeImagerie typeImagerie, boolean empty) {
+                super.updateItem(typeImagerie, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setText(null);
+                    setGraphic(null);
                 } else {
-                    setText(item.getNomImagerieFr());
+                    Imagerie imagerie = getTableRow().getItem();
+                    if (typeImagerie != null) {
+                        // Format: "NomImagerie - Date - Description"
+                        StringBuilder display = new StringBuilder();
+                        
+                        // Nom de l'imagerie
+                        String nom = typeImagerie.getNomImagerieFr();
+                        if (nom != null && !nom.isEmpty()) {
+                            display.append(nom);
+                        } else {
+                            String code = typeImagerie.getCodeImagerieFr();
+                            if (code != null && !code.isEmpty()) {
+                                display.append(code);
+                            }
+                        }
+                        
+                        // Date
+                        if (imagerie.getDateImagerie() != null) {
+                            if (display.length() > 0) display.append(" - ");
+                            display.append(imagerie.getDateImagerie().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                        }
+                        
+                        // Description (tronquée si trop longue)
+                        String desc = imagerie.getDescription();
+                        if (desc != null && !desc.isEmpty()) {
+                            if (display.length() > 0) display.append(" - ");
+                            if (desc.length() > 50) {
+                                display.append(desc.substring(0, 50)).append("...");
+                            } else {
+                                display.append(desc);
+                            }
+                        }
+                        
+                        setText(display.toString());
+                    } else {
+                        setText("Type d'imagerie non défini");
+                    }
                 }
             }
         });

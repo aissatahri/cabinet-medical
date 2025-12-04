@@ -77,6 +77,8 @@ public class ListeAttenteController implements Initializable {
     @FXML
     private TableColumn<FilesAttente, LocalDate> birthClm;
     @FXML
+    private TableColumn<FilesAttente, LocalDate> dateConsultationClm;
+    @FXML
     private TableColumn<FilesAttente, String> telephoneClm;
     @FXML
     private TableColumn<FilesAttente, String> adressClm;
@@ -130,6 +132,7 @@ public class ListeAttenteController implements Initializable {
         nomClm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getNom()));
         prenomClm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getPrenom()));
         birthClm.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getPatient().getDateNaissance()));
+        dateConsultationClm.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateArrivee()));
         telephoneClm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getTelephone()));
         adressClm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getAdresse()));
         sexeClm.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getSexe().toString()));
@@ -302,9 +305,13 @@ public class ListeAttenteController implements Initializable {
                         btn.getStyleClass().add("button");
                         btn.setOnAction((ActionEvent event) -> {
                             FilesAttente filesAttente = getTableView().getItems().get(getIndex());
-                            // Handle button click action
+                            // Handle button click action - Open constantes vitales form
                             System.out.println("Details of " + filesAttente.getPatient().getNom());
-                            // You can open a new window or perform any action you need
+                            try {
+                                openConstantesVitalesForm(filesAttente);
+                            } catch (IOException ex) {
+                                Logger.getLogger(ListeAttenteController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         });
                     }
 
@@ -349,5 +356,36 @@ public class ListeAttenteController implements Initializable {
         stage.show();
         Stage primaryStage = (Stage) btnAccueil.getScene().getWindow();
         primaryStage.close();
+    }
+
+    /**
+     * Open the constantes vitales form for the selected patient
+     */
+    private void openConstantesVitalesForm(FilesAttente filesAttente) throws IOException {
+        Stage stage = new Stage();
+        Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/azmicro/moms/images/cardiology.png")));
+        stage.getIcons().add(icon);
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/constantesVitales-view.fxml"));
+        Pane root = loader.load();
+        
+        // Get the controller and set the filesAttente data
+        ConstantesVitalesController controller = loader.getController();
+        controller.setFilesAttente(filesAttente);
+        
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/com/azmicro/moms/css/constantesvitales.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Constantes Vitales - " + filesAttente.getPatient().getPrenom() + " " + filesAttente.getPatient().getNom());
+        stage.initStyle(StageStyle.DECORATED);
+        stage.setResizable(false);
+        stage.showAndWait(); // Wait for the window to close before continuing
+        
+        // Refresh the table after closing the form
+        try {
+            loadFilesAttenteData();
+        } catch (SQLException ex) {
+            Logger.getLogger(ListeAttenteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

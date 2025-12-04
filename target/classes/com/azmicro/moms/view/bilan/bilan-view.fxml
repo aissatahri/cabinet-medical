@@ -1,32 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="rootPane" prefHeight="492.0" prefWidth="699.0" styleClass="mainFxmlClass" stylesheets="@../../css/bilan.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.bilan.BilanController">
+<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="800.0" styleClass="mainFxmlClass" stylesheets="@../../css/bilan.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.bilan.BilanController">
    <children>
-        <VBox alignment="TOP_LEFT" spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
-            <children>
-                  <Button fx:id="btnAjouterLigneBilan" mnemonicParsing="false" onAction="#ajouterLigneBilan" text="Ajouter" />
-            <AnchorPane prefHeight="355.0" prefWidth="626.0" VBox.vgrow="ALWAYS">
+      <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #9b59b6; -fx-background-radius: 5; -fx-padding: 10;">
                <children>
-                  <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-flask" iconSize="24" />
+                  <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="Prescription d'Analyses Médicales" />
+               </children>
+            </HBox>
+            
+            <!-- Mode Selection -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-padding: 10;">
+               <children>
+                  <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Mode d'ajout :" />
+                  <Button fx:id="btnModeBatch" mnemonicParsing="false" onAction="#openBatchMode" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="🎯 Multi-sélection">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-check-double" iconSize="14" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnAjouterLigneBilan" mnemonicParsing="false" onAction="#ajouterLigneBilan" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;" text="➕ Manuel">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus-circle" iconSize="14" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            
+            <!-- Add Buttons -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Button fx:id="btnClearAll" mnemonicParsing="false" onAction="#clearAll" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="Tout effacer">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-trash-alt" iconSize="14" />
+                     </graphic>
+                  </Button>
+                  <Label fx:id="lblNombreAnalyses" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" text="0 analyse(s) ajoutée(s)" />
+               </children>
+            </HBox>
+            
+            <Separator />
+            
+            <!-- Scroll Area for Analyses -->
+            <AnchorPane VBox.vgrow="ALWAYS">
+               <children>
+                  <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <VBox fx:id="vboxLignesBilan" alignment="CENTER" spacing="10.0" />
+                        <VBox fx:id="vboxLignesBilan" spacing="12.0" style="-fx-padding: 5;">
+                           <padding>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
                      </content>
                   </ScrollPane>
                </children>
             </AnchorPane>
-
-                <!-- Buttons for actions -->
-                <HBox prefWidth="626.0" spacing="10" VBox.vgrow="ALWAYS">
-                    <Button fx:id="btnAjouteBilan" onAction="#ajouterBilan" text="Enregistrer" />
-                    <Button fx:id="btnCancel" onAction="#annuler" text="Annuler" />
-                </HBox>
-            </children>
-        </VBox>
-    </children>
+            
+            <Separator />
+            
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-padding: 10 0 0 0;">
+               <children>
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#annuler" prefWidth="120.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Annuler">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-times" iconSize="14" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnAjouteBilan" mnemonicParsing="false" onAction="#ajouterBilan" prefWidth="120.0" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Enregistrer">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-save" iconSize="14" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
 </AnchorPane>
