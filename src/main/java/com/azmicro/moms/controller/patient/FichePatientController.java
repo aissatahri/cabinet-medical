@@ -67,6 +67,8 @@ public class FichePatientController implements Initializable {
     @FXML
     private TextField tfProfession;
     @FXML
+    private TextField tfCouvertureSanitaire;
+    @FXML
     private TextField tfTelephone1;
     @FXML
     private TextArea taAdresse;
@@ -135,6 +137,8 @@ public class FichePatientController implements Initializable {
         dpDateNaissancePatient.setValue(patient.getDateNaissance());
         tfTelephone1.setText(this.patient.getTelephone());
         cbxSituationFamilial.setValue(patient.getSituationFamiliale());
+        tfProfession.setText(patient.getProfession());
+        tfCouvertureSanitaire.setText(patient.getCouvertureSanitaire());
         if (patient.getSexe() == Sexe.M) {
             rbMale.setSelected(true);
         } else {
@@ -149,6 +153,8 @@ public class FichePatientController implements Initializable {
         tfDossier.clear();
         tfAgePatient.clear();
         tfTelephone1.clear();
+        tfProfession.clear();
+        tfCouvertureSanitaire.clear();
         // Ajoutez un ChangeListener au champ de texte tfNom
         tfNomPatient.textProperty().addListener((observable, oldValue, newValue) -> generateNumeroDossier(tfNomPatient.getText(), tfPrenomPatient.getText()));
         // Ajoutez un ChangeListener au champ de texte tfPrenom
@@ -165,6 +171,8 @@ public class FichePatientController implements Initializable {
         dpDateNaissancePatient.setValue(patient.getDateNaissance());
         tfTelephone1.setText(this.patient.getTelephone());
         cbxSituationFamilial.setValue(patient.getSituationFamiliale());
+        tfProfession.setText(patient.getProfession());
+        tfCouvertureSanitaire.setText(patient.getCouvertureSanitaire());
         if (patient.getSexe() == Sexe.M) {
             rbMale.setSelected(true);
         } else {
@@ -246,6 +254,7 @@ public class FichePatientController implements Initializable {
             newPatient.setEmail(""); // Gérer l'email s'il est requis
             newPatient.setAdresse(taAdresse.getText().trim());
             newPatient.setSituationFamiliale(cbxSituationFamilial.getValue());
+            newPatient.setCouvertureSanitaire(tfCouvertureSanitaire.getText().trim());
             // Définir d'autres attributs si nécessaire
 
             // Appeler le service pour sauvegarder le patient
@@ -283,6 +292,7 @@ public class FichePatientController implements Initializable {
             patient.setTelephone(tfTelephone1.getText().trim());
             patient.setEmail(""); // Gérer l'email s'il est requis
             patient.setAdresse(taAdresse.getText().trim());
+            patient.setCouvertureSanitaire(tfCouvertureSanitaire.getText().trim());
 
             // Appeler le service pour mettre à jour le patient
             boolean success = patientService.update(patient);

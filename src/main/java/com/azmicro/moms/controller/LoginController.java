@@ -14,7 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
+import org.kordamp.ikonli.javafx.FontIcon;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -47,7 +47,7 @@ public class LoginController {
     private Button togglePasswordVisibility;
 
     @FXML
-    private ImageView togglePasswordIcon;
+    private FontIcon togglePasswordIcon;
 
     @FXML
     private AnchorPane passwordContainer;
@@ -237,13 +237,13 @@ public class LoginController {
             passwordField.setText(passwordTextField.getText());
             passwordField.setVisible(true);
             passwordTextField.setVisible(false);
-            togglePasswordIcon.setImage(new Image(getClass().getResourceAsStream("/com/azmicro/moms/images/eye.png")));
+            togglePasswordIcon.setIconLiteral("fas-eye");
         } else {
             // Si le mot de passe est caché, l'afficher
             passwordTextField.setText(passwordField.getText());
             passwordTextField.setVisible(true);
             passwordField.setVisible(false);
-            togglePasswordIcon.setImage(new Image(getClass().getResourceAsStream("/com/azmicro/moms/images/eye-open.png")));
+            togglePasswordIcon.setIconLiteral("fas-eye-slash");
         }
 
         // Basculer l'état de visibilité du mot de passe

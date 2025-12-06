@@ -27,7 +27,7 @@ public class PatientDAOImpl implements PatientDAO {
 
     @Override
 public boolean save(Patient patient) {
-    String query = "INSERT INTO Patients (numDossier, Nom, Prenom, DateNaissance, age, Sexe, SituationFamiliale, Telephone, Email, Adresse, Profession) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String query = "INSERT INTO Patients (numDossier, Nom, Prenom, DateNaissance, age, Sexe, SituationFamiliale, Telephone, Email, Adresse, Profession, CouvertureSanitaire) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (Connection connection = DatabaseUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setString(1, patient.getNumDossier());
         statement.setString(2, patient.getNom());
@@ -40,6 +40,7 @@ public boolean save(Patient patient) {
         statement.setString(9, patient.getEmail());
         statement.setString(10, patient.getAdresse());
         statement.setString(11, patient.getProfession());
+        statement.setString(12, patient.getCouvertureSanitaire());
         statement.executeUpdate();
         return true;
     } catch (SQLException e) {
@@ -70,6 +71,7 @@ public boolean save(Patient patient) {
                 patient.setEmail(resultSet.getString("Email"));
                 patient.setAdresse(resultSet.getString("Adresse"));
                 patient.setProfession(resultSet.getString("Profession"));
+                patient.setCouvertureSanitaire(resultSet.getString("CouvertureSanitaire"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,6 +98,7 @@ public boolean save(Patient patient) {
                 patient.setEmail(resultSet.getString("Email"));
                 patient.setAdresse(resultSet.getString("Adresse"));
                 patient.setProfession(resultSet.getString("Profession"));
+                patient.setCouvertureSanitaire(resultSet.getString("CouvertureSanitaire"));
                 patients.add(patient);
             }
         } catch (SQLException e) {
@@ -106,7 +109,7 @@ public boolean save(Patient patient) {
 
     @Override
     public boolean update(Patient patient) {
-        String query = "UPDATE Patients SET numDossier = ?, Nom = ?, Prenom = ?, DateNaissance = ?, age = ?, Sexe = ?, SituationFamiliale = ?, Telephone = ?, Email = ?, Adresse = ?, Profession = ? WHERE PatientID = ?";
+        String query = "UPDATE Patients SET numDossier = ?, Nom = ?, Prenom = ?, DateNaissance = ?, age = ?, Sexe = ?, SituationFamiliale = ?, Telephone = ?, Email = ?, Adresse = ?, Profession = ?, CouvertureSanitaire = ? WHERE PatientID = ?";
         try (Connection connection = DatabaseUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, patient.getNumDossier());
             statement.setString(2, patient.getNom());
@@ -119,7 +122,8 @@ public boolean save(Patient patient) {
             statement.setString(9, patient.getEmail());
             statement.setString(10, patient.getAdresse());
             statement.setString(11, patient.getProfession());
-            statement.setInt(12, patient.getPatientID());
+            statement.setString(12, patient.getCouvertureSanitaire());
+            statement.setInt(13, patient.getPatientID());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -175,6 +179,7 @@ public boolean save(Patient patient) {
                 patient.setEmail(resultSet.getString("Email"));
                 patient.setAdresse(resultSet.getString("Adresse"));
                 patient.setProfession(resultSet.getString("Profession"));
+                patient.setCouvertureSanitaire(resultSet.getString("CouvertureSanitaire"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

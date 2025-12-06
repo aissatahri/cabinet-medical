@@ -48,10 +48,8 @@ public class App_AtlantaFX extends Application {
         // Application.setUserAgentStylesheet(new NordLight().getUserAgentStylesheet());
         // Application.setUserAgentStylesheet(new NordDark().getUserAgentStylesheet());
         
-        if (!DatabaseUtil.databaseExists()) {
-            logger.info("Database does not exist. Initializing...");
-            DatabaseInitializer.initializeDatabase();
-        }
+        // Always run initializer so schema migrations apply even when DB already exists
+        DatabaseInitializer.initializeDatabase();
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/azmicro/moms/images/cardiology.png")));
         stage.getIcons().add(icon);

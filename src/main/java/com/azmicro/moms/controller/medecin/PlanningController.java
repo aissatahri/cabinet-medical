@@ -48,6 +48,8 @@ public class PlanningController implements Initializable {
     @FXML
     private Button btnMonthly;
     @FXML
+    private Button btnToday;
+    @FXML
     private ScrollPane spAgenda;
     private VBox vboxAgenda;
 
@@ -303,7 +305,18 @@ public class PlanningController implements Initializable {
 
 // Méthode pour attribuer une couleur différente à chaque rendez-vous
     private String getColorForAppointment(int index) {
-        String[] colors = {"#ff9999", "#99ccff", "#ccffcc", "#ffcc99", "#ff9966", "#99ff99", "#9999ff"};
+        String[] colors = {
+            "#ffcccb", // rose clair
+            "#add8e6", // bleu clair
+            "#90ee90", // vert clair
+            "#ffd700", // or
+            "#ffb6c1", // rose
+            "#87ceeb", // bleu ciel
+            "#98fb98", // vert pâle
+            "#dda0dd", // prune
+            "#f0e68c", // kaki
+            "#ffa07a"  // saumon
+        };
         return colors[index % colors.length];
     }
 
@@ -386,22 +399,44 @@ public class PlanningController implements Initializable {
 
 // Méthode pour créer un rendez-vous sous forme de boîte avec des ajustements de padding, margin et taille de police
     private VBox createAccessibleAppointmentBox(RendezVous r, int index) {
-        VBox appointmentBox = new VBox();
+        VBox appointmentBox = new VBox(2);
         // Ajout du style pour minimiser le padding et ajuster les marges
         appointmentBox.setStyle("-fx-background-color: " + getColorForAppointment(index)
-                + "; -fx-padding: 1; -fx-margin: 2;");
-        Tooltip tooltip = new Tooltip("Rendez-vous: " + r.getTitre() + "\n"
+                + "; -fx-padding: 5; -fx-border-radius: 5; -fx-background-radius: 5; "
+                + "-fx-border-color: #2c3e50; -fx-border-width: 1; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);");
+        
+        Tooltip tooltip = new Tooltip("Patient: " + r.getPatient().getNom() + " " + r.getPatient().getPrenom() + "\n"
+                + "Rendez-vous: " + r.getTitre() + "\n"
                 + "Heure: " + r.getHourStart() + " - " + r.getHourEnd() + "\n"
                 + "Description: " + r.getDesc());
+        tooltip.setStyle("-fx-font-size: 12px;");
         Tooltip.install(appointmentBox, tooltip);
+        
         // Définir un texte accessible pour les lecteurs d'écran
         appointmentBox.setAccessibleText("Rendez-vous: " + r.getTitre() + " à " + r.getHourStart());
-        // Ajuster la taille de la police à 9 et minimiser le padding/margin
-        Label title = new Label(r.getPatient().getNom() + " " + r.getPatient().getPrenom() + " - " + r.getTitre());
-        title.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 2 0 2 0; -fx-margin: 0;");
-        Label time = new Label(r.getHourStart() + " - " + r.getHourEnd());
-        time.setStyle("-fx-font-size: 9px; -fx-padding: 2 0 2 0; -fx-margin: 0;");
-        appointmentBox.getChildren().addAll(title, time);
+        
+        // Titre avec nom du patient
+        Label patientLabel = new Label("👤 " + r.getPatient().getNom() + " " + r.getPatient().getPrenom());
+        patientLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        
+        // Titre du rendez-vous
+        Label titleLabel = new Label(r.getTitre());
+        titleLabel.setStyle("-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #34495e;");
+        
+        // Heure
+        Label timeLabel = new Label("🕒 " + r.getHourStart() + " - " + r.getHourEnd());
+        timeLabel.setStyle("-fx-font-size: 9px; -fx-text-fill: #7f8c8d;");
+        
+        appointmentBox.getChildren().addAll(patientLabel, titleLabel, timeLabel);
+        
+        // Effet de survol
+        appointmentBox.setOnMouseEntered(e -> {
+            appointmentBox.setStyle(appointmentBox.getStyle() + "-fx-cursor: hand; -fx-scale-x: 1.02; -fx-scale-y: 1.02;");
+        });
+        appointmentBox.setOnMouseExited(e -> {
+            appointmentBox.setStyle(appointmentBox.getStyle().replace("-fx-cursor: hand; -fx-scale-x: 1.02; -fx-scale-y: 1.02;", ""));
+        });
+        
         return appointmentBox;
     }
 
@@ -549,6 +584,19 @@ public class PlanningController implements Initializable {
             showMonthlyView();
         }
         updateDateLabel();  // Mettre à jour la date affichée
+    }
+    
+    @FXML
+    private void goToToday() {
+        currentDate = LocalDate.now();
+        if (btnDaily.isDisable()) {
+            showDailyView();
+        } else if (btnWeekly.isDisable()) {
+            showWeeklyView();
+        } else if (btnMonthly.isDisable()) {
+            showMonthlyView();
+        }
+        updateDateLabel();
     }
 
     private void updateDateLabel() {

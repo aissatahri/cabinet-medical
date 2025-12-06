@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,70 +11,117 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="433.0" prefWidth="664.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.PatientController">
+<AnchorPane id="AnchorPane" prefHeight="433.0" prefWidth="664.0" style="-fx-background-color: #f5f7fa;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.PatientController">
     <stylesheets>
         <URL value="@../../css/patient.css" />
     </stylesheets>
-    <VBox spacing="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-         <AnchorPane prefHeight="17.0" prefWidth="600.0">
+         <!-- Header Section -->
+         <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);" VBox.vgrow="NEVER">
             <children>
-               <Label alignment="CENTER" prefHeight="33.0" prefWidth="181.0" text="Liste Des Patients" textFill="#581dabf7">
-                  <font>
-                     <Font name="Segoe UI Semibold" />
-                  </font>
-               </Label>
-            </children>
-         </AnchorPane>
-         <AnchorPane prefHeight="26.0" prefWidth="600.0">
-            <children>
-               <HBox prefHeight="33.0" prefWidth="364.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                   <children>
-                     <StackPane prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <FontIcon iconColor="#2193b0" iconLiteral="fas-users" iconSize="28" />
+                     <Label styleClass="header-title" text="Gestion des Patients" textFill="#2c3e50">
+                        <font>
+                           <Font name="Segoe UI Semibold" size="22" />
+                        </font>
+                     </Label>
+                  </children>
+                  <padding>
+                     <Insets left="20.0" />
+                  </padding>
+               </HBox>
+            </children>
+            <VBox.margin>
+               <Insets left="15.0" right="15.0" />
+            </VBox.margin>
+         </HBox>
+         
+         <!-- Search and Actions Bar -->
+         <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);">
+            <children>
+               <!-- Search Box -->
+               <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                  <children>
+                     <StackPane prefHeight="38.0" prefWidth="350.0" styleClass="search-box">
                         <children>
-                           <TextField fx:id="tfKeyword" prefHeight="32.0" prefWidth="325.0" />
-                           <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="29.0" style="-fx-background-color: transparent;" StackPane.alignment="CENTER_RIGHT" />
+                           <TextField fx:id="tfKeyword" prefHeight="38.0" promptText="Rechercher un patient (nom, prénom, téléphone...)" style="-fx-background-color: #f8f9fa; -fx-background-radius: 20; -fx-border-color: #e0e0e0; -fx-border-radius: 20; -fx-padding: 0 40 0 15;" />
+                           <FontIcon iconColor="#7f8c8d" iconLiteral="fas-search" iconSize="16" StackPane.alignment="CENTER_RIGHT">
+                              <StackPane.margin>
+                                 <Insets right="15.0" />
+                              </StackPane.margin>
+                           </FontIcon>
                         </children>
                      </StackPane>
                   </children>
                </HBox>
-               <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="364.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               
+               <!-- Action Buttons -->
+               <HBox alignment="CENTER_RIGHT" spacing="10.0">
                   <children>
-                     <Button fx:id="btnOpenFicheNewPatient" mnemonicParsing="false" onAction="#openFicheNewPatient" text="Nouveau" />
-                     <Button fx:id="btnPrint" mnemonicParsing="false" onAction="#print" text="Imprimer" />
-                     <Button mnemonicParsing="false" style="-fx-background-color: transparent;" />
+                     <Button fx:id="btnOpenFicheNewPatient" mnemonicParsing="false" onAction="#openFicheNewPatient" style="-fx-background-color: #2193b0; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 20; -fx-font-size: 14; -fx-cursor: hand;" styleClass="btn-primary" text="Nouveau Patient">
+                        <graphic>
+                           <FontIcon iconColor="white" iconLiteral="fas-user-plus" iconSize="16" />
+                        </graphic>
+                     </Button>
+                     <Button fx:id="btnPrint" mnemonicParsing="false" onAction="#print" style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 20; -fx-font-size: 14; -fx-cursor: hand;" styleClass="btn-secondary" text="Imprimer">
+                        <graphic>
+                           <FontIcon iconColor="white" iconLiteral="fas-print" iconSize="16" />
+                        </graphic>
+                     </Button>
                   </children>
                </HBox>
             </children>
-         </AnchorPane>
-         <AnchorPane VBox.vgrow="ALWAYS">
+            <padding>
+               <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+            <VBox.margin>
+               <Insets left="15.0" right="15.0" />
+            </VBox.margin>
+         </HBox>
+         
+         <!-- Table Section -->
+         <VBox spacing="6.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);" VBox.vgrow="ALWAYS">
             <children>
-               <VBox prefHeight="200.0" prefWidth="536.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <TableView fx:id="patientsTv" prefHeight="366.0" prefWidth="644.0" style="-fx-background-color: transparent; -fx-background-radius: 8;" styleClass="modern-table" VBox.vgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="dossierClm" prefWidth="85.0" styleClass="table-column-header" text="N° Dossier" />
+                     <TableColumn fx:id="nomClm" prefWidth="100.0" text="Nom" />
+                     <TableColumn fx:id="prenomClm" prefWidth="100.0" text="Prénom" />
+                     <TableColumn fx:id="birthClm" prefWidth="110.0" text="Date Naissance" />
+                     <TableColumn fx:id="situationFamilialClm" prefWidth="130.0" text="Situation familiale" />
+                     <TableColumn fx:id="telephoneClm" prefWidth="105.0" text="Téléphone" />
+                     <TableColumn fx:id="sexeClm" prefWidth="60.0" text="Sexe" />
+                     <TableColumn fx:id="ageClm" prefWidth="50.0" text="Âge" />
+                     <TableColumn fx:id="adresseClm" prefWidth="150.0" text="Adresse" />
+                     <TableColumn fx:id="actionClm" prefWidth="120.0" text="Actions" style="-fx-alignment: CENTER;" />
+                  </columns>
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+               </TableView>
+               <HBox alignment="CENTER" spacing="8.0" VBox.vgrow="NEVER" style="-fx-padding: 6 0 8 0;">
                   <children>
-                     <TableView fx:id="patientsTv" prefHeight="366.0" prefWidth="644.0" VBox.vgrow="ALWAYS">
-                        <columns>
-                           <TableColumn fx:id="dossierClm" prefWidth="75.0" text="N Dossier" />
-                           <TableColumn fx:id="nomClm" prefWidth="75.0" text="Nom" />
-                           <TableColumn fx:id="prenomClm" prefWidth="63.3333740234375" text="Prénom" />
-                           <TableColumn fx:id="birthClm" prefWidth="76.66668701171875" text="Date Naissance" />
-                           <TableColumn fx:id="situationFamilialClm" prefWidth="75.0" text="Sitaution familiale" />
-                           <TableColumn fx:id="telephoneClm" prefWidth="54.66668701171875" text="Téléphone" />
-                           <TableColumn fx:id="sexeClm" prefWidth="40.0" text="Sexe" />
-                           <TableColumn fx:id="ageClm" prefWidth="38.0" text="Age" />
-                           <TableColumn fx:id="adresseClm" prefWidth="124.0" text="Adresse" />
-                           <TableColumn fx:id="actionClm" prefWidth="75.0" text="Actions" />
-                        </columns>
-                        <columnResizePolicy>
-                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                        </columnResizePolicy>
-                     </TableView>
-                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+                     <Pagination fx:id="patientsPagination" maxPageIndicatorCount="7" pageCount="1" />
                   </children>
-               </VBox>
+               </HBox>
             </children>
-         </AnchorPane>
+            <padding>
+               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+            <VBox.margin>
+               <Insets bottom="5.0" left="15.0" right="15.0" />
+            </VBox.margin>
+         </VBox>
       </children>
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
     </VBox>
 </AnchorPane>

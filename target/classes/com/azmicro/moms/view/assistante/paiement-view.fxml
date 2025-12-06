@@ -15,38 +15,42 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.assistante.PaiementController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f5f7fa;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.assistante.PaiementController">
     <stylesheets>
         <URL value="@../../css/paiement.css" />
     </stylesheets>
    <children>
-      <VBox prefHeight="474.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane>
+            <!-- Header Section -->
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);">
                <children>
-                  <HBox prefHeight="32.0" prefWidth="458.0">
+                  <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label prefHeight="25.0" prefWidth="388.0" text="Payement" textFill="#581dabf7">
+                        <FontIcon iconLiteral="fas-money-bill-wave" iconSize="28" iconColor="#27ae60" />
+                        <Label text="Gestion des Paiements" textFill="#2c3e50">
                            <font>
-                              <Font name="Segoe UI Semibold" size="24" />
+                              <Font name="Segoe UI Semibold" size="22" />
                            </font>
                         </Label>
                      </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
                   </HBox>
-                  <HBox prefHeight="33.0" prefWidth="39.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logout" prefHeight="31.0" prefWidth="47.0" style="-fx-background-color: transparent;">
-                           <graphic>
-                              <FontIcon iconLiteral="fas-search" fill="#e90303" iconSize="24" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
+                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logout" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-sign-out-alt" iconColor="#e74c3c" iconSize="24" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
-            </AnchorPane>
+            </HBox>
             <AnchorPane prefHeight="34.0" prefWidth="590.0">
                <children>
                   <HBox layoutX="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -73,12 +77,12 @@
                            <children>
                               <Button fx:id="btnAccueil" mnemonicParsing="false" onAction="#openAcceuilAssistant" text="Accueil">
                                  <graphic>
-                                    <FontIcon iconLiteral="fas-search" iconSize="24" />
+                                    <FontIcon iconLiteral="fas-home" iconSize="16" />
                                  </graphic>
                               </Button>
                               <Button fx:id="btnSalleAttente" mnemonicParsing="false" onAction="#openSalleAttente" text="Salle Attente">
                                  <graphic>
-                                    <FontIcon iconLiteral="fas-search" iconSize="24" />
+                                    <FontIcon iconLiteral="fas-procedures" iconSize="16" />
                                  </graphic>
                               </Button>
                            </children>

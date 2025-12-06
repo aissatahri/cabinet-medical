@@ -28,6 +28,7 @@ public class Patient {
     private Sexe sexe; // Utilisation de l'enum Sexe
     private SituationFamiliale situationFamiliale; // Nouveau champ
     private String profession;
+    private String couvertureSanitaire;
     private String telephone;
     private String email;
     private String adresse;
@@ -38,7 +39,7 @@ public class Patient {
 
     // Constructeur avec tous les attributs
     public Patient(int patientID, String nom, String prenom, String numDossier, LocalDate dateNaissance, int age, Sexe sexe,
-                   SituationFamiliale situationFamiliale, String profession, String telephone, String email, String adresse,
+                     SituationFamiliale situationFamiliale, String profession, String couvertureSanitaire, String telephone, String email, String adresse,
             List<FilesAttente> filesAttentes) {
         this.patientID = patientID;
         this.nom = nom;
@@ -49,6 +50,7 @@ public class Patient {
         this.sexe = sexe;
         this.situationFamiliale = situationFamiliale; // Initialisation du nouveau champ
         this.profession = profession;
+        this.couvertureSanitaire = couvertureSanitaire;
         this.telephone = telephone;
         this.email = email;
         this.adresse = adresse;
@@ -138,6 +140,14 @@ public class Patient {
         this.profession = profession;
     }
 
+    public String getCouvertureSanitaire() {
+        return couvertureSanitaire;
+    }
+
+    public void setCouvertureSanitaire(String couvertureSanitaire) {
+        this.couvertureSanitaire = couvertureSanitaire;
+    }
+
     public String getTelephone() {
         return telephone;
     }
@@ -185,6 +195,7 @@ public class Patient {
                 ", telephone='" + telephone + '\'' +
                 ", email='" + email + '\'' +
                 ", adresse='" + adresse + '\'' +
+                ", couvertureSanitaire='" + couvertureSanitaire + '\'' +
                 '}';
     }
 }

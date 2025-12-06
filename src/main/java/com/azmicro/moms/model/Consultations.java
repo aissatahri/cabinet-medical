@@ -24,7 +24,10 @@ public class Consultations {
     private double taille;
     private double imc;
     private int frequencequardiaque;
+    // pression artérielle bras gauche (historic field)
     private String pression;
+    // pression artérielle bras droit
+    private String pressionDroite;
     private int frequencerespiratoire;
     private double glycimie;
     private double temperature;
@@ -130,6 +133,14 @@ public class Consultations {
         this.pression = pression;
     }
 
+    public String getPressionDroite() {
+        return pressionDroite;
+    }
+
+    public void setPressionDroite(String pressionDroite) {
+        this.pressionDroite = pressionDroite;
+    }
+
     public int getFrequencerespiratoire() {
         return frequencerespiratoire;
     }
@@ -192,7 +203,8 @@ public class Consultations {
                 + ", taille=" + taille
                 + ", imc=" + imc
                 + ", frequencequardiaque=" + frequencequardiaque
-                + ", pression=" + pression
+                + ", pressionGauche=" + pression
+                + ", pressionDroite=" + pressionDroite
                 + ", frequencerespiratoire=" + frequencerespiratoire
                 + ", glycimie=" + glycimie
                 + ", temperature=" + temperature

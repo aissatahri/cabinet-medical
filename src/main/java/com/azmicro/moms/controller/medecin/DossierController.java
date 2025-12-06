@@ -56,11 +56,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -171,7 +174,9 @@ public class DossierController implements Initializable {
     @FXML
     private TextField tfImc;
     @FXML
-    private TextField tfPressionPatient;
+    private TextField tfPressionGauche;
+    @FXML
+    private TextField tfPressionDroite;
     @FXML
     private TextField tfFrequenceRespiratoire;
     @FXML
@@ -649,7 +654,8 @@ public class DossierController implements Initializable {
     }
 
     private void setupPressionArterielleField() {
-        MedicalFieldValidator.setupPressionArterielleField(tfPressionPatient);
+        MedicalFieldValidator.setupPressionArterielleField(tfPressionGauche);
+        MedicalFieldValidator.setupPressionArterielleField(tfPressionDroite);
     }
 
     private void setupFrequenceCardiaqueField() {
@@ -671,6 +677,61 @@ public class DossierController implements Initializable {
             }
         });
 
+    }
+
+    private double parseDoubleField(TextField field) {
+        String value = field.getText() == null ? "" : field.getText().trim();
+        if (value.isEmpty()) {
+            return 0.0;
+        }
+        try {
+            return MedicalFieldValidator.parseDecimal(value);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
+
+    private int parseIntField(TextField field) {
+        String value = field.getText() == null ? "" : field.getText().trim();
+        if (value.isEmpty()) {
+            return 0;
+        }
+        try {
+            return MedicalFieldValidator.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private void applyVitalsFromForm(Consultations target) {
+        double poids = parseDoubleField(tfPoid);
+        double taille = parseDoubleField(tfTaille);
+
+        double imc = 0.0;
+        if (poids > 0 && taille > 0) {
+            double tailleM = taille / 100;
+            imc = MedicalCalculationService.calculateIMC(poids, tailleM);
+            tfImc.setText(String.format("%.2f", imc));
+        }
+
+        target.setPoids(poids);
+        target.setTaille(taille);
+        target.setImc(imc > 0 ? imc : parseDoubleField(tfImc));
+        target.setTemperature(parseDoubleField(tfTmperature));
+        target.setPression(tfPressionGauche.getText());
+        target.setPressionDroite(tfPressionDroite.getText());
+        target.setFrequencequardiaque(parseIntField(tfFrquenceCardiaque));
+        target.setFrequencerespiratoire(parseIntField(tfFrequenceRespiratoire));
+        target.setGlycimie(parseDoubleField(tfGlycimie));
+        target.setSaO(parseIntField(tfSaOpatient));
+    }
+
+    private String formatIfPositive(double value) {
+        return value > 0 ? String.valueOf(value) : "";
+    }
+
+    private String formatIfPositiveInt(int value) {
+        return value > 0 ? String.valueOf(value) : "";
     }
 
     @FXML
@@ -775,28 +836,8 @@ public class DossierController implements Initializable {
 
     @FXML
     private void ajouterConsultation(ActionEvent event) {
-        // Parse optional vital signs fields
-        double poids = tfPoid.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfPoid.getText());
-        double taille = tfTaille.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTaille.getText());
-
-        // Calculate IMC only if both poids and taille are provided
-        double imc = 0.0;
-        if (poids > 0 && taille > 0) {
-            double tailleM = taille / 100;
-            imc = MedicalCalculationService.calculateIMC(poids, tailleM);
-            tfImc.setText(String.format("%.2f", imc));
-        }
-
         this.consultation = new Consultations();
-        consultation.setPoids(poids);
-        consultation.setTaille(taille);
-        consultation.setImc(imc);
-        consultation.setFrequencequardiaque(tfFrquenceCardiaque.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
-        consultation.setPression(tfPressionPatient.getText());
-        consultation.setFrequencerespiratoire(tfFrequenceRespiratoire.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
-        consultation.setGlycimie(tfGlycimie.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
-        consultation.setTemperature(tfTmperature.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
-        consultation.setSaO(tfSaOpatient.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
+        applyVitalsFromForm(consultation);
         consultation.setSymptome(txtSymptomes.getText());
         consultation.setExamenClinique(txtExamenClinique.getText());
         consultation.setDiagnostique(txtDiagnostiqueMedical.getText());
@@ -933,13 +974,7 @@ public class DossierController implements Initializable {
         }
 
         // Lors de la validation des modifications (with optional fields)
-        selectedConsultation.setPoids(tfPoid.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfPoid.getText()));
-        selectedConsultation.setTaille(tfTaille.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTaille.getText()));
-        selectedConsultation.setImc(tfImc.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfImc.getText()));
-        selectedConsultation.setTemperature(tfTmperature.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfTmperature.getText()));
-        selectedConsultation.setPression(tfPressionPatient.getText());
-        selectedConsultation.setFrequencequardiaque(tfFrquenceCardiaque.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrquenceCardiaque.getText()));
-        selectedConsultation.setFrequencerespiratoire(tfFrequenceRespiratoire.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfFrequenceRespiratoire.getText()));
+        applyVitalsFromForm(selectedConsultation);
         selectedConsultation.setExamenClinique(txtExamenClinique.getText());
         selectedConsultation.setSymptome(txtSymptomes.getText());
         selectedConsultation.setDiagnostique(txtDiagnostiqueMedical.getText());
@@ -974,7 +1009,8 @@ public class DossierController implements Initializable {
         tfTaille.clear();
         tfImc.clear();
         tfFrquenceCardiaque.clear();
-        tfPressionPatient.clear();
+        tfPressionGauche.clear();
+        tfPressionDroite.clear();
         tfFrequenceRespiratoire.clear();
         tfGlycimie.clear();
         tfTmperature.clear();
@@ -1064,15 +1100,16 @@ public class DossierController implements Initializable {
     }
 
     private void populateFields(Consultations consultation) {
-        tfPoid.setText(String.valueOf(consultation.getPoids()));
-        tfTaille.setText(String.valueOf(consultation.getTaille()));
-        tfImc.setText(String.valueOf(consultation.getImc()));
-        tfFrquenceCardiaque.setText(String.valueOf(consultation.getFrequencequardiaque()));
-        tfPressionPatient.setText(consultation.getPression());
-        tfFrequenceRespiratoire.setText(String.valueOf(consultation.getFrequencerespiratoire()));
-        tfGlycimie.setText(String.valueOf(consultation.getGlycimie()));
-        tfTmperature.setText(String.valueOf(consultation.getTemperature()));
-        tfSaOpatient.setText(String.valueOf(consultation.getSaO()));
+        tfPoid.setText(formatIfPositive(consultation.getPoids()));
+        tfTaille.setText(formatIfPositive(consultation.getTaille()));
+        tfImc.setText(formatIfPositive(consultation.getImc()));
+        tfFrquenceCardiaque.setText(formatIfPositiveInt(consultation.getFrequencequardiaque()));
+        tfPressionGauche.setText(consultation.getPression() != null ? consultation.getPression() : "");
+        tfPressionDroite.setText(consultation.getPressionDroite() != null ? consultation.getPressionDroite() : "");
+        tfFrequenceRespiratoire.setText(formatIfPositiveInt(consultation.getFrequencerespiratoire()));
+        tfGlycimie.setText(formatIfPositive(consultation.getGlycimie()));
+        tfTmperature.setText(formatIfPositive(consultation.getTemperature()));
+        tfSaOpatient.setText(formatIfPositiveInt(consultation.getSaO()));
         txtSymptomes.setText(consultation.getSymptome());
         txtExamenClinique.setText(consultation.getExamenClinique());
         txtDiagnostiqueMedical.setText(consultation.getDiagnostique());
@@ -1380,6 +1417,17 @@ public class DossierController implements Initializable {
             // Convertir la liste en ObservableList et assigner à la TableView
             ObservableList<Analyse> observableAnalyses = FXCollections.observableArrayList(analyses);
             tvBilan.setItems(observableAnalyses);
+
+            if (!observableAnalyses.isEmpty()) {
+                tvBilan.getSelectionModel().selectFirst();
+                Analyse first = observableAnalyses.get(0);
+                dpDateAnalyse.setValue(first.getDateAnalyse());
+                txtRsltLigneBilan.setText(first.getResultat());
+            } else {
+                tvBilan.getSelectionModel().clearSelection();
+                dpDateAnalyse.setValue(null);
+                txtRsltLigneBilan.clear();
+            }
         } else {
             System.out.println("Aucune consultation sélectionnée. Impossible de charger les analyses.");
         }
@@ -1392,6 +1440,17 @@ public class DossierController implements Initializable {
             // Convertir la liste en ObservableList et assigner à la TableView
             ObservableList<Analyse> observableAnalyses = FXCollections.observableArrayList(analyses);
             tvBilan.setItems(observableAnalyses);
+
+            if (!observableAnalyses.isEmpty()) {
+                tvBilan.getSelectionModel().selectFirst();
+                Analyse first = observableAnalyses.get(0);
+                dpDateAnalyse.setValue(first.getDateAnalyse());
+                txtRsltLigneBilan.setText(first.getResultat());
+            } else {
+                tvBilan.getSelectionModel().clearSelection();
+                dpDateAnalyse.setValue(null);
+                txtRsltLigneBilan.clear();
+            }
         } else {
             System.out.println("Aucune consultation sélectionnée. Impossible de charger les analyses.");
         }
@@ -1658,6 +1717,17 @@ public class DossierController implements Initializable {
             // Convertir la liste en ObservableList et assigner à la TableView
             ObservableList<Imagerie> observableImageries = FXCollections.observableArrayList(imageries);
             tvRadio.setItems(observableImageries);
+
+            if (!observableImageries.isEmpty()) {
+                tvRadio.getSelectionModel().selectFirst();
+                Imagerie first = observableImageries.get(0);
+                dpDateImagerie.setValue(first.getDateImagerie());
+                txtresultImagerie.setText(first.getResultat());
+            } else {
+                tvRadio.getSelectionModel().clearSelection();
+                dpDateImagerie.setValue(null);
+                txtresultImagerie.clear();
+            }
         } else {
             System.out.println("Aucune consultation sélectionnée. Impossible de charger les imagerie.");
         }
@@ -1670,6 +1740,17 @@ public class DossierController implements Initializable {
             // Convertir la liste en ObservableList et assigner à la TableView
             ObservableList<Imagerie> observableImageries = FXCollections.observableArrayList(imageries);
             tvRadio.setItems(observableImageries);
+
+            if (!observableImageries.isEmpty()) {
+                tvRadio.getSelectionModel().selectFirst();
+                Imagerie first = observableImageries.get(0);
+                dpDateImagerie.setValue(first.getDateImagerie());
+                txtresultImagerie.setText(first.getResultat());
+            } else {
+                tvRadio.getSelectionModel().clearSelection();
+                dpDateImagerie.setValue(null);
+                txtresultImagerie.clear();
+            }
         } else {
             System.out.println("Aucune consultation sélectionnée. Impossible de charger les imagerie.");
         }
@@ -2143,20 +2224,90 @@ public class DossierController implements Initializable {
     @FXML
     private Button btnLettreOrientation;
 
+    private Consultations resolveSelectedConsultation() {
+        Consultations selected = tvConsultation != null
+            ? tvConsultation.getSelectionModel().getSelectedItem()
+            : null;
+
+        if (selected == null && tvConsultationOrd != null) {
+            selected = tvConsultationOrd.getSelectionModel().getSelectedItem();
+        }
+
+        if (selected == null && tvConsultationPaiement != null) {
+            Paiements paiementSelectionne = tvConsultationPaiement.getSelectionModel().getSelectedItem();
+            if (paiementSelectionne != null) {
+                selected = paiementSelectionne.getConsultation();
+            }
+        }
+
+        if (selected == null && tvConsultation != null
+            && tvConsultation.getItems() != null
+            && !tvConsultation.getItems().isEmpty()) {
+            selected = tvConsultation.getItems().get(tvConsultation.getItems().size() - 1);
+        }
+
+        return selected;
+    }
+
+    private List<Prescriptions> getPrescriptionsForConsultation(Consultations consultation) {
+        if (consultation == null) {
+            return Collections.emptyList();
+        }
+        return prescriptionService.getPrescriptionByConsultation(consultation.getConsultationID());
+    }
+
+    private List<RendezVous> getRendezVousForConsultation(Consultations consultation) {
+        if (consultation == null || consultation.getDateConsultation() == null || patient == null) {
+            return Collections.emptyList();
+        }
+
+        List<RendezVous> all = rendezVousService.findRendezVousByPatient(patient.getPatientID());
+        LocalDate date = consultation.getDateConsultation();
+        if (all == null) {
+            return Collections.emptyList();
+        }
+
+        List<RendezVous> sameDay = all.stream()
+                .filter(r -> r.getDate() != null && r.getDate().isEqual(date))
+                .collect(Collectors.toList());
+
+        if (!sameDay.isEmpty()) {
+            return sameDay;
+        }
+
+        // Si aucun rendez-vous exactement ce jour-là, retourner tous les rendez-vous du patient (prochains et passés) triés par date
+        return all.stream()
+                .filter(r -> r.getDate() != null)
+                .sorted(Comparator.comparing(RendezVous::getDate))
+                .collect(Collectors.toList());
+    }
+
+    private Consultations findPreviousConsultation(Consultations current) {
+        if (current == null || current.getDateConsultation() == null || tvConsultation == null) {
+            return null;
+        }
+
+        List<Consultations> items = tvConsultation.getItems();
+        if (items == null || items.isEmpty()) {
+            return null;
+        }
+
+        return items.stream()
+                .filter(c -> c != null && c.getDateConsultation() != null)
+                .filter(c -> c.getDateConsultation().isBefore(current.getDateConsultation()))
+                .max(Comparator.comparing(Consultations::getDateConsultation))
+                .orElse(null);
+    }
+
     @FXML
     private void handlePrintCertificatConsultation(ActionEvent event) {
         if (patient == null) {
             showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner un patient.");
             return;
         }
-        
-        // Essayer d'obtenir la consultation sélectionnée, sinon utiliser la dernière consultation
-        Consultations selectedConsultation = tvConsultation.getSelectionModel().getSelectedItem();
-        
-        // Si aucune consultation n'est sélectionnée, prendre la dernière de la liste
-        if (selectedConsultation == null && tvConsultation.getItems() != null && !tvConsultation.getItems().isEmpty()) {
-            selectedConsultation = tvConsultation.getItems().get(tvConsultation.getItems().size() - 1);
-        }
+
+        // Essayer d'obtenir la consultation sélectionnée dans n'importe quel onglet
+        Consultations selectedConsultation = resolveSelectedConsultation();
 
         try {
             String motifConsultation = "";
@@ -2415,20 +2566,20 @@ public class DossierController implements Initializable {
             return;
         }
 
+        Consultations consultationSelectionnee = resolveSelectedConsultation();
+        if (consultationSelectionnee == null) {
+            showAlert(AlertType.WARNING, "Avertissement", "Veuillez sélectionner une consultation.");
+            return;
+        }
+
+        List<Prescriptions> traitementSortie = getPrescriptionsForConsultation(consultationSelectionnee);
+        Consultations precedente = findPreviousConsultation(consultationSelectionnee);
+        List<Prescriptions> traitementEnCours = getPrescriptionsForConsultation(precedente);
+        List<RendezVous> rdvLies = getRendezVousForConsultation(consultationSelectionnee);
+
         try {
-            String ficheText = "FICHE DE SOINS LOCAUX"
-                + "\n\nPatient : " + patient.getNom() + " " + patient.getPrenom()
-                + "\nDate de naissance : " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                + "\nÂge : " + patient.getAge() + " ans"
-                + "\n\nPrescription de soins locaux :"
-                + "\n- Pansements à renouveler quotidiennement"
-                + "\n- Désinfection locale"
-                + "\n- Surveillance de l'évolution"
-                + "\n\nDurée des soins : À poursuivre selon évolution"
-                + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            
             String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateFicheSoinsLocauxPdf(
-                ficheText, patient, medecin
+                consultationSelectionnee, traitementEnCours, traitementSortie, rdvLies, patient, medecin
             );
             
             com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);

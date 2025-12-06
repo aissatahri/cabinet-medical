@@ -9,6 +9,8 @@ package com.azmicro.moms.util;
  * @author Aissa
  */
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -33,15 +35,15 @@ public class DatabaseInitializer {
             // Utilisation de la base de données
             statement.executeUpdate("USE CabinetMedical");
 
-            // Création des tables
-            createTables(statement);
+            // Création des tables et migrations
+            createTables(connection, statement);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static void createTables(Statement statement) throws SQLException {
+        private static void createTables(Connection connection, Statement statement) throws SQLException {
     // Table des Spécialités Médicales
     statement.executeUpdate("CREATE TABLE IF NOT EXISTS Specialites (" +
             "SpecialiteID INT AUTO_INCREMENT PRIMARY KEY, " +
@@ -57,7 +59,7 @@ public class DatabaseInitializer {
             "Email VARCHAR(100), " +
             "Adresse VARCHAR(255), " +
             "DateEmbauche DATE, " +
-            "FOREIGN KEY (SpecialiteID) REFERENCES Specialites(SpecialiteID), ");
+            "FOREIGN KEY (SpecialiteID) REFERENCES Specialites(SpecialiteID))");
     // Table des Patients avec les nouveaux champs
     statement.executeUpdate("CREATE TABLE IF NOT EXISTS Patients (" +
             "PatientID INT AUTO_INCREMENT PRIMARY KEY, " +
@@ -71,7 +73,14 @@ public class DatabaseInitializer {
             "Email VARCHAR(100), " +
             "Adresse VARCHAR(255), " +
             "SituationFamiliale ENUM('CELIBATAIRE', 'MARIE', 'DIVORCE', 'VEUF') NOT NULL, " +
-            "Profession VARCHAR(100), ");
+            "Profession VARCHAR(100), " +
+            "CouvertureSanitaire VARCHAR(100) " +
+            ")");
+
+                // Ensure coverage column exists on already-created databases
+                ensurePatientCoverageColumn(connection, statement);
+                // Ensure right-arm blood pressure column exists
+                ensureConsultationRightArmColumn(connection, statement);
 
     // Table des Rendez-vous
     statement.executeUpdate("CREATE TABLE IF NOT EXISTS RendezVous (" +
@@ -88,9 +97,23 @@ public class DatabaseInitializer {
             "ConsultationID INT AUTO_INCREMENT PRIMARY KEY, " +
             "RendezVousID INT, " +
             "DateConsultation DATE, " +
-            "Diagnostic TEXT, " +
-            "Traitement TEXT, " +
-            "FOREIGN KEY (RendezVousID) REFERENCES RendezVous(RendezVousID))");
+            "symptome TEXT, " +
+            "diagnostique TEXT, " +
+            "cat TEXT, " +
+            "poids DOUBLE, " +
+            "taille DOUBLE, " +
+            "imc DOUBLE, " +
+            "frequencequardiaque INT, " +
+            "pression VARCHAR(50), " +
+            "pression_droite VARCHAR(50), " +
+            "frequencerespiratoire INT, " +
+            "glycimie DOUBLE, " +
+            "temperature DOUBLE, " +
+            "saO INT, " +
+            "idPatient INT, " +
+            "examenClinique TEXT, " +
+            "FOREIGN KEY (RendezVousID) REFERENCES RendezVous(RendezVousID), " +
+            "FOREIGN KEY (idPatient) REFERENCES Patients(PatientID))");
 
     // Table des Médicaments
     statement.executeUpdate("CREATE TABLE IF NOT EXISTS Medicaments (" +
@@ -226,7 +249,44 @@ public class DatabaseInitializer {
             "DateEnregistrement DATE, " +
             "Contenu BLOB, " +
             "FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE)");
-}
 
+        }
 
+    private static void ensurePatientCoverageColumn(Connection connection, Statement statement) throws SQLException {
+        String schema = connection.getCatalog();
+        if (schema == null || schema.isEmpty()) {
+            schema = "CabinetMedical"; // fallback to expected schema
+        }
+
+        String checkColumnSql = "SELECT COUNT(*) FROM information_schema.COLUMNS " +
+                "WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'Patients' AND COLUMN_NAME = 'CouvertureSanitaire'";
+
+        try (PreparedStatement ps = connection.prepareStatement(checkColumnSql)) {
+            ps.setString(1, schema);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next() && rs.getInt(1) == 0) {
+                    statement.executeUpdate("ALTER TABLE Patients ADD COLUMN CouvertureSanitaire VARCHAR(100)");
+                }
+            }
+        }
+    }
+
+    private static void ensureConsultationRightArmColumn(Connection connection, Statement statement) throws SQLException {
+        String schema = connection.getCatalog();
+        if (schema == null || schema.isEmpty()) {
+            schema = "CabinetMedical";
+        }
+
+        String checkColumnSql = "SELECT COUNT(*) FROM information_schema.COLUMNS " +
+                "WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'consultations' AND COLUMN_NAME = 'pression_droite'";
+
+        try (PreparedStatement ps = connection.prepareStatement(checkColumnSql)) {
+            ps.setString(1, schema);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next() && rs.getInt(1) == 0) {
+                    statement.executeUpdate("ALTER TABLE consultations ADD COLUMN pression_droite VARCHAR(50)");
+                }
+            }
+        }
+    }
 }

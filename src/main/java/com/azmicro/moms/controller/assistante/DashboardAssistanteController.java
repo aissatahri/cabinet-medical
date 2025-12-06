@@ -28,13 +28,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.Pagination;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -56,6 +59,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.paint.Paint;
 
 /**
+import javafx.scene.control.Pagination;
  * FXML Controller class
  *
  * @author Aissa
@@ -102,6 +106,12 @@ public class DashboardAssistanteController implements Initializable {
     private Button btnOpenRendezvous;
     @FXML
     private Button btnOpenListeRendezVous;
+    @FXML
+    private Pagination patientsPagination;
+
+    private ObservableList<Patient> patientsData = FXCollections.observableArrayList();
+    private FilteredList<Patient> filteredPatients = new FilteredList<>(patientsData, p -> true);
+    private static final int ROWS_PER_PAGE = 10;
 
     public DashboardAssistanteController() {
         instance = this;
@@ -139,7 +149,6 @@ public class DashboardAssistanteController implements Initializable {
 
                     private final Button addButton = createIconButton("addButton", "PLUS");
                     private final Button editButton = createIconButton("editButton", "EDIT");
-                    private final Button detailsButton = createIconButton("detailsButton", "INFO_CIRCLE");
                     private final Button trashButton = createIconButton("trashButton", "TRASH");
 
                     {
@@ -160,15 +169,6 @@ public class DashboardAssistanteController implements Initializable {
                             }
                         });
 
-                        detailsButton.setOnAction(event -> {
-                            Patient patient = getTableView().getItems().get(getIndex());
-                            System.out.println("Details button clicked for patient: " + patient.getAge());
-                            try {
-                                detailsPatient(patient, detailsButton);
-                            } catch (Exception ex) {
-                                Logger.getLogger(DashboardAssistanteController.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        });
                         editButton.setOnMouseEntered(event -> {
                             editButton.setStyle("-fx-background-color: lightgray;"); // Changez le style lors du survol
                         });
@@ -184,14 +184,6 @@ public class DashboardAssistanteController implements Initializable {
                         // Ajoutez un écouteur d'événements pour le déplacement de la souris (pour restaurer l'aspect)
                         addButton.setOnMouseExited(event -> {
                             addButton.setStyle(""); // Réinitialisez le style pour restaurer l'apparence par défaut
-                        });
-                        detailsButton.setOnMouseEntered(event -> {
-                            detailsButton.setStyle("-fx-background-color: lightgray;"); // Changez le style lors du survol
-                        });
-
-                        // Ajoutez un écouteur d'événements pour le déplacement de la souris (pour restaurer l'aspect)
-                        detailsButton.setOnMouseExited(event -> {
-                            detailsButton.setStyle(""); // Réinitialisez le style pour restaurer l'apparence par défaut
                         });
                         trashButton.setOnAction((event) -> {
                             Patient patient = getTableView().getItems().get(getIndex());
@@ -213,8 +205,9 @@ public class DashboardAssistanteController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            // Ajoutez les boutons à la cellule
-                            setGraphic(new HBox(0, addButton, editButton, trashButton, detailsButton));
+                            HBox box = new HBox(6, addButton, editButton, trashButton);
+                            box.setAlignment(Pos.CENTER);
+                            setGraphic(box);
                         }
                     }
                 };
@@ -224,9 +217,19 @@ public class DashboardAssistanteController implements Initializable {
 
         // Appliquez la cellule à la colonne d'action
         actionClm.setCellFactory(cellFactory);
+        actionClm.setMinWidth(130);
+        actionClm.setPrefWidth(150);
+        actionClm.setMaxWidth(200);
 
         initialisTableview();
         applyCellFactoryToColumns();
+
+        setupSearchFiltering();
+
+        patientsPagination.setPageFactory(pageIndex -> {
+            refreshPage(pageIndex);
+            return new Pane();
+        });
     }
 
     private void applyCellFactoryToColumns() {
@@ -355,29 +358,47 @@ public class DashboardAssistanteController implements Initializable {
         // Utilisez votre implémentation DAO pour récupérer la liste des patients depuis la base de données
         List<Patient> patients = patientService.findAll();
 
-        // Ajoutez les patients à la TableView
-        patientsTv.getItems().addAll(patients);
+        patientsData.setAll(patients);
+        refreshPagination();
 
-        ObservableList<Patient> patientsObservableList = FXCollections.observableArrayList(patients);
+    }
 
-        FilteredList<Patient> filterdPatients = new FilteredList<>(patientsObservableList, b -> true);
-
+    private void setupSearchFiltering() {
         tfKeyword.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                patientsTv.setItems(patientsObservableList); // Afficher toutes les données si le champ de recherche est vide
-            } else {
-                ObservableList<Patient> filteredList = FXCollections.observableArrayList();
-                for (Patient patient : filterdPatients) {
-                    if (patient.getNom().toLowerCase().contains(newValue.toLowerCase())
-                            || patient.getPrenom().toLowerCase().contains(newValue.toLowerCase())
-                            || patient.getNumDossier().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(patient);
-                    }
+            String keyword = newValue == null ? "" : newValue.trim().toLowerCase();
+            filteredPatients.setPredicate(patient -> {
+                if (keyword.isEmpty()) {
+                    return true;
                 }
-                patientsTv.setItems(filteredList); // Afficher les données filtrées
-            }
+                return patient.getNom().toLowerCase().contains(keyword)
+                        || patient.getPrenom().toLowerCase().contains(keyword)
+                        || patient.getNumDossier().toLowerCase().contains(keyword)
+                        || patient.getTelephone().toLowerCase().contains(keyword);
+            });
+            refreshPagination();
         });
+    }
 
+    private void refreshPagination() {
+        int totalItems = filteredPatients.size();
+        int pageCount = (int) Math.ceil((double) totalItems / ROWS_PER_PAGE);
+        patientsPagination.setPageCount(Math.max(pageCount, 1));
+        int currentIndex = patientsPagination.getCurrentPageIndex();
+        if (currentIndex >= patientsPagination.getPageCount()) {
+            currentIndex = patientsPagination.getPageCount() - 1;
+            patientsPagination.setCurrentPageIndex(Math.max(currentIndex, 0));
+        }
+        refreshPage(patientsPagination.getCurrentPageIndex());
+    }
+
+    private void refreshPage(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, filteredPatients.size());
+        if (fromIndex > toIndex) {
+            patientsTv.setItems(FXCollections.observableArrayList());
+            return;
+        }
+        patientsTv.setItems(FXCollections.observableArrayList(filteredPatients.subList(fromIndex, toIndex)));
     }
 
     @FXML
@@ -519,10 +540,6 @@ public class DashboardAssistanteController implements Initializable {
         stage.show();
     }
 
-    private void detailsPatient(Patient patient, Button detailsButton) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public void confirmerSuppressionPatient(Patient patient) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
@@ -564,7 +581,7 @@ public class DashboardAssistanteController implements Initializable {
         }
         
         FontIcon icon = new FontIcon(iconType);
-        icon.setIconSize(24);
+        icon.setIconSize(18);
         
         if ("EDIT".equals(glyphName)) {
             icon.setIconColor(Paint.valueOf("green"));
@@ -576,11 +593,16 @@ public class DashboardAssistanteController implements Initializable {
             icon.setIconColor(Paint.valueOf("RED"));
         }
 
-        Button button = new Button(idButton);
+        Button button = new Button();
         button.getStyleClass().add("transparent-button");
         button.setBackground(Background.EMPTY);
         button.setGraphic(icon);
-        button.setMinWidth(8);
+        button.setText(null); // keep only the icon
+        button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        button.setFocusTraversable(false);
+        button.setMinSize(28, 28);
+        button.setPrefSize(32, 32);
+        button.setMaxSize(36, 36);
         return button;
     }
 
@@ -670,10 +692,10 @@ public class DashboardAssistanteController implements Initializable {
 
     private void updatePatientsList() {
         System.out.println("Updating patient list in DashboardAssistanteController...");
-        patientsTv.getItems().clear();
         // Utilisez votre implémentation DAO pour récupérer la liste des patients depuis la base de données
         List<Patient> patients = patientService.findAll();
-        patientsTv.getItems().setAll(patients);
+        patientsData.setAll(patients);
+        refreshPagination();
     }
 
     @FXML

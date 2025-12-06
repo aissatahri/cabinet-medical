@@ -481,8 +481,13 @@ public class ImagerieController implements Initializable {
                 imagerie.setDateImagerie(datePicker.getValue());
                 imagerie.setConsultationID(consultation.getConsultationID());
 
-                // Sauvegarder
-                imagerieService.saveImagerie(imagerie);
+                Imagerie existing = (Imagerie) ligneVBox.getUserData();
+                if (existing != null && existing.getImagerieID() > 0) {
+                    imagerie.setImagerieID(existing.getImagerieID());
+                    imagerieService.updateImagerie(imagerie);
+                } else {
+                    imagerieService.saveImagerie(imagerie);
+                }
                 savedCount++;
             }
         }
@@ -573,6 +578,7 @@ public class ImagerieController implements Initializable {
                 descArea.setText(imagerie.getResultat());
             }
             
+            line.setUserData(imagerie);
             // Ajouter la ligne au container
             vboxLignesImagerie.getChildren().add(line);
         }

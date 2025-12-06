@@ -10,15 +10,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="593.0" prefWidth="677.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DashboardMedecinController">
+<AnchorPane id="AnchorPane" prefHeight="593.0" prefWidth="677.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DashboardMedecinController">
     <stylesheets>
         <URL value="@../../css/dashboardmedecin.css" />
     </stylesheets>
    <children>
       <HBox fx:id="rootHBox" prefHeight="100.0" prefWidth="200.0" stylesheets="@../../css/dashboardmedecin.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="sideBar" prefHeight="593.0" prefWidth="197.0" style="-fx-border-radius: 5;" styleClass="side-menu" stylesheets="@../../css/dashboardmedecin.css">
+            <VBox fx:id="sideBar" prefHeight="593.0" prefWidth="200.0" style="-fx-border-radius: 5;" styleClass="side-menu" stylesheets="@../../css/dashboardmedecin.css">
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="39.0" prefWidth="177.0">
                      <children>
@@ -34,19 +35,67 @@
                   </VBox>
                   <VBox prefHeight="443.0" prefWidth="177.0" spacing="15.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="btnOpenHome" onAction="#openHome" prefHeight="48.0" prefWidth="176.0" styleClass="menu-button" text="Tableau de bord" />
-                        <Button fx:id="btnOpenPatients" onAction="#openPatient" prefHeight="48.0" prefWidth="177.0" styleClass="menu-button" text="Patients" />
-                        <Button fx:id="btnRendezVous" onAction="#openRendezVous" prefHeight="48.0" prefWidth="178.0" styleClass="menu-button" text="Planning" />
-                        <Button fx:id="btnDossier" onAction="#openDossier" prefHeight="48.0" prefWidth="179.0" styleClass="menu-button" text="Dossiers médicaux" />
-                        <Button fx:id="btnFacturation" onAction="#openFacturation" prefHeight="48.0" prefWidth="183.0" styleClass="menu-button" text="Facturation" />
-                        <Button fx:id="btnOpenParametre" onAction="#openParametre" prefHeight="48.0" prefWidth="177.0" styleClass="menu-button" text="Paramètres" />
-                        <Button fx:id="btnLogout" onAction="#logout" prefHeight="48.0" prefWidth="177.0" styleClass="menu-button">
+                        <Button fx:id="btnOpenHome" alignment="CENTER_LEFT" onAction="#openHome" prefHeight="50.0" prefWidth="176.0" styleClass="menu-button" text="  Tableau de bord">
                            <graphic>
-                              <ImageView fitHeight="37.0" fitWidth="142.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/shutdown.png" />
-                                 </image>
-                              </ImageView>
+                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <FontIcon iconLiteral="fas-chart-line" iconSize="20" />
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnOpenPatients" alignment="CENTER_LEFT" onAction="#openPatient" prefHeight="50.0" prefWidth="177.0" styleClass="menu-button" text="  Patients">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <FontIcon iconLiteral="fas-users" iconSize="20" />
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnRendezVous" alignment="CENTER_LEFT" onAction="#openRendezVous" prefHeight="50.0" prefWidth="178.0" styleClass="menu-button" text="  Planning">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <FontIcon iconLiteral="fas-calendar-alt" iconSize="20" />
+                                    <Label fx:id="badgePlanning" styleClass="badge" text="" visible="false" />
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnDossier" alignment="CENTER_LEFT" onAction="#openDossier" prefHeight="50.0" prefWidth="179.0" styleClass="menu-button" text="  Dossiers médicaux">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <FontIcon iconLiteral="fas-folder-open" iconSize="20" />
+                                    <Label fx:id="badgeDossier" styleClass="badge" text="" visible="false" />
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnFacturation" alignment="CENTER_LEFT" onAction="#openFacturation" prefHeight="50.0" prefWidth="183.0" styleClass="menu-button" text="  Facturation">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <FontIcon iconLiteral="fas-file-invoice-dollar" iconSize="20" />
+                                    <Label fx:id="badgeFacturation" styleClass="badge" text="" visible="false" />
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnOpenParametre" alignment="CENTER_LEFT" onAction="#openParametre" prefHeight="50.0" prefWidth="177.0" styleClass="menu-button" text="  Paramètres">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <FontIcon iconLiteral="fas-cog" iconSize="20" />
+                                    <Label fx:id="badgeParametre" styleClass="badge" text="" visible="false" />
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnLogout" alignment="CENTER_LEFT" onAction="#logout" prefHeight="50.0" prefWidth="177.0" styleClass="menu-button-logout" text="  Déconnexion">
+                           <graphic>
+                              <FontIcon iconColor="#e74c3c" iconLiteral="fas-sign-out-alt" iconSize="20" />
                            </graphic>
                         </Button>
                      </children>
@@ -66,9 +115,9 @@
                         <Button fx:id="btnHamburger" layoutY="12.0" mnemonicParsing="false" styleClass="hamburger-button" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="7.0">
                            <graphic>
                               <VBox alignment="CENTER" spacing="3">
-                                 <Line endX="20" startX="0" strokeWidth="2"/>
-                                 <Line endX="20" startX="0" strokeWidth="2"/>
-                                 <Line endX="20" startX="0" strokeWidth="2"/>
+                                 <Line endX="20" startX="0" strokeWidth="2" />
+                                 <Line endX="20" startX="0" strokeWidth="2" />
+                                 <Line endX="20" startX="0" strokeWidth="2" />
                               </VBox>
                            </graphic>
                         </Button>

@@ -42,7 +42,9 @@ public class ConstantesVitalesController implements Initializable {
     @FXML
     private TextField tfFrequenceCardiaque;
     @FXML
-    private TextField tfPressionArterielle;
+    private TextField tfPressionArterielleGauche;
+    @FXML
+    private TextField tfPressionArterielleDroite;
     @FXML
     private TextField tfFrequenceRespiratoire;
     @FXML
@@ -122,7 +124,10 @@ public class ConstantesVitalesController implements Initializable {
                     tfFrequenceCardiaque.setText(String.valueOf(existingConsultation.getFrequencequardiaque()));
                 }
                 if (existingConsultation.getPression() != null && !existingConsultation.getPression().isEmpty()) {
-                    tfPressionArterielle.setText(existingConsultation.getPression());
+                    tfPressionArterielleGauche.setText(existingConsultation.getPression());
+                }
+                if (existingConsultation.getPressionDroite() != null && !existingConsultation.getPressionDroite().isEmpty()) {
+                    tfPressionArterielleDroite.setText(existingConsultation.getPressionDroite());
                 }
                 if (existingConsultation.getFrequencerespiratoire() > 0) {
                     tfFrequenceRespiratoire.setText(String.valueOf(existingConsultation.getFrequencerespiratoire()));
@@ -191,10 +196,15 @@ public class ConstantesVitalesController implements Initializable {
             } else {
                 existingConsultation.setFrequencequardiaque(0);
             }
-            if (!tfPressionArterielle.getText().isEmpty()) {
-                existingConsultation.setPression(tfPressionArterielle.getText());
+            if (!tfPressionArterielleGauche.getText().isEmpty()) {
+                existingConsultation.setPression(tfPressionArterielleGauche.getText());
             } else {
                 existingConsultation.setPression("");
+            }
+            if (!tfPressionArterielleDroite.getText().isEmpty()) {
+                existingConsultation.setPressionDroite(tfPressionArterielleDroite.getText());
+            } else {
+                existingConsultation.setPressionDroite("");
             }
             if (!tfFrequenceRespiratoire.getText().isEmpty()) {
                 existingConsultation.setFrequencerespiratoire(Integer.parseInt(tfFrequenceRespiratoire.getText()));

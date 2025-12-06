@@ -13,16 +13,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="399.0" prefWidth="615.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.AjoutRendezVousController">
+<AnchorPane id="AnchorPane" prefHeight="399.0" prefWidth="615.0" style="-fx-background-color: #f5f7fa;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.AjoutRendezVousController">
     <stylesheets>
         <URL value="@../css/ajoutrendezvous.css" />
     </stylesheets>
 
-    <VBox prefHeight="355.0" prefWidth="615.0" spacing="10.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
         <children>
-            <!-- Title -->
-            <Label styleClass="titleLabel" text="Ajouter un Rendez-vous" />
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);">
+               <children>
+                  <FontIcon iconLiteral="fas-calendar-plus" iconSize="28" iconColor="#2193b0" />
+                  <Label text="Ajouter un Rendez-vous" textFill="#2c3e50" styleClass="titleLabel">
+                     <font>
+                        <Font name="Segoe UI Semibold" size="22" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+            </HBox>
 
             <!-- GridPane with rounded corners -->
             <GridPane alignment="CENTER" hgap="5.0" prefHeight="167.0" prefWidth="534.0" styleClass="roundedGridPane" vgap="20.0" VBox.vgrow="ALWAYS">
@@ -66,8 +80,16 @@
 
             <!-- Buttons -->
             <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="615.0" spacing="10">
-                <Button fx:id="btnSave" onAction="#saveRendezVous" styleClass="actionButton" text="Enregistrer" />
-                <Button fx:id="btnCancel" onAction="#cancel" styleClass="actionButton" text="Annuler" />
+                <Button fx:id="btnSave" onAction="#saveRendezVous" styleClass="actionButton" text="Enregistrer">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-save" iconSize="16" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnCancel" onAction="#cancel" styleClass="actionButton" text="Annuler">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-times" iconSize="16" />
+                    </graphic>
+                </Button>
             </HBox>
         </children>
         <padding>

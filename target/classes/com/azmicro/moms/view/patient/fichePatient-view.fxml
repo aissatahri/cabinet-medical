@@ -7,119 +7,262 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="571.0" prefWidth="663.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.patient.FichePatientController">
+<AnchorPane id="AnchorPane" prefHeight="680.0" prefWidth="1100.0" style="-fx-background-color: #f5f7fa;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.patient.FichePatientController">
     <stylesheets>
         <URL value="@../../css/fichepatient.css" />
     </stylesheets>
     <children>
-        <VBox prefWidth="800.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+        <VBox spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="583.0" prefWidth="680.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);">
                     <children>
-                        <VBox prefHeight="200.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <FontIcon iconLiteral="fas-user-edit" iconSize="28" iconColor="#2193b0" />
+                        <Label text="Fiche Patient" textFill="#2c3e50">
+                            <font>
+                                <Font name="Segoe UI Semibold" size="22" />
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                    </padding>
+                </HBox>
+                
+                <!-- Form Content -->
+                <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" prefViewportWidth="1100.0" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="15.0" prefWidth="1100.0">
                             <children>
-                                <AnchorPane prefHeight="200.0" prefWidth="605.0" VBox.vgrow="ALWAYS">
+                                <HBox spacing="15.0" VBox.vgrow="ALWAYS" prefWidth="1100.0">
                                     <children>
-                                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <!-- Left Panel: Informations Patient -->
+                                        <VBox minWidth="0.0" prefWidth="520.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #c3c3c3;; -fx-border-width: 1px; -fx-border-radius: 3px; -fx-background-radius: 1px; -fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
+                                                <HBox alignment="CENTER_LEFT" spacing="8.0">
                                                     <children>
-                                                        <Label prefHeight="26.0" prefWidth="214.0" text="Informations Patient" />
-                                                        <HBox prefHeight="504.0" prefWidth="238.0" VBox.vgrow="ALWAYS">
-                                                            <children>
-                                                                <VBox alignment="CENTER" prefHeight="193.0" prefWidth="7.0">
-                                                                </VBox>
-                                                                <VBox prefHeight="190.0" prefWidth="201.0" spacing="5.0" HBox.hgrow="ALWAYS">
-                                                                    <children>
-                                                                        <Label text="N Dossier :" />
-                                                                        <TextField fx:id="tfDossier" editable="false" prefHeight="25.0" prefWidth="162.0" />
-                                                                        <Label text="Nom (*) :" />
-                                                                        <TextField fx:id="tfNomPatient" />
-                                                                        <Label text="Prenom (*) :" />
-                                                                        <TextField fx:id="tfPrenomPatient" />
-                                                                        <Label text="Date de naissance (*) :" />
-                                                                        <DatePicker fx:id="dpDateNaissancePatient" prefHeight="25.0" prefWidth="192.0" />
-                                                                        <Label text="Age :" />
-                                                                        <TextField fx:id="tfAgePatient" />
-                                                                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="180.0" spacing="20.0">
-                                                                            <children>
-                                                                              <Label text="Sexe :" />
-                                                                                <RadioButton fx:id="rbMale" mnemonicParsing="false" selected="true" text="Male">
-                                                                                    <toggleGroup>
-                                                                                        <ToggleGroup fx:id="tgSexe" />
-                                                                                    </toggleGroup>
-                                                                                </RadioButton>
-                                                                                <RadioButton fx:id="rbFemelle" mnemonicParsing="false" text="Femelle" toggleGroup="$tgSexe" />
-                                                                            </children>
-                                                                        </HBox>
-                                                                        <Label prefHeight="17.0" prefWidth="127.0" text="Situation familiale" />
-                                                                        <ComboBox fx:id="cbxSituationFamilial" prefHeight="25.0" prefWidth="198.0" />
-                                                                        <Label text="Profession :" />
-                                                                        <TextField fx:id="tfProfession" />
-                                                                    </children>
-                                                                    <padding>
-                                                                        <Insets right="5.0" />
-                                                                    </padding>
-                                                                </VBox>
-                                                            </children>
-                                                        </HBox>
+                                                        <FontIcon iconLiteral="fas-user-circle" iconSize="20" iconColor="#2193b0" />
+                                                        <Label text="Informations Patient" textFill="#2c3e50" styleClass="section-title">
+                                                            <font>
+                                                                <Font name="Segoe UI Semibold" size="16" />
+                                                            </font>
+                                                        </Label>
                                                     </children>
-                                                </VBox>
-                                                <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #c3c3c3;; -fx-border-width: 1px; -fx-border-radius: 3px; -fx-background-radius: 1px; -fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
+                                                </HBox>
+                                                <Separator />
+                                                
+                                                <VBox spacing="12.0">
                                                     <children>
-                                                        <Label prefHeight="26.0" prefWidth="214.0" text="Coordonnees Patient" />
-                                                        <HBox prefHeight="481.0" prefWidth="219.0">
+                                                        <VBox spacing="5.0">
                                                             <children>
-                                                                <VBox alignment="TOP_CENTER" prefHeight="193.0" prefWidth="7.0">
-                                                                </VBox>
-                                                                <VBox prefHeight="481.0" prefWidth="245.0" spacing="5.0" HBox.hgrow="ALWAYS">
-                                                                    <children>
-                                                                        <Label text="Telephonne :" />
-                                                                        <TextField fx:id="tfTelephone1" />
-                                                                        <Label text="Adresse" />
-                                                                        <TextArea fx:id="taAdresse" prefHeight="138.0" prefWidth="197.0" />
-                                                                        <Label text="Notes" />
-                                                                        <TextArea fx:id="taNote" prefHeight="131.0" prefWidth="197.0" />
-                                                                    </children>
-                                                                    <padding>
-                                                                        <Insets right="5.0" />
-                                                                    </padding>
-                                                                </VBox>
+                                                                <Label text="N° Dossier" textFill="#7f8c8d" styleClass="field-label">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfDossier" editable="false" style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
                                                             </children>
-                                                        </HBox>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Nom *" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfNomPatient" promptText="Entrez le nom" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Prénom *" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfPrenomPatient" promptText="Entrez le prénom" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Date de naissance *" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <DatePicker fx:id="dpDateNaissancePatient" prefWidth="Infinity" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Âge" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfAgePatient" editable="false" style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="8.0">
+                                                            <children>
+                                                                <Label text="Sexe" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <HBox spacing="30.0">
+                                                                    <children>
+                                                                        <RadioButton fx:id="rbMale" mnemonicParsing="false" selected="true" text="Masculin">
+                                                                            <toggleGroup>
+                                                                                <ToggleGroup fx:id="tgSexe" />
+                                                                            </toggleGroup>
+                                                                        </RadioButton>
+                                                                        <RadioButton fx:id="rbFemelle" mnemonicParsing="false" text="Féminin" toggleGroup="$tgSexe" />
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Situation familiale" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <ComboBox fx:id="cbxSituationFamilial" prefWidth="Infinity" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Profession" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfProfession" promptText="Entrez la profession" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Couverture sanitaire" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfCouvertureSanitaire" promptText="Mutuelle / Assurance" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
                                                     </children>
                                                 </VBox>
                                             </children>
                                             <padding>
-                                                <Insets left="5.0" right="5.0" />
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                             </padding>
-                                        </HBox>
-                                    </children>
-                                </AnchorPane>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="43.0" prefWidth="69.0">
-                                    <children>
-                                        <HBox alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="800.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        </VBox>
+                                        
+                                        <!-- Right Panel: Coordonnées Patient -->
+                                        <VBox minWidth="0.0" prefWidth="520.0" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);" HBox.hgrow="ALWAYS">
                                             <children>
-                                    <Button fx:id="btnClose" mnemonicParsing="false" text="Cancel" />
-                                                <Button fx:id="btnSavePatient" mnemonicParsing="false" onAction="#savePatient" prefHeight="30.0" prefWidth="95.0" text="Save" />
+                                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                                    <children>
+                                                        <FontIcon iconLiteral="fas-address-card" iconSize="20" iconColor="#2193b0" />
+                                                        <Label text="Coordonnées Patient" textFill="#2c3e50">
+                                                            <font>
+                                                                <Font name="Segoe UI Semibold" size="16" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Separator />
+                                                
+                                                <VBox spacing="12.0">
+                                                    <children>
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Téléphone" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextField fx:id="tfTelephone1" promptText="Ex: 0600000000" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0">
+                                                            <children>
+                                                                <Label text="Adresse" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextArea fx:id="taAdresse" prefHeight="120.0" promptText="Entrez l'adresse complète" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" wrapText="true" />
+                                                            </children>
+                                                        </VBox>
+                                                        
+                                                        <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+                                                            <children>
+                                                                <Label text="Notes" textFill="#7f8c8d">
+                                                                    <font>
+                                                                        <Font size="12" />
+                                                                    </font>
+                                                                </Label>
+                                                                <TextArea fx:id="taNote" prefHeight="120.0" promptText="Notes supplémentaires" style="-fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;" wrapText="true" VBox.vgrow="ALWAYS" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
                                             </children>
-                                 <padding>
-                                    <Insets right="10.0" />
-                                 </padding>
-                                        </HBox>
+                                            <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                            </padding>
+                                        </VBox>
                                     </children>
-                                </AnchorPane>
+                                </HBox>
                             </children>
+                            <padding>
+                                <Insets bottom="10.0" top="5.0" />
+                            </padding>
                         </VBox>
+                    </content>
+                </ScrollPane>
+                
+                <!-- Action Buttons -->
+                <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);">
+                    <children>
+                        <Button fx:id="btnClose" mnemonicParsing="false" text="Annuler" styleClass="btn-cancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 25; -fx-font-size: 14; -fx-cursor: hand;">
+                            <graphic>
+                                <FontIcon iconLiteral="fas-times" iconSize="14" iconColor="white" />
+                            </graphic>
+                        </Button>
+                        <Button fx:id="btnSavePatient" mnemonicParsing="false" onAction="#savePatient" text="Enregistrer" styleClass="btn-save" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 25; -fx-font-size: 14; -fx-cursor: hand;">
+                            <graphic>
+                                <FontIcon iconLiteral="fas-save" iconSize="14" iconColor="white" />
+                            </graphic>
+                        </Button>
                     </children>
-                </AnchorPane>
+                    <padding>
+                        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                    </padding>
+                </HBox>
             </children>
         </VBox>
     </children>

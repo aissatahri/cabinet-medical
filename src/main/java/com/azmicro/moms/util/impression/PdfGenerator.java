@@ -10,10 +10,12 @@ package com.azmicro.moms.util.impression;
  */
 import com.azmicro.moms.model.Analyse;
 import com.azmicro.moms.model.ConsultationActe;
+import com.azmicro.moms.model.Consultations;
 import com.azmicro.moms.model.Imagerie;
 import com.azmicro.moms.model.Medecin;
 import com.azmicro.moms.model.Patient;
 import com.azmicro.moms.model.Prescriptions;
+import com.azmicro.moms.model.RendezVous;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Table;
@@ -25,7 +27,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Properties;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -703,7 +712,12 @@ public class PdfGenerator {
         return generateGenericCertificat(pdfPath, "Certificat Maladie Chronique", certificatText, patient, medecin);
     }
 
-    public static String generateFicheSoinsLocauxPdf(String ficheText, Patient patient, Medecin medecin) throws FileNotFoundException {
+    public static String generateFicheSoinsLocauxPdf(Consultations consultation,
+                                                     List<Prescriptions> traitementEnCours,
+                                                     List<Prescriptions> traitementSortie,
+                                                     List<RendezVous> rendezVousLies,
+                                                     Patient patient,
+                                                     Medecin medecin) throws FileNotFoundException {
         String outputDirectory = getOutputDirectory();
         String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
         File patientDir = new File(outputDirectory + "/" + patientFolderName);
@@ -714,8 +728,240 @@ public class PdfGenerator {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String dateStr = dateFormat.format(new Date());
         String pdfPath = patientDir.getPath() + "/fiche_soins_locaux_" + dateStr + ".pdf";
-        
-        return generateGenericCertificat(pdfPath, "Fiche de Soins Locaux", ficheText, patient, medecin);
+
+        PdfWriter writer = new PdfWriter(pdfPath);
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document document = new Document(pdfDoc, PageSize.A4);
+        document.setMargins(60, 36, 50, 36);
+
+        float labelSize = 10f;
+        float valueSize = 10f;
+        SimpleDateFormat dateHuman = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Header date
+        document.add(new Paragraph("Date : " + dateHuman.format(new Date()))
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(labelSize));
+
+        // Title
+        document.add(new Paragraph("FICHE DE SOINS LOCAUX")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(14)
+                .setMarginBottom(12));
+
+        // Consultation date under title
+        if (consultation.getDateConsultation() != null) {
+            document.add(new Paragraph("Date de consultation : " + consultation.getDateConsultation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .setTextAlignment(TextAlignment.CENTER)
+                .setFontSize(labelSize)
+                .setMarginBottom(8));
+        }
+
+        // Patient info table 2 cols
+        Table info = new Table(UnitValue.createPercentArray(new float[]{1, 1})).useAllAvailableWidth();
+        info.addCell(makeLabelValue("Nom :", patient.getNom() + " " + patient.getPrenom(), labelSize, valueSize));
+        info.addCell(makeLabelValue("CIN :", safe(""), labelSize, valueSize));
+        info.addCell(makeLabelValue("Date de naissance :", safeDate(patient.getDateNaissance(), dateHuman), labelSize, valueSize));
+        info.addCell(makeLabelValue("Couverture sanitaire :", safe(patient.getCouvertureSanitaire()), labelSize, valueSize));
+        info.addCell(makeLabelValue("Adresse :", safe(patient.getAdresse()), labelSize, valueSize));
+        info.addCell(makeLabelValue("Numéro de téléphone :", safe(patient.getTelephone()), labelSize, valueSize));
+        info.addCell(makeLabelValue("Profession :", safe(patient.getProfession()), labelSize, valueSize));
+        info.addCell(makeLabelValueMultiline("Motif de consultation :", safe(consultation.getSymptome()), labelSize, valueSize));
+        document.add(info.setMarginBottom(10));
+
+        document.add(makeSectionWithBullets("ATCD :", "-", labelSize, valueSize));
+        document.add(makeSectionWithBullets("Traitement en cours :", formatPrescriptions(traitementEnCours), labelSize, valueSize));
+
+        // Exam section
+        document.add(new Paragraph("Examen :").setBold().setFontSize(labelSize + 1).setMarginTop(12).setMarginBottom(6));
+        Table exam = new Table(UnitValue.createPercentArray(new float[]{1, 1, 1, 1})).useAllAvailableWidth();
+        exam.addCell(makeLabelValue("TA bras droit :", safe(consultation.getPressionDroite()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("TA bras gauche :", safe(consultation.getPression()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("FC :", formatInt(consultation.getFrequencequardiaque()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("SaO2 :", formatInt(consultation.getSaO()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("Glycémie :", formatDouble(consultation.getGlycimie()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("Poids :", formatDouble(consultation.getPoids()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("Clinique :", safe(consultation.getExamenClinique()), labelSize, valueSize));
+        exam.addCell(makeLabelValue("Température :", formatDouble(consultation.getTemperature()), labelSize, valueSize));
+        document.add(exam.setMarginBottom(10));
+
+        document.add(makeSectionWithBullets("ECG :", "", labelSize, valueSize));
+        document.add(makeSectionWithBullets("ETT :", "", labelSize, valueSize));
+        document.add(makeSectionWithBullets("Traitement de sortie :", formatPrescriptions(traitementSortie), labelSize, valueSize));
+        document.add(makeSectionWithBullets("Remarques :", "", labelSize, valueSize));
+        document.add(makeSectionWithBullets("Prochains RDV :", "", labelSize, valueSize));
+
+        // Rendez-vous (sans répétition de titre)
+        if (rendezVousLies != null && !rendezVousLies.isEmpty()) {
+            Table rdvTable = new Table(UnitValue.createPercentArray(new float[]{1, 1, 1})).useAllAvailableWidth();
+            for (RendezVous rdv : rendezVousLies) {
+                String date = rdv.getDate() != null ? rdv.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+                String heures = (rdv.getHourStart() != null ? rdv.getHourStart().toString() : "")
+                        + (rdv.getHourEnd() != null ? " - " + rdv.getHourEnd() : "");
+                String titre = safe(rdv.getTitre());
+                rdvTable.addCell(makeLabelValue("Date :", date, labelSize, valueSize));
+                rdvTable.addCell(makeLabelValue("Heure :", heures, labelSize, valueSize));
+                rdvTable.addCell(makeLabelValue("Objet :", titre, labelSize, valueSize));
+            }
+            document.add(rdvTable.setMarginBottom(10));
+        }
+
+        document.close();
+        return pdfPath;
+    }
+
+    private static Cell makeLabelValue(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+            .add(new Text(label).setBold().setFontSize(labelSize))
+            .add(new Text(" " + (value != null ? value : ""))).setFontSize(valueSize);
+        return new Cell().add(p).setBorder(Border.NO_BORDER);
+    }
+
+    private static Cell makeLabelValueMultiline(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+            .add(new Text(label).setBold().setFontSize(labelSize))
+            .add(new Text("\n" + (value != null ? value : "")).setFontSize(valueSize));
+        return new Cell().add(p).setBorder(Border.NO_BORDER);
+    }
+
+    private static Paragraph makeSectionWithBullets(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+                .add(new Text(label).setBold().setFontSize(labelSize))
+                .add(new Text("\n").setFontSize(valueSize));
+
+        if (value != null && !value.isBlank()) {
+            p.add(new Text(value).setFontSize(valueSize));
+        }
+
+        return p.setMarginBottom(8);
+    }
+
+    private static String safe(String value) {
+        return value != null ? value : "";
+    }
+
+    private static String safeDate(LocalDate date, SimpleDateFormat fmt) {
+        try {
+            return date != null ? fmt.format(java.sql.Date.valueOf(date)) : "";
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String formatInt(Integer v) {
+        return v != null && v > 0 ? String.valueOf(v) : "";
+    }
+
+    private static String formatDouble(Double v) {
+        return v != null && v > 0 ? String.valueOf(v) : "";
+    }
+
+    private static String formatPrescriptions(List<Prescriptions> prescriptions) {
+        if (prescriptions == null || prescriptions.isEmpty()) {
+            return "";
+        }
+        List<String> lines = prescriptions.stream()
+                .map(PdfGenerator::formatPrescriptionLine)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+
+        if (lines.isEmpty()) {
+            return "";
+        }
+
+        return lines.stream().map(s -> "• " + s).collect(Collectors.joining("\n"));
+    }
+
+    private static String cleanPosologieText(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value
+                .replace('\u00A0', ' ')
+                .replaceAll("(?i)\\bposologie[:]?\\s*", "")
+                .replaceAll("(?i)\\binstructions?[:]?\\s*", "")
+                .replaceAll("(?i)\\bdur(?:e|\\u00e9)e[:]?\\s*", "")
+                .replaceAll("(?i)\\bduree[:]?\\s*", "")
+                .replaceAll("•", " ")
+                .replaceAll("\\s+", " ")
+                .trim();
+    }
+
+    private static String cleanDureeText(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value
+                .replace('\u00A0', ' ')
+                .replaceAll("(?i)\\bdur(?:e|\\u00e9)e[:]?\\s*", "")
+                .replaceAll("(?i)\\bduree[:]?\\s*", "")
+                .replaceAll("\\s+", " ")
+                .trim();
+    }
+
+    private static final java.util.regex.Pattern DURATION_PATTERN = java.util.regex.Pattern.compile("(?i)\\b\\d+\\s*(?:j|jr|jrs|jour|jours)\\b");
+    private static final java.util.regex.Pattern FREQ_PATTERN = java.util.regex.Pattern.compile("(?i)\\b\\d+\\s*x\\s*/\\s*jour\\b");
+
+    private static void collectSegments(String raw, LinkedHashSet<String> acc) {
+        if (raw == null || raw.isBlank()) return;
+        String normalized = raw.replace('\u00A0', ' ').replaceAll("\\s+", " ").trim();
+
+        // Split on hyphen separators while preserving values like "3x/jour"
+        for (String token : normalized.split("\\s*-\\s*")) {
+            String t = token.trim();
+            if (t.isEmpty()) continue;
+
+            // Extract frequency parts to avoid duplicates like "3x/jour" twice
+            java.util.regex.Matcher f = FREQ_PATTERN.matcher(t);
+            while (f.find()) {
+                String freq = f.group().replaceAll("\\s+", "").toLowerCase();
+                if (!freq.isEmpty()) acc.add(freq);
+            }
+            t = f.replaceAll("").trim();
+
+            // Extract duration parts inside the token to avoid duplicates like "3x/jour 7 jours"
+            java.util.regex.Matcher m = DURATION_PATTERN.matcher(t);
+            while (m.find()) {
+                String d = m.group().trim();
+                if (!d.isEmpty()) acc.add(d);
+            }
+            // Remove duration segments from the token
+            t = m.replaceAll("").trim();
+            if (!t.isEmpty()) acc.add(t);
+        }
+    }
+
+    private static String formatPrescriptionLine(Prescriptions p) {
+        if (p == null) {
+            return "";
+        }
+
+        String med = p.getMedicament() != null ? safe(p.getMedicament().getNomMedicament()) : "";
+        String dose = cleanPosologieText(safe(p.getDose()));
+        String duree = cleanDureeText(safe(p.getDuree()));
+        if (!duree.isEmpty()) {
+            dose = dose.replaceAll("(?i)\\b" + java.util.regex.Pattern.quote(duree) + "\\b", "").trim();
+        }
+        dose = dose.replaceAll("(?i)\\b\\d+\\s*(?:j|jr|jrs|jour|jours)\\b", "").trim();
+        String desc = cleanPosologieText(safe(p.getDescription()));
+
+        LinkedHashSet<String> parts = new LinkedHashSet<>();
+        if (!med.isEmpty()) parts.add(med);
+        collectSegments(dose, parts);
+        collectSegments(duree, parts);
+        collectSegments(desc, parts);
+
+        // Normalize to avoid duplicates like "3x/jour" reappearing with slight spacing differences
+        LinkedHashMap<String, String> ordered = new LinkedHashMap<>();
+        for (String part : parts) {
+            String key = part.toLowerCase().replaceAll("\\s+", "").trim();
+            if (!ordered.containsKey(key)) {
+                ordered.put(key, part);
+            }
+        }
+
+        return ordered.values().stream().collect(Collectors.joining(" - "));
     }
 
     public static String generateLettreOrientationPdf(String lettreText, Patient patient, Medecin medecin) throws FileNotFoundException {

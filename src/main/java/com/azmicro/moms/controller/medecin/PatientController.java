@@ -33,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.Pagination;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -49,8 +50,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Paint;
+import javafx.geometry.Pos;
 
 /**
  * FXML Controller class
@@ -67,6 +70,8 @@ public class PatientController implements Initializable {
     private Button btnPrint;
     @FXML
     private TableView<Patient> patientsTv;
+    @FXML
+    private Pagination patientsPagination;
     @FXML
     private TableColumn<Patient, String> dossierClm;
     @FXML
@@ -89,6 +94,10 @@ public class PatientController implements Initializable {
     private TableColumn<Patient, Void> actionClm;
     private PatientService patientService;
     private static PatientController instance;
+
+    private ObservableList<Patient> patientsData = FXCollections.observableArrayList();
+    private FilteredList<Patient> filteredPatients = new FilteredList<>(patientsData, p -> true);
+    private static final int ROWS_PER_PAGE = 10;
 
     private DashboardMedecinController dashboardMedecinController;
 
@@ -196,8 +205,10 @@ public class PatientController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            // Ajoutez les boutons à la cellule
-                            setGraphic(new HBox(0, editButton, trashButton, detailsButton));
+                            // Ajoutez les boutons à la cellule avec un espacement et un centrage pour éviter les chevauchements
+                            HBox actions = new HBox(8, editButton, trashButton, detailsButton);
+                            actions.setAlignment(Pos.CENTER);
+                            setGraphic(actions);
                         }
                     }
                 };
@@ -211,6 +222,13 @@ public class PatientController implements Initializable {
         initialisTableview();
 
         applyCellFactoryToColumns();
+
+        setupSearchFiltering();
+
+        patientsPagination.setPageFactory(pageIndex -> {
+            refreshPage(pageIndex);
+            return new Pane(); // pagination controls only; table lives above
+        });
     }
 
     private void applyCellFactoryToColumns() {
@@ -357,7 +375,7 @@ public class PatientController implements Initializable {
         }
         
         FontIcon icon = new FontIcon(iconType);
-        icon.setIconSize(24);
+        icon.setIconSize(18);
         
         if ("EDIT".equals(glyphName)) {
             icon.setIconColor(Paint.valueOf("green"));
@@ -367,11 +385,16 @@ public class PatientController implements Initializable {
             icon.setIconColor(Paint.valueOf("RED"));
         }
 
-        Button button = new Button(idButton);
+        Button button = new Button();
         button.getStyleClass().add("transparent-button");
         button.setBackground(Background.EMPTY);
         button.setGraphic(icon);
-        button.setMinWidth(8);
+        button.setText(null);
+        button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        button.setFocusTraversable(false);
+        button.setMinSize(28, 28);
+        button.setPrefSize(32, 32);
+        button.setMaxSize(36, 36);
         return button;
     }
 
@@ -398,7 +421,12 @@ public class PatientController implements Initializable {
         System.out.println("open consultation");
         try {
             if (dashboardMedecinController != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/medecin/dossier-view.fxml"));
+                URL dossierUrl = getClass().getResource("/com/azmicro/moms/view/medecin/dossier-view.fxml");
+                if (dossierUrl == null) {
+                    Logger.getLogger(PatientController.class.getName()).log(Level.SEVERE, "FXML dossier-view.fxml introuvable");
+                    return;
+                }
+                FXMLLoader loader = new FXMLLoader(dossierUrl);
                 Parent root = loader.load();
 
                 // Get the controller and pass the patient object to it
@@ -471,29 +499,47 @@ public class PatientController implements Initializable {
         // Utilisez votre implémentation DAO pour récupérer la liste des patients depuis la base de données
         List<Patient> patients = patientService.findAll();
 
-        // Ajoutez les patients à la TableView
-        patientsTv.getItems().addAll(patients);
+        patientsData.setAll(patients);
+        refreshPagination();
 
-        ObservableList<Patient> patientsObservableList = FXCollections.observableArrayList(patients);
+    }
 
-        FilteredList<Patient> filterdPatients = new FilteredList<>(patientsObservableList, b -> true);
-
+    private void setupSearchFiltering() {
         tfKeyword.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                patientsTv.setItems(patientsObservableList); // Afficher toutes les données si le champ de recherche est vide
-            } else {
-                ObservableList<Patient> filteredList = FXCollections.observableArrayList();
-                for (Patient patient : filterdPatients) {
-                    if (patient.getNom().toLowerCase().contains(newValue.toLowerCase())
-                            || patient.getPrenom().toLowerCase().contains(newValue.toLowerCase())
-                            || patient.getNumDossier().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(patient);
-                    }
+            String keyword = newValue == null ? "" : newValue.trim().toLowerCase();
+            filteredPatients.setPredicate(patient -> {
+                if (keyword.isEmpty()) {
+                    return true;
                 }
-                patientsTv.setItems(filteredList); // Afficher les données filtrées
-            }
+                return patient.getNom().toLowerCase().contains(keyword)
+                        || patient.getPrenom().toLowerCase().contains(keyword)
+                        || patient.getNumDossier().toLowerCase().contains(keyword)
+                        || patient.getTelephone().toLowerCase().contains(keyword);
+            });
+            refreshPagination();
         });
+    }
 
+    private void refreshPagination() {
+        int totalItems = filteredPatients.size();
+        int pageCount = (int) Math.ceil((double) totalItems / ROWS_PER_PAGE);
+        patientsPagination.setPageCount(Math.max(pageCount, 1));
+        int currentIndex = patientsPagination.getCurrentPageIndex();
+        if (currentIndex >= patientsPagination.getPageCount()) {
+            currentIndex = patientsPagination.getPageCount() - 1;
+            patientsPagination.setCurrentPageIndex(Math.max(currentIndex, 0));
+        }
+        refreshPage(patientsPagination.getCurrentPageIndex());
+    }
+
+    private void refreshPage(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, filteredPatients.size());
+        if (fromIndex > toIndex) {
+            patientsTv.setItems(FXCollections.observableArrayList());
+            return;
+        }
+        patientsTv.setItems(FXCollections.observableArrayList(filteredPatients.subList(fromIndex, toIndex)));
     }
 
     public void reloadScene() throws SQLException {
@@ -522,7 +568,8 @@ public class PatientController implements Initializable {
         patientsTv.getItems().clear();
         // Utilisez votre implémentation DAO pour récupérer la liste des patients depuis la base de données
         List<Patient> patients = patientService.findAll();
-        patientsTv.getItems().setAll(patients);
+        patientsData.setAll(patients);
+        refreshPagination();
     }
 
 }

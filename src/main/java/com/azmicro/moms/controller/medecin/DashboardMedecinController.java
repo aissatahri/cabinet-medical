@@ -6,8 +6,12 @@ package com.azmicro.moms.controller.medecin;
 
 import com.azmicro.moms.App;
 import com.azmicro.moms.controller.medecin.HomeController;
+import com.azmicro.moms.dao.FilesAttenteDAOImpl;
+import com.azmicro.moms.dao.PatientDAOImpl;
 import com.azmicro.moms.model.Medecin;
+import com.azmicro.moms.model.Statut;
 import com.azmicro.moms.model.Utilisateur;
+import com.azmicro.moms.service.FilesAttenteService;
 import com.azmicro.moms.util.DatabaseInitializer;
 import com.azmicro.moms.util.DatabaseUtil;
 import com.azmicro.moms.util.TimeUtil;
@@ -15,6 +19,8 @@ import static com.mysql.cj.conf.PropertyKey.logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -67,6 +73,7 @@ public class DashboardMedecinController implements Initializable {
     @FXML
     private HBox rootHBox;
     private boolean isSidebarVisible = true;
+    private Button activeButton = null;
     @FXML
     private Button btnOpenParametre;
     @FXML
@@ -84,6 +91,16 @@ public class DashboardMedecinController implements Initializable {
     @FXML
     private Label lblDateTime;
     
+    @FXML
+    private Label badgePlanning;
+    @FXML
+    private Label badgeDossier;
+    @FXML
+    private Label badgeFacturation;
+    @FXML
+    private Label badgeParametre;
+    private FilesAttenteService filesAttenteService;
+    
     private Medecin medecin;
     @FXML
     private Label lblDoctor;
@@ -98,11 +115,15 @@ public class DashboardMedecinController implements Initializable {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         lblDoctor.setText("Dr "+this.medecin.getPrenom()+" "+this.medecin.getNom());
+        updateBadges();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnHamburger.setOnAction(event -> toggleSidebar());
+        
+        // Mettre à jour les badges de notification
+        updateBadges();
 
         Timeline timeline;
         timeline = new Timeline(
@@ -141,6 +162,23 @@ public class DashboardMedecinController implements Initializable {
         }
 
         transition.play();
+    }
+    
+    /**
+     * Marque un bouton comme actif
+     */
+    private void setActiveButton(Button button) {
+        // Retirer la classe active de l'ancien bouton
+        if (activeButton != null) {
+            activeButton.getStyleClass().remove("menu-button-active");
+        }
+        
+        // Ajouter la classe active au nouveau bouton
+        if (button != null && !button.getStyleClass().contains("menu-button-active")) {
+            button.getStyleClass().add("menu-button-active");
+        }
+        
+        activeButton = button;
     }
 
     public void loadUi(Parent ui) {
@@ -197,6 +235,7 @@ public class DashboardMedecinController implements Initializable {
 
     @FXML
     private void openParametre(ActionEvent event) {
+        setActiveButton(btnOpenParametre);
         try {
             loadUi("/com/azmicro/moms/view/medecin/parametre-view");
         } catch (IOException ex) {
@@ -206,6 +245,7 @@ public class DashboardMedecinController implements Initializable {
 
     @FXML
     private void openPatient(ActionEvent event) {
+        setActiveButton(btnOpenPatients);
         try {
             loadUi("/com/azmicro/moms/view/medecin/patient-view");
         } catch (IOException ex) {
@@ -214,7 +254,18 @@ public class DashboardMedecinController implements Initializable {
     }
 
     @FXML
+    private void openDossier(ActionEvent event) {
+        setActiveButton(btnDossier);
+//        try {
+//            loadUi("/com/azmicro/moms/view/medecin/dossier-view");
+//        } catch (IOException ex) {
+//            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+    }
+    
+    @FXML
     private void openHome(ActionEvent event) {
+        setActiveButton(btnOpenHome);
         try {
             loadUi("/com/azmicro/moms/view/medecin/home-view");
         } catch (IOException ex) {
@@ -224,6 +275,7 @@ public class DashboardMedecinController implements Initializable {
 
     @FXML
     private void openRendezVous(ActionEvent event) {
+        setActiveButton(btnRendezVous);
         try {
             loadUi("/com/azmicro/moms/view/medecin/planning-view");
         } catch (IOException ex) {
@@ -232,16 +284,8 @@ public class DashboardMedecinController implements Initializable {
     }
 
     @FXML
-    private void openDossier(ActionEvent event) {
-//        try {
-//            loadUi("/com/azmicro/moms/view/medecin/dossier-view");
-//        } catch (IOException ex) {
-//            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
-
-    @FXML
     private void openFacturation(ActionEvent event) {
+        setActiveButton(btnFacturation);
 //        try {
 //            loadUi("/com/azmicro/moms/view/medecin/facturation-view");
 //        } catch (IOException ex) {
@@ -302,5 +346,49 @@ public class DashboardMedecinController implements Initializable {
         String heureActuelle = TimeUtil.getCurrentTime();
         String currentDate = TimeUtil.getCurrentDate();
         lblDateTime.setText(currentDate+"\n"+heureActuelle);
+    }
+    
+    /**
+     * Met à jour les badges de notification sur les boutons du menu
+     */
+    private void updateBadges() {
+        if (utilisateur == null || medecin == null) {
+            // badges removed
+            return;
+        }
+
+        try {
+            if (filesAttenteService == null) {
+                filesAttenteService = new FilesAttenteService(new FilesAttenteDAOImpl(new PatientDAOImpl(DatabaseUtil.getConnection())));
+            }
+
+            LocalDate today = LocalDate.now();
+            LocalTime start = LocalTime.MIN;
+            LocalTime end = LocalTime.MAX;
+
+            int waitingCount = filesAttenteService.findAll(today, start, end, Statut.EN_ATTENTE.name()).size();
+
+            // badges removed
+        } catch (Exception e) {
+            Logger.getLogger(DashboardMedecinController.class.getName()).log(Level.SEVERE, "Impossible de mettre à jour le badge patients", e);
+            // badges removed
+        }
+    }
+
+    private void applyBadgeValue(Label badge, int value) {
+        if (badge == null) {
+            return;
+        }
+        boolean visible = value > 0;
+        badge.setVisible(visible);
+        if (visible) {
+            badge.setText(String.valueOf(value));
+        }
+    }
+
+    private void hideBadge(Label badge) {
+        if (badge != null) {
+            badge.setVisible(false);
+        }
     }
 }

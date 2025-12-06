@@ -1,7 +1,56 @@
-/*
- * Empty Stylesheet file.
- */
-
+/* Mise en forme cohérente avec les autres vues */
 .mainFxmlClass {
+	-fx-background-color: #f6f7fb;
+}
 
+/* Boutons : palette neutre par défaut pour ne pas tout mettre en bleu */
+.button {
+	-fx-padding: 8 16;
+	-fx-background-color: linear-gradient(to bottom, #6b7280, #4b5563);
+	-fx-text-fill: #f5f7fa;
+	-fx-font-size: 13px;
+	-fx-font-weight: bold;
+	-fx-border-radius: 5px;
+	-fx-background-radius: 5px;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 6, 0, 0, 2);
+}
+
+.button:hover {
+	-fx-background-color: linear-gradient(to bottom, #4b5563, #374151);
+}
+
+/* Variantes claires par action */
+.btn-primary {
+	-fx-background-color: linear-gradient(to bottom, #2563eb, #1d4ed8);
+}
+.btn-primary:hover {
+	-fx-background-color: linear-gradient(to bottom, #1d4ed8, #1e40af);
+}
+
+.btn-success {
+	-fx-background-color: linear-gradient(to bottom, #16a34a, #15803d);
+}
+.btn-success:hover {
+	-fx-background-color: linear-gradient(to bottom, #15803d, #166534);
+}
+
+.btn-warning {
+	-fx-background-color: linear-gradient(to bottom, #f59e0b, #d97706);
+}
+.btn-warning:hover {
+	-fx-background-color: linear-gradient(to bottom, #d97706, #b45309);
+}
+
+.btn-danger {
+	-fx-background-color: linear-gradient(to bottom, #ef4444, #dc2626);
+}
+.btn-danger:hover {
+	-fx-background-color: linear-gradient(to bottom, #dc2626, #b91c1c);
+}
+
+.btn-info {
+	-fx-background-color: linear-gradient(to bottom, #0891b2, #0e7490);
+}
+.btn-info:hover {
+	-fx-background-color: linear-gradient(to bottom, #0e7490, #155e75);
 }

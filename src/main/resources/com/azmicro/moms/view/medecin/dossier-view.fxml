@@ -22,16 +22,19 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="830.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DossierController">
+<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="880.0" style="-fx-background-color: #f6f7fb;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.DossierController">
     <stylesheets>
         <URL value="@../../css/dossier.css" />
     </stylesheets>
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+         </padding>
          <children>
             <AnchorPane prefHeight="42.0" prefWidth="600.0">
                <children>
-                  <HBox prefHeight="35.0" prefWidth="580.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox alignment="CENTER_LEFT" spacing="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label fx:id="tfTitle" prefHeight="31.0" prefWidth="429.0" textFill="#581dabf7">
                            <font>
@@ -40,11 +43,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <TextField />
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -64,17 +63,17 @@
                                              <children>
                                                 <HBox alignment="CENTER_RIGHT" layoutX="131.0" prefHeight="31.0" prefWidth="779.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button contentDisplay="RIGHT" mnemonicParsing="false" text="Fiche">
+                                                      <Button contentDisplay="RIGHT" mnemonicParsing="false" styleClass="btn-info" text="Fiche">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button contentDisplay="RIGHT" mnemonicParsing="false" text="Modifier">
+                                                      <Button contentDisplay="RIGHT" mnemonicParsing="false" styleClass="btn-warning" text="Modifier">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button contentDisplay="RIGHT" mnemonicParsing="false" text="Patient">
+                                                      <Button contentDisplay="RIGHT" mnemonicParsing="false" styleClass="btn-primary" text="Patient">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-upload" iconSize="16" />
                                                          </graphic>
@@ -235,9 +234,9 @@
                                                                               </VBox>
                                                                               <HBox alignment="CENTER" prefHeight="35.0" prefWidth="284.0" spacing="20.0">
                                                                                  <children>
-                                                                                    <Button fx:id="btnAjouterAntecedent" mnemonicParsing="false" onAction="#btnAjouterAntecedent" text="Ajouter" />
-                                                                                    <Button fx:id="btnModifierAntecedent" mnemonicParsing="false" onAction="#modifierAntecedent" text="modifier" />
-                                                                                    <Button fx:id="btnSupprimerAntecedent" mnemonicParsing="false" onAction="#supprimerAntecedent" text="supprimer" />
+                                                                                    <Button fx:id="btnAjouterAntecedent" mnemonicParsing="false" onAction="#btnAjouterAntecedent" styleClass="btn-success" text="Ajouter" />
+                                                                                    <Button fx:id="btnModifierAntecedent" mnemonicParsing="false" onAction="#modifierAntecedent" styleClass="btn-warning" text="Modifier" />
+                                                                                    <Button fx:id="btnSupprimerAntecedent" mnemonicParsing="false" onAction="#supprimerAntecedent" styleClass="btn-danger" text="Supprimer" />
                                                                                  </children>
                                                                               </HBox>
                                                                               <TableView fx:id="tvAntecedent" prefHeight="200.0" prefWidth="200.0">
@@ -309,31 +308,31 @@
                                        <children>
                                           <AnchorPane prefHeight="35.0" prefWidth="642.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="400.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="456.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnAjouterConsultation" mnemonicParsing="false" onAction="#ajouterConsultation" prefHeight="25.0" prefWidth="75.0" text="Ajouter">
+                                                      <Button fx:id="btnAjouterConsultation" mnemonicParsing="false" onAction="#ajouterConsultation" prefHeight="35.0" prefWidth="97.0" styleClass="btn-success" text="Ajouter">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnEditConsultation" mnemonicParsing="false" onAction="#editConsultation" prefHeight="25.0" prefWidth="87.0" text="Modifier">
+                                                      <Button fx:id="btnEditConsultation" mnemonicParsing="false" onAction="#editConsultation" prefHeight="35.0" prefWidth="108.0" styleClass="btn-warning" text="Modifier">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnSupprimerConsultation" mnemonicParsing="false" onAction="#supprimerConsultation" prefHeight="25.0" prefWidth="108.0" text="Supprimer">
+                                                      <Button fx:id="btnSupprimerConsultation" mnemonicParsing="false" onAction="#supprimerConsultation" prefHeight="35.0" prefWidth="116.0" styleClass="btn-danger" text="Supprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnImprimerConsultation" mnemonicParsing="false" onAction="#imprimeConsulation" prefHeight="25.0" prefWidth="97.0" text="Imprimer">
+                                                      <Button fx:id="btnImprimerConsultation" mnemonicParsing="false" onAction="#imprimeConsulation" prefHeight="35.0" prefWidth="109.0" styleClass="btn-info" text="Imprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
                                                    <padding>
-                                                      <Insets right="5.0" />
+                                                      <Insets bottom="5.0" right="5.0" top="5.0" />
                                                    </padding>
                                                 </HBox>
                                              </children>
@@ -448,8 +447,14 @@
                                                                                                 </VBox>
                                                                                                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                                                                                    <children>
-                                                                                                      <Label text="Pres artérielle (mm Hg) :" />
-                                                                                                      <TextField fx:id="tfPressionPatient" alignment="CENTER" />
+                                                                                                      <Label text="Pres artérielle gauche (mm Hg) :" />
+                                                                                                      <TextField fx:id="tfPressionGauche" alignment="CENTER" />
+                                                                                                   </children>
+                                                                                                </VBox>
+                                                                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                                   <children>
+                                                                                                      <Label text="Pres artérielle droite (mm Hg) :" />
+                                                                                                      <TextField fx:id="tfPressionDroite" alignment="CENTER" />
                                                                                                    </children>
                                                                                                 </VBox>
                                                                                              </children>
@@ -565,31 +570,31 @@
                                        <children>
                                           <AnchorPane prefHeight="35.0" prefWidth="642.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="375.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="449.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnAjouterBilan" mnemonicParsing="false" onAction="#ajouterBilan" text="Ajouter">
+                                                      <Button fx:id="btnAjouterBilan" mnemonicParsing="false" onAction="#ajouterBilan" styleClass="btn-success" text="Ajouter">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnEditBilan" mnemonicParsing="false" onAction="#editBilan" text="Modifier">
+                                                      <Button fx:id="btnEditBilan" mnemonicParsing="false" onAction="#editBilan" styleClass="btn-warning" text="Modifier">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnDeleteBilan" mnemonicParsing="false" onAction="#deleteBilan" text="Supprimer">
+                                                      <Button fx:id="btnDeleteBilan" mnemonicParsing="false" onAction="#deleteBilan" styleClass="btn-danger" text="Supprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnOrdonnanceBilan" mnemonicParsing="false" onAction="#handlePrintAction" text="Imprimer">
+                                                      <Button fx:id="btnOrdonnanceBilan" mnemonicParsing="false" onAction="#handlePrintAction" styleClass="btn-info" text="Imprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
                                                    <padding>
-                                                      <Insets right="5.0" />
+                                                      <Insets bottom="5.0" right="5.0" top="5.0" />
                                                    </padding>
                                                 </HBox>
                                              </children>
@@ -604,7 +609,7 @@
                                                                <children>
                                                                   <AnchorPane prefHeight="0.0" prefWidth="322.0">
                                                                      <children>
-                                                                        <Label alignment="CENTER" layoutX="70.0" layoutY="26.0" style="-fx-background-color: purple;" text="Bilans" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                        <Label alignment="CENTER" layoutX="70.0" layoutY="26.0" style="-fx-background-color: #0ea5e9;" text="Bilans" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="24" />
                                                                            </font>
@@ -636,7 +641,7 @@
                                                                                                          <children>
                                                                                                             <AnchorPane>
                                                                                                                <children>
-                                                                                                                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: purple;" text="Date" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #0ea5e9;" text="Date" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                                                                      <font>
                                                                                                                         <Font name="System Bold" size="24" />
                                                                                                                      </font>
@@ -731,31 +736,31 @@
                                        <children>
                                           <AnchorPane prefHeight="35.0" prefWidth="642.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="372.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="453.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnSaveImagerie" mnemonicParsing="false" onAction="#saveImagerie" text="Ajouter">
+                                                      <Button fx:id="btnSaveImagerie" mnemonicParsing="false" onAction="#saveImagerie" styleClass="btn-success" text="Ajouter">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnEditEmagerie" mnemonicParsing="false" onAction="#editImagerie" text="Modifier">
+                                                      <Button fx:id="btnEditEmagerie" mnemonicParsing="false" onAction="#editImagerie" styleClass="btn-warning" text="Modifier">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnDeleteImagerie" mnemonicParsing="false" onAction="#deleteImagerie" text="Supprimer">
+                                                      <Button fx:id="btnDeleteImagerie" mnemonicParsing="false" onAction="#deleteImagerie" styleClass="btn-danger" text="Supprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnOrdonnanceImagerie" mnemonicParsing="false" onAction="#handlePrintAction" text="Imprimer">
+                                                      <Button fx:id="btnOrdonnanceImagerie" mnemonicParsing="false" onAction="#handlePrintAction" styleClass="btn-info" text="Imprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
                                                       </Button>
                                                    </children>
                                                    <padding>
-                                                      <Insets right="5.0" />
+                                                      <Insets bottom="5.0" right="5.0" top="5.0" />
                                                    </padding>
                                                 </HBox>
                                              </children>
@@ -770,7 +775,7 @@
                                                                <children>
                                                                   <AnchorPane prefHeight="0.0" prefWidth="322.0">
                                                                      <children>
-                                                                        <Label alignment="CENTER" layoutX="70.0" layoutY="26.0" style="-fx-background-color: purple;" text="Radio" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                        <Label alignment="CENTER" layoutX="70.0" layoutY="26.0" style="-fx-background-color: #2563eb;" text="Radio" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="24" />
                                                                            </font>
@@ -798,7 +803,7 @@
                                                                                              <children>
                                                                                                 <AnchorPane>
                                                                                                    <children>
-                                                                                                      <Label alignment="CENTER" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: purple;" text="Date" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                      <Label alignment="CENTER" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #2563eb;" text="Date" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                                                          <font>
                                                                                                             <Font name="System Bold" size="24" />
                                                                                                          </font>
@@ -892,22 +897,22 @@
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" layoutX="-6.0" layoutY="-16.0" prefHeight="100.0" prefWidth="453.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnAjouterOrdonnance" mnemonicParsing="false" onAction="#ajouterOrdonnace" text="Ajouter">
+                                                      <Button fx:id="btnAjouterOrdonnance" mnemonicParsing="false" onAction="#ajouterOrdonnace" styleClass="btn-success" text="Ajouter">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnEditOrdonnance" mnemonicParsing="false" onAction="#editOrdonnance" text="Modifier">
+                                                      <Button fx:id="btnEditOrdonnance" mnemonicParsing="false" onAction="#editOrdonnance" styleClass="btn-warning" text="Modifier">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnDeleteOrdonnance" mnemonicParsing="false" onAction="#deleteOrdonnance" text="Supprimer">
+                                                      <Button fx:id="btnDeleteOrdonnance" mnemonicParsing="false" onAction="#deleteOrdonnance" styleClass="btn-danger" text="Supprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnOrdonnance" mnemonicParsing="false" onAction="#handlePrintAction" text="Imprimer">
+                                                      <Button fx:id="btnOrdonnance" mnemonicParsing="false" onAction="#handlePrintAction" styleClass="btn-info" text="Imprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
@@ -933,7 +938,7 @@
                                                                            <children>
                                                                               <AnchorPane>
                                                                                  <children>
-                                                                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: purple;" text="Table des consultation" textFill="#f6f4f4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: #7c3aed;" text="Table des consultation" textFill="#f6f4f4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                                        <font>
                                                                                           <Font name="System Bold" size="24" />
                                                                                        </font>
@@ -963,7 +968,7 @@
                                                                <children>
                                                                   <AnchorPane>
                                                                      <children>
-                                                                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: purple;" text="Table des ordonnances" textFill="#f6f4f4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: #7c3aed;" text="Table des ordonnances" textFill="#f6f4f4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="24" />
                                                                            </font>
@@ -1004,42 +1009,42 @@
                                                                               <Insets left="10.0" right="10.0" top="5.0" />
                                                                            </HBox.margin>
                                                                            <children>
-                                                                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: purple;" text="Listes des Certificats" textFill="#f6f4f4">
+                                                                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: #7c3aed;" text="Listes des Certificats" textFill="#f6f4f4">
                                                                                  <font>
                                                                                     <Font name="System Bold" size="24" />
                                                                                  </font>
                                                                               </Label>
-                                                                              <Button fx:id="btnCertificatConsultation" onAction="#handlePrintCertificatConsultation" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="33.0" prefWidth="185.0" text="Certificat Medicale De Consultation" textOverrun="CLIP" VBox.vgrow="ALWAYS">
+                                                                              <Button fx:id="btnCertificatConsultation" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintCertificatConsultation" prefHeight="33.0" prefWidth="185.0" text="Certificat Medicale De Consultation" textOverrun="CLIP" VBox.vgrow="ALWAYS">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-file-medical" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnCertificatAptitudeSportive" onAction="#handlePrintCertificatAptitudeSportive" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Aptitude Sportive">
+                                                                              <Button fx:id="btnCertificatAptitudeSportive" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintCertificatAptitudeSportive" prefHeight="32.0" prefWidth="187.0" text="Certificat Aptitude Sportive">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-running" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnCertificatArretScolaire" onAction="#handlePrintCertificatArretScolaire" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat  D'Arret Scolaire">
+                                                                              <Button fx:id="btnCertificatArretScolaire" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintCertificatArretScolaire" prefHeight="32.0" prefWidth="188.0" text="Certificat  D'Arret Scolaire">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-school" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnCertificatArretTravail" onAction="#handlePrintCertificatArretTravail" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="188.0" text="Certificat D'Arret De Travail">
+                                                                              <Button fx:id="btnCertificatArretTravail" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintCertificatArretTravail" prefHeight="32.0" prefWidth="188.0" text="Certificat D'Arret De Travail">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-briefcase" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnCertificatMaladieChronique" onAction="#handlePrintCertificatMaladieChronique" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="187.0" text="Certificat Maladie Chronique">
+                                                                              <Button fx:id="btnCertificatMaladieChronique" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintCertificatMaladieChronique" prefHeight="32.0" prefWidth="187.0" text="Certificat Maladie Chronique">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-procedures" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnFicheSoinsLocaux" onAction="#handlePrintFicheSoinsLocaux" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="185.0" text="Fiche Soins Locaux">
+                                                                              <Button fx:id="btnFicheSoinsLocaux" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintFicheSoinsLocaux" prefHeight="32.0" prefWidth="185.0" text="Fiche Soins Locaux">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-band-aid" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnLettreOrientation" onAction="#handlePrintLettreOrientation" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
+                                                                              <Button fx:id="btnLettreOrientation" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintLettreOrientation" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-share" iconSize="16" />
                                                                                  </graphic>
@@ -1073,24 +1078,24 @@
                                        <children>
                                           <AnchorPane prefHeight="55.0" prefWidth="662.0">
                                              <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="363.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="55.0" prefWidth="449.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnAjouterRendezVous" mnemonicParsing="false" onAction="#ajouterRendezVous" text="Ajouter">
+                                                      <Button fx:id="btnAjouterRendezVous" mnemonicParsing="false" onAction="#ajouterRendezVous" styleClass="btn-success" text="Ajouter">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-plus" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btnEditRendezVous" mnemonicParsing="false" onAction="#editRendezVous" text="Modifier">
+                                                      <Button fx:id="btnEditRendezVous" mnemonicParsing="false" onAction="#editRendezVous" styleClass="btn-warning" text="Modifier">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-edit" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="btndeleteRendzVous" mnemonicParsing="false" onAction="#deleteRendezVous" text="Supprimer">
+                                                      <Button fx:id="btndeleteRendzVous" mnemonicParsing="false" onAction="#deleteRendezVous" styleClass="btn-danger" text="Supprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-trash" iconSize="16" />
                                                          </graphic>
                                                       </Button>
-                                                      <Button mnemonicParsing="false" text="Imprimer">
+                                                      <Button mnemonicParsing="false" styleClass="btn-info" text="Imprimer">
                                                          <graphic>
                                                             <FontIcon iconLiteral="fas-print" iconSize="16" />
                                                          </graphic>
@@ -1108,7 +1113,7 @@
                                                    <children>
                                                       <AnchorPane prefHeight="25.0" prefWidth="662.0">
                                                          <children>
-                                                            <Label alignment="CENTER" layoutX="101.0" layoutY="6.0" style="-fx-background-color: purple;" text="Table des Rendez-vous" textFill="#f8f6f6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                            <Label alignment="CENTER" layoutX="101.0" layoutY="6.0" style="-fx-background-color: #f59e0b;" text="Table des Rendez-vous" textFill="#f8f6f6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                <font>
                                                                   <Font name="System Bold" size="24" />
                                                                </font>

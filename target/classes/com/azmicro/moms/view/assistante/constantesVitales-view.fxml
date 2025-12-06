@@ -11,26 +11,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.assistante.ConstantesVitalesController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #f5f7fa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.assistante.ConstantesVitalesController">
    <children>
-      <VBox prefHeight="500.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="500.0" prefWidth="700.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);">
                <children>
-                  <Label text="Constantes Vitales - Patient:">
+                  <FontIcon iconLiteral="fas-heartbeat" iconSize="28" iconColor="#e74c3c" />
+                  <Label text="Constantes Vitales - Patient:" textFill="#2c3e50">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Segoe UI Semibold" size="18" />
                      </font>
                   </Label>
-                  <Label fx:id="lblPatientName" text="Nom Prénom" textFill="#2196f3">
+                  <Label fx:id="lblPatientName" text="Nom Prénom" textFill="#2193b0">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18" />
                      </font>
                   </Label>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
             </HBox>
             
             <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -90,8 +95,14 @@
                         </VBox>
                         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Pres artérielle (mm Hg) :" />
-                              <TextField fx:id="tfPressionArterielle" alignment="CENTER" prefHeight="25.0" />
+                              <Label text="Pres artérielle gauche (mm Hg) :" />
+                              <TextField fx:id="tfPressionArterielleGauche" alignment="CENTER" prefHeight="25.0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Pres artérielle droite (mm Hg) :" />
+                              <TextField fx:id="tfPressionArterielleDroite" alignment="CENTER" prefHeight="25.0" />
                            </children>
                         </VBox>
                      </children>

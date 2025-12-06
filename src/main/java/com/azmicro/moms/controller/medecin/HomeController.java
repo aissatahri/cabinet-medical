@@ -13,8 +13,10 @@ import com.azmicro.moms.model.Statut;
 import com.azmicro.moms.model.Utilisateur;
 import com.azmicro.moms.service.DisponibilitesService;
 import com.azmicro.moms.service.FilesAttenteService;
+import com.azmicro.moms.service.PaiementsService;
 import com.azmicro.moms.service.PatientService;
 import com.azmicro.moms.service.RendezVousService;
+import com.azmicro.moms.model.Paiements;
 import com.azmicro.moms.util.DatabaseUtil;
 import java.io.IOException;
 import java.net.URL;
@@ -66,6 +68,12 @@ public class HomeController implements Initializable {
     private Label lblNombrePatientListAttente;
     @FXML
     private Label lblNombreRendezVous;
+    @FXML
+    private Label lblMontantTotal;
+    @FXML
+    private Button btnNotifications;
+    @FXML
+    private Label lblNotificationBadge;
     // ToggleGroup pour les RadioButtons
     private ToggleGroup filterGroup;
 
@@ -81,6 +89,7 @@ public class HomeController implements Initializable {
     private FilesAttenteService filesAttenteService;
     private DisponibilitesService disponibilitesService;
     private PatientService patientService;
+    private PaiementsService paiementsService;
     private DashboardMedecinController dashboardMedecinController;
     private Utilisateur utilisateur;
     List<FilesAttente> filesAttenteList;
@@ -111,6 +120,7 @@ public class HomeController implements Initializable {
         this.disponibilitesService = new DisponibilitesService();
         // Initialiser le service de rendez-vous
         this.rendezVousService = new RendezVousService();
+        this.paiementsService = new PaiementsService();
 
         // Création du ToggleGroup et assignation des RadioButtons
         filterGroup = new ToggleGroup();
@@ -127,20 +137,127 @@ public class HomeController implements Initializable {
         JourRb.setSelected(true);
         updateRendezVousView();
         //loadFilesAttenteData();
-        lblNombrePatient.setText(""+patientService.findAll().size());
+        
+        // Charger les statistiques
+        loadStatistics();
+        
+        // Initialiser les notifications
+        initializeNotifications();
+    }
+    
+    /**
+     * Charge les statistiques du dashboard
+     */
+    private void loadStatistics() {
+        // Nombre de patients
+        lblNombrePatient.setText("" + patientService.findAll().size());
+        
+        // Nombre de patients en attente
         if(filesAttenteList == null){
-            lblNombrePatientListAttente.setText(""+0);
+            lblNombrePatientListAttente.setText("0");
         }else{
-            lblNombrePatientListAttente.setText(""+filesAttenteList.size());
-        }
-        List<RendezVous> lst = rendezVousService.findRendezVousFromToday();
-        if(lst == null){
-            lblNombreRendezVous.setText(""+0);
-        }
-        else{
-            lblNombreRendezVous.setText(""+rendezVousService.findRendezVousFromToday().size());
+            lblNombrePatientListAttente.setText("" + filesAttenteList.size());
         }
         
+        // Nombre de rendez-vous aujourd'hui
+        List<RendezVous> lst = rendezVousService.findRendezVousFromToday();
+        if(lst == null){
+            lblNombreRendezVous.setText("0");
+        }
+        else{
+            lblNombreRendezVous.setText("" + lst.size());
+        }
+        
+        // Calculer le montant total des paiements du mois
+        calculateMonthlyPayments();
+    }
+    
+    /**
+     * Calcule le montant total des paiements du mois en cours
+     */
+    private void calculateMonthlyPayments() {
+        try {
+            // Récupérer tous les paiements
+            List<Paiements> allPaiements = paiementsService.getAllPaiements();
+            
+            // Filtrer les paiements du mois en cours
+            LocalDate now = LocalDate.now();
+            int currentMonth = now.getMonthValue();
+            int currentYear = now.getYear();
+            
+            double totalMensuel = allPaiements.stream()
+                .filter(p -> p.getDatePaiement() != null)
+                .filter(p -> p.getDatePaiement().getMonthValue() == currentMonth 
+                          && p.getDatePaiement().getYear() == currentYear)
+                .mapToDouble(Paiements::getVersment) // Utiliser le montant versé
+                .sum();
+            
+            // Formater le montant avec séparateur de milliers
+            String montantFormate = String.format("%,.2f DH", totalMensuel);
+            lblMontantTotal.setText(montantFormate);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            lblMontantTotal.setText("0 DH");
+        }
+    }
+    
+    /**
+     * Initialise le système de notifications
+     */
+    private void initializeNotifications() {
+        // Compter les notifications
+        int notificationCount = getNotificationCount();
+        
+        if (notificationCount > 0) {
+            lblNotificationBadge.setText(String.valueOf(notificationCount));
+            lblNotificationBadge.setVisible(true);
+        } else {
+            lblNotificationBadge.setVisible(false);
+        }
+        
+        // Ajouter l'événement au clic sur le bouton notifications
+        if (btnNotifications != null) {
+            btnNotifications.setOnAction(event -> showNotifications());
+        }
+    }
+    
+    /**
+     * Compte le nombre de notifications
+     */
+    private int getNotificationCount() {
+        int count = 0;
+        
+        // Notifications pour les rendez-vous proches (dans les 30 prochaines minutes)
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+        LocalTime thirtyMinutesLater = now.plusMinutes(30);
+        
+        List<RendezVous> todayAppointments = rendezVousService.findRendezVousByDate(today);
+        if (todayAppointments != null) {
+            for (RendezVous rdv : todayAppointments) {
+                if (rdv.getHourStart() != null && 
+                    !rdv.getHourStart().isBefore(now) && 
+                    !rdv.getHourStart().isAfter(thirtyMinutesLater)) {
+                    count++;
+                }
+            }
+        }
+        
+        // Ajouter les patients en attente comme notifications
+        if (filesAttenteList != null && !filesAttenteList.isEmpty()) {
+            count += filesAttenteList.size();
+        }
+        
+        return count;
+    }
+    
+    /**
+     * Affiche le panneau de notifications
+     */
+    private void showNotifications() {
+        // TODO: Implémenter l'affichage du panneau de notifications
+        System.out.println("Affichage des notifications");
     }
 
     @FXML
@@ -384,9 +501,11 @@ public class HomeController implements Initializable {
         // Appeler la méthode de service avec les statuts sélectionnés
         filesAttenteList = filesAttenteService.findAll(today, startTime, endTime, statusArray);
 
-        System.out.println(filesAttenteList.size());
-        // Mettre à jour le label avec le nombre de patients
-        lblCounter.setText("Nombre de patients : " + filesAttenteList.size());
+        int waitingCount = filesAttenteList != null ? filesAttenteList.size() : 0;
+        System.out.println(waitingCount);
+        // Mettre à jour les compteurs (carte et label)
+        lblCounter.setText("Nombre de patients : " + waitingCount);
+        lblNombrePatientListAttente.setText(String.valueOf(waitingCount));
 
         // Effacer les anciens patients affichés
         lstPatientAttenteBox.getChildren().clear();

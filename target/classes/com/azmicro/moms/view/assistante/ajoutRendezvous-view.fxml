@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane id="AnchorPane" prefHeight="399.0" prefWidth="615.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.assistante.AjoutRendervousController">
     <stylesheets>
@@ -68,8 +69,16 @@
             </GridPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="615.0" spacing="10">
                <children>
-                  <Button fx:id="btnSave" onAction="#saveRendezVous" styleClass="actionButton" text="Enregistrer" />
-                  <Button fx:id="btnCancel" onAction="#cancel" styleClass="actionButton" text="Annuler" />
+                  <Button fx:id="btnSave" onAction="#saveRendezVous" styleClass="actionButton" text="Enregistrer">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-save" iconSize="16" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnCancel" onAction="#cancel" styleClass="actionButton" text="Annuler">
+                     <graphic>
+                        <FontIcon iconLiteral="fas-times" iconSize="16" />
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
          </children>

@@ -23,6 +23,14 @@ public class ConsultationDAOImpl implements ConsultationDAO {
     private RendezVousDAO rendezVousDAO;
     private PatientDAO patientDAO;
 
+    private String getStringSafe(ResultSet rs, String column) {
+        try {
+            return rs.getString(column);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
     public ConsultationDAOImpl(Connection connection) {
         this.connection = connection;
         this.rendezVousDAO = new RendezVousDAOImpl();
@@ -31,7 +39,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
 
     @Override
     public boolean save(Consultations consultation) {
-        String sql = "INSERT INTO consultations (RendezVousID, DateConsultation, symptome, diagnostique, cat, poids, taille, imc, frequencequardiaque, pression, frequencerespiratoire, glycimie, temperature, saO, idPatient, examenClinique) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO consultations (RendezVousID, DateConsultation, symptome, diagnostique, cat, poids, taille, imc, frequencequardiaque, pression, pression_droite, frequencerespiratoire, glycimie, temperature, saO, idPatient, examenClinique) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             // Remplir les paramètres
@@ -45,12 +53,13 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(8, consultation.getImc());
             stmt.setInt(9, consultation.getFrequencequardiaque());
             stmt.setString(10, consultation.getPression());
-            stmt.setInt(11, consultation.getFrequencerespiratoire());
-            stmt.setDouble(12, consultation.getGlycimie());
-            stmt.setDouble(13, consultation.getTemperature());
-            stmt.setDouble(14, consultation.getSaO());
-            stmt.setInt(15, consultation.getPatient().getPatientID()); // Associer le patient
-            stmt.setString(16, consultation.getExamenClinique()); // Ajouter examenClinique
+            stmt.setString(11, consultation.getPressionDroite());
+            stmt.setInt(12, consultation.getFrequencerespiratoire());
+            stmt.setDouble(13, consultation.getGlycimie());
+            stmt.setDouble(14, consultation.getTemperature());
+            stmt.setDouble(15, consultation.getSaO());
+            stmt.setInt(16, consultation.getPatient().getPatientID()); // Associer le patient
+            stmt.setString(17, consultation.getExamenClinique()); // Ajouter examenClinique
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -74,7 +83,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
     // Méthode pour mettre à jour une consultation
     @Override
     public boolean update(Consultations consultation) {
-        String sql = "UPDATE consultations SET RendezVousID = ?, DateConsultation = ?, symptome = ?, diagnostique = ?, cat = ?, poids = ?, taille = ?, imc = ?, frequencequardiaque = ?, pression = ?, frequencerespiratoire = ?, glycimie = ?, temperature = ?, saO = ?, idPatient = ?, examenClinique = ? WHERE ConsultationID = ?";
+        String sql = "UPDATE consultations SET RendezVousID = ?, DateConsultation = ?, symptome = ?, diagnostique = ?, cat = ?, poids = ?, taille = ?, imc = ?, frequencequardiaque = ?, pression = ?, pression_droite = ?, frequencerespiratoire = ?, glycimie = ?, temperature = ?, saO = ?, idPatient = ?, examenClinique = ? WHERE ConsultationID = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, consultation.getRendezVous() != null ? consultation.getRendezVous().getRendezVousID() : null);
@@ -87,13 +96,14 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(8, consultation.getImc());
             stmt.setInt(9, consultation.getFrequencequardiaque());
             stmt.setString(10, consultation.getPression());
-            stmt.setInt(11, consultation.getFrequencerespiratoire());
-            stmt.setDouble(12, consultation.getGlycimie());
-            stmt.setDouble(13, consultation.getTemperature());
-            stmt.setDouble(14, consultation.getSaO());
-            stmt.setInt(15, consultation.getPatient().getPatientID()); // Associer le patient
-            stmt.setString(16, consultation.getExamenClinique()); // Ajouter examenClinique
-            stmt.setInt(17, consultation.getConsultationID());
+            stmt.setString(11, consultation.getPressionDroite());
+            stmt.setInt(12, consultation.getFrequencerespiratoire());
+            stmt.setDouble(13, consultation.getGlycimie());
+            stmt.setDouble(14, consultation.getTemperature());
+            stmt.setDouble(15, consultation.getSaO());
+            stmt.setInt(16, consultation.getPatient().getPatientID()); // Associer le patient
+            stmt.setString(17, consultation.getExamenClinique()); // Ajouter examenClinique
+            stmt.setInt(18, consultation.getConsultationID());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -123,6 +133,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setImc(rs.getDouble("imc"));
                     consultation.setFrequencequardiaque(rs.getInt("frequencequardiaque"));
                     consultation.setPression(rs.getString("pression"));
+                    consultation.setPressionDroite(getStringSafe(rs, "pression_droite"));
                     consultation.setFrequencerespiratoire(rs.getInt("frequencerespiratoire"));
                     consultation.setGlycimie(rs.getDouble("glycimie"));
                     consultation.setTemperature(rs.getDouble("temperature"));
@@ -158,6 +169,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                 consultation.setImc(rs.getDouble("imc"));
                 consultation.setFrequencequardiaque(rs.getInt("frequencequardiaque"));
                 consultation.setPression(rs.getString("pression"));
+                consultation.setPressionDroite(getStringSafe(rs, "pression_droite"));
                 consultation.setFrequencerespiratoire(rs.getInt("frequencerespiratoire"));
                 consultation.setGlycimie(rs.getDouble("glycimie"));
                 consultation.setTemperature(rs.getDouble("temperature"));
@@ -205,6 +217,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setImc(rs.getDouble("imc"));
                     consultation.setFrequencequardiaque(rs.getInt("frequencequardiaque"));
                     consultation.setPression(rs.getString("pression"));
+                    consultation.setPressionDroite(getStringSafe(rs, "pression_droite"));
                     consultation.setFrequencerespiratoire(rs.getInt("frequencerespiratoire"));
                     consultation.setGlycimie(rs.getDouble("glycimie"));
                     consultation.setTemperature(rs.getDouble("temperature"));

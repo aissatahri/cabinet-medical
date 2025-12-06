@@ -345,85 +345,92 @@ public class BilanController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-@FXML
-private void ajouterBilan(ActionEvent event) {
-    int savedCount = 0;
-    
-    for (Node node : vboxLignesBilan.getChildren()) {
-        if (node instanceof VBox) {
-            VBox lineContainer = (VBox) node;
-            
-            DatePicker datePicker = (DatePicker) lineContainer.getChildren().get(3);
-            ComboBox<String> typeComboBox = (ComboBox<String>) lineContainer.getChildren().get(5);
-            TextArea resultArea = (TextArea) lineContainer.getChildren().get(7);
+    @FXML
+    private void ajouterBilan(ActionEvent event) {
+        int savedCount = 0;
+        
+        for (Node node : vboxLignesBilan.getChildren()) {
+            if (node instanceof VBox) {
+                VBox lineContainer = (VBox) node;
+                
+                DatePicker datePicker = (DatePicker) lineContainer.getChildren().get(3);
+                ComboBox<String> typeComboBox = (ComboBox<String>) lineContainer.getChildren().get(5);
+                TextArea resultArea = (TextArea) lineContainer.getChildren().get(7);
 
-            String typeText = typeComboBox.getEditor().getText().trim();
-            System.out.println("DEBUG - Type: " + typeText + ", Date: " + datePicker.getValue() + ", Desc: " + resultArea.getText());
-            
-            if (typeText.isEmpty()) {
-                System.out.println("DEBUG - Ligne ignorée car type vide");
-                continue;
-            }
+                String typeText = typeComboBox.getEditor().getText().trim();
+                System.out.println("DEBUG - Type: " + typeText + ", Date: " + datePicker.getValue() + ", Desc: " + resultArea.getText());
+                
+                if (typeText.isEmpty()) {
+                    System.out.println("DEBUG - Ligne ignorée car type vide");
+                    continue;
+                }
 
-            Analyse analyse = new Analyse();
-            
-            TypeAnalyse typeAnalyse = null;
-            if (typeText.contains(":")) {
-                String[] parts = typeText.split(":", 2);
-                String nomAnalyse = parts[0].trim();
-                typeAnalyse = typeAnalyseService.findByNomAnalyseFr(nomAnalyse);
-            } else {
-                typeAnalyse = typeAnalyseService.findByNomAnalyseFr(typeText);
-            }
-            
-            // Si le type n'existe pas en base, créer un nouveau type
-            if (typeAnalyse == null) {
-                typeAnalyse = new com.azmicro.moms.model.TypeAnalyse();
-                typeAnalyse.setNomAnalyseFr(typeText);
-                typeAnalyse.setCodeAnalyseFr("");
-                // Sauvegarder le nouveau type
-                if (typeAnalyseService.save(typeAnalyse)) {
-                    // Récupérer le type sauvegardé avec son ID
+                Analyse analyse = new Analyse();
+                
+                TypeAnalyse typeAnalyse = null;
+                if (typeText.contains(":")) {
+                    String[] parts = typeText.split(":", 2);
+                    String nomAnalyse = parts[0].trim();
+                    typeAnalyse = typeAnalyseService.findByNomAnalyseFr(nomAnalyse);
+                } else {
                     typeAnalyse = typeAnalyseService.findByNomAnalyseFr(typeText);
                 }
-            }
-            
-            analyse.setTypeAnalyse(typeAnalyse);
-            analyse.setDescription(resultArea.getText());
-            analyse.setDateAnalyse(datePicker.getValue() != null ? datePicker.getValue() : LocalDate.now());
-            analyse.setConsultationID(this.consultation.getConsultationID());
-            
-            System.out.println("DEBUG - Sauvegarde analyse: TypeID=" + (typeAnalyse != null ? typeAnalyse.getIdTypeAnalyse() : "NULL") + ", ConsultationID=" + this.consultation.getConsultationID());
-            boolean saved = analyseService.saveAnalyse(analyse);
-            System.out.println("DEBUG - Résultat sauvegarde: " + saved);
-            if (saved) {
-                savedCount++;
+                
+                // Si le type n'existe pas en base, créer un nouveau type
+                if (typeAnalyse == null) {
+                    typeAnalyse = new com.azmicro.moms.model.TypeAnalyse();
+                    typeAnalyse.setNomAnalyseFr(typeText);
+                    typeAnalyse.setCodeAnalyseFr("");
+                    // Sauvegarder le nouveau type
+                    if (typeAnalyseService.save(typeAnalyse)) {
+                        // Récupérer le type sauvegardé avec son ID
+                        typeAnalyse = typeAnalyseService.findByNomAnalyseFr(typeText);
+                    }
+                }
+                
+                analyse.setTypeAnalyse(typeAnalyse);
+                analyse.setDescription(resultArea.getText());
+                analyse.setResultat(resultArea.getText());
+                analyse.setDateAnalyse(datePicker.getValue() != null ? datePicker.getValue() : LocalDate.now());
+                analyse.setConsultationID(this.consultation.getConsultationID());
+
+                Analyse existingAnalyse = (Analyse) lineContainer.getUserData();
+                boolean saved;
+                if (existingAnalyse != null && existingAnalyse.getAnalyseID() > 0) {
+                    analyse.setAnalyseID(existingAnalyse.getAnalyseID());
+                    saved = analyseService.updateAnalyse(analyse);
+                } else {
+                    saved = analyseService.saveAnalyse(analyse);
+                }
+                System.out.println("DEBUG - Résultat sauvegarde: " + saved);
+                if (saved) {
+                    savedCount++;
+                }
             }
         }
+
+        final int count = savedCount;
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        final Window owner = stage.getOwner();
+        stage.close();
+
+        Platform.runLater(() -> {
+            if (dossierController != null) {
+                dossierController.refreshBilan();
+                dossierController.initializeConsultationsDates(consultation.getPatient().getPatientID());
+            }
+            
+            // Afficher message de succès
+            if (count > 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succès");
+                alert.setHeaderText(null);
+                alert.setContentText(count + " analyse(s) ajoutée(s) avec succès!");
+                alert.initOwner(owner);
+                alert.showAndWait();
+            }
+        });
     }
-
-    final int count = savedCount;
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-    final Window owner = stage.getOwner();
-    stage.close();
-
-    Platform.runLater(() -> {
-        if (dossierController != null) {
-            dossierController.refreshBilan();
-            dossierController.initializeConsultationsDates(consultation.getPatient().getPatientID());
-        }
-        
-        // Afficher message de succès
-        if (count > 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setHeaderText(null);
-            alert.setContentText(count + " analyse(s) ajoutée(s) avec succès!");
-            alert.initOwner(owner);
-            alert.showAndWait();
-        }
-    });
-}
 
     public void loadExistingAnalyses() {
         if (consultation == null) {
@@ -459,6 +466,9 @@ private void ajouterBilan(ActionEvent event) {
             } else if (analyse.getResultat() != null && !analyse.getResultat().isEmpty()) {
                 resultArea.setText(analyse.getResultat());
             }
+
+            // Conserver l'ID pour activer le mode mise à jour lors de la sauvegarde
+            line.setUserData(analyse);
         }
     }
 

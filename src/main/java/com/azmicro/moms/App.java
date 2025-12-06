@@ -25,10 +25,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         logger.info("Starting application...");
-        if (!DatabaseUtil.databaseExists()) {
-            logger.info("Database does not exist. Initializing...");
-            DatabaseInitializer.initializeDatabase();
-        }
+        // Always run initializer to apply schema migrations on existing DBs
+        DatabaseInitializer.initializeDatabase();
 
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/azmicro/moms/images/cardiology.png")));
         stage.getIcons().add(icon);
@@ -37,8 +35,11 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setTitle("SGM"); // Set the window title
 
+        // Rendre la fenêtre non redimensionnable
+        stage.setResizable(false);
+
         // Center the window on the screen
-        stage.setWidth(800);
+        stage.setWidth(900);
         stage.setHeight(600);
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
