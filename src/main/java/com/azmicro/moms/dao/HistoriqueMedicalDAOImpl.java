@@ -10,6 +10,7 @@ package com.azmicro.moms.dao;
  */
 import com.azmicro.moms.model.HistoriqueMedical;
 import com.azmicro.moms.model.Type;
+import java.util.Locale;
 import com.azmicro.moms.util.DatabaseUtil;
 
 import java.sql.*;
@@ -51,7 +52,9 @@ public class HistoriqueMedicalDAOImpl implements HistoriqueMedicalDAO {
                 historiqueMedical = new HistoriqueMedical();
                 historiqueMedical.setHistoriqueID(resultSet.getInt("HistoriqueID"));
                 historiqueMedical.setPatient(patientDAO.findById(resultSet.getInt("PatientID")));
-                historiqueMedical.setType(Type.valueOf(resultSet.getString("Type")));
+                // Normalise la casse pour éviter les valeurs incohérentes (ex: "ChIRURGICAL")
+                String rawType = resultSet.getString("Type");
+                historiqueMedical.setType(Type.valueOf(rawType.toUpperCase(Locale.ROOT)));
                 historiqueMedical.setDescription(resultSet.getString("Description"));
                 historiqueMedical.setDate(resultSet.getDate("Date").toLocalDate());
                 historiqueMedical.setNote(resultSet.getString("Note"));
@@ -94,7 +97,8 @@ public class HistoriqueMedicalDAOImpl implements HistoriqueMedicalDAO {
                     HistoriqueMedical historiqueMedical = new HistoriqueMedical();
                     historiqueMedical.setHistoriqueID(resultSet.getInt("HistoriqueID"));
                     historiqueMedical.setPatient(patientDAO.findById(resultSet.getInt("PatientID")));
-                    historiqueMedical.setType(Type.valueOf(resultSet.getString("Type")));
+                    String rawType = resultSet.getString("Type");
+                    historiqueMedical.setType(Type.valueOf(rawType.toUpperCase(Locale.ROOT)));
                     historiqueMedical.setDescription(resultSet.getString("Description"));
                     historiqueMedical.setDate(resultSet.getDate("Date").toLocalDate());
                     historiqueMedical.setNote(resultSet.getString("Note"));
