@@ -2320,8 +2320,10 @@ public class DossierController implements Initializable {
                 }
             }
             
+            int age = patient.getAgeInYears();
+            String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
             String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie avoir examiné " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", certifie avoir examiné " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + " le " + dateConsultation + ".";
             
             if (!motifConsultation.isEmpty()) {
@@ -2353,8 +2355,10 @@ public class DossierController implements Initializable {
         }
 
         try {
+            int age = patient.getAgeInYears();
+            String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
             String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie que " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", certifie que " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + ", ne présente aucune contre-indication à la pratique du sport."
                 + "\n\nCertificat établi le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
@@ -2428,8 +2432,10 @@ public class DossierController implements Initializable {
             }
 
             try {
+                int age = patient.getAgeInYears();
+                String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
                 String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                    + ", certifie que l'état de santé de " + patient.getNom() + " " + patient.getPrenom()
+                    + ", certifie que l'état de santé de " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                     + " nécessite un arrêt scolaire"
                     + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
@@ -2504,8 +2510,10 @@ public class DossierController implements Initializable {
             }
 
             try {
+                int age = patient.getAgeInYears();
+                String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
                 String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                    + ", certifie que l'état de santé de " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                    + ", certifie que l'état de santé de " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                     + " nécessite un arrêt de travail"
                     + "\ndu " + dateDebut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     + " au " + dateFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " inclus."
@@ -2537,8 +2545,10 @@ public class DossierController implements Initializable {
         }
 
         try {
+            int age = patient.getAgeInYears();
+            String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
             String certificatText = "Je soussigné Dr " + medecin.getNom() + " " + medecin.getPrenom() 
-                + ", certifie que " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                + ", certifie que " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + " est atteint(e) d'une affection de longue durée nécessitant un traitement prolongé et une thérapeutique particulièrement coûteuse."
                 + "\n\nCe certificat est établi conformément aux dispositions réglementaires en vigueur."
                 + "\n\nCertificat établi le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
@@ -2576,10 +2586,11 @@ public class DossierController implements Initializable {
         Consultations precedente = findPreviousConsultation(consultationSelectionnee);
         List<Prescriptions> traitementEnCours = getPrescriptionsForConsultation(precedente);
         List<RendezVous> rdvLies = getRendezVousForConsultation(consultationSelectionnee);
+        List<HistoriqueMedical> antecedents = historiqueMedicalService.findAllHistoriquesMedicalByIdPatient(patient.getPatientID());
 
         try {
             String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateFicheSoinsLocauxPdf(
-                consultationSelectionnee, traitementEnCours, traitementSortie, rdvLies, patient, medecin
+                consultationSelectionnee, traitementEnCours, traitementSortie, rdvLies, antecedents, patient, medecin
             );
             
             com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
@@ -2601,9 +2612,11 @@ public class DossierController implements Initializable {
         }
 
         try {
+            int age = patient.getAgeInYears();
+            String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
             String lettreText = "LETTRE D'ORIENTATION"
                 + "\n\nÀ l'attention du confrère spécialiste,"
-                + "\n\nJe vous adresse " + patient.getSexe().getDescription() + " " + patient.getNom() + " " + patient.getPrenom()
+                + "\n\nJe vous adresse " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + ", pour avis spécialisé et prise en charge."
                 + "\n\nMotif de la consultation : [À compléter]"

@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Properties;
@@ -716,6 +718,7 @@ public class PdfGenerator {
                                                      List<Prescriptions> traitementEnCours,
                                                      List<Prescriptions> traitementSortie,
                                                      List<RendezVous> rendezVousLies,
+                                                     List<com.azmicro.moms.model.HistoriqueMedical> antecedents,
                                                      Patient patient,
                                                      Medecin medecin) throws FileNotFoundException {
         String outputDirectory = getOutputDirectory();
@@ -745,17 +748,17 @@ public class PdfGenerator {
 
         // Title
         document.add(new Paragraph("FICHE DE SOINS LOCAUX")
-                .setTextAlignment(TextAlignment.CENTER)
-                .setBold()
-                .setFontSize(14)
-                .setMarginBottom(12));
+            .setTextAlignment(TextAlignment.CENTER)
+            .setBold()
+            .setFontSize(14)
+            .setMarginBottom(8));
 
-        // Consultation date under title
+        // Consultation date under title, aligned left
         if (consultation.getDateConsultation() != null) {
             document.add(new Paragraph("Date de consultation : " + consultation.getDateConsultation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                .setTextAlignment(TextAlignment.CENTER)
-                .setFontSize(labelSize)
-                .setMarginBottom(8));
+            .setTextAlignment(TextAlignment.LEFT)
+            .setFontSize(labelSize)
+            .setMarginBottom(10));
         }
 
         // Patient info table 2 cols
@@ -767,10 +770,14 @@ public class PdfGenerator {
         info.addCell(makeLabelValue("Adresse :", safe(patient.getAdresse()), labelSize, valueSize));
         info.addCell(makeLabelValue("Numéro de téléphone :", safe(patient.getTelephone()), labelSize, valueSize));
         info.addCell(makeLabelValue("Profession :", safe(patient.getProfession()), labelSize, valueSize));
-        info.addCell(makeLabelValueMultiline("Motif de consultation :", safe(consultation.getSymptome()), labelSize, valueSize));
+        info.addCell(makeLabelValue("", "", labelSize, valueSize));
         document.add(info.setMarginBottom(10));
 
-        document.add(makeSectionWithBullets("ATCD :", "-", labelSize, valueSize));
+        // Motif en plein format gauche
+        document.add(makeLabelValueMultiline("Motif de consultation :", safe(consultation.getSymptome()), labelSize, valueSize));
+        document.add(new Paragraph(""));
+
+        document.add(makeSectionWithBullets("ATCD :", formatAntecedents(antecedents), labelSize, valueSize));
         document.add(makeSectionWithBullets("Traitement en cours :", formatPrescriptions(traitementEnCours), labelSize, valueSize));
 
         // Exam section
@@ -782,9 +789,13 @@ public class PdfGenerator {
         exam.addCell(makeLabelValue("SaO2 :", formatInt(consultation.getSaO()), labelSize, valueSize));
         exam.addCell(makeLabelValue("Glycémie :", formatDouble(consultation.getGlycimie()), labelSize, valueSize));
         exam.addCell(makeLabelValue("Poids :", formatDouble(consultation.getPoids()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("Clinique :", safe(consultation.getExamenClinique()), labelSize, valueSize));
         exam.addCell(makeLabelValue("Température :", formatDouble(consultation.getTemperature()), labelSize, valueSize));
-        document.add(exam.setMarginBottom(10));
+        exam.addCell(makeLabelValue("", "", labelSize, valueSize));
+        document.add(exam.setMarginBottom(6));
+
+        // Clinique en plein format gauche
+        document.add(makeLabelValueMultiline("Clinique :", safe(consultation.getExamenClinique()), labelSize, valueSize));
+        document.add(new Paragraph(""));
 
         document.add(makeSectionWithBullets("ECG :", "", labelSize, valueSize));
         document.add(makeSectionWithBullets("ETT :", "", labelSize, valueSize));
@@ -871,6 +882,25 @@ public class PdfGenerator {
         }
 
         return lines.stream().map(s -> "• " + s).collect(Collectors.joining("\n"));
+    }
+
+    private static String formatAntecedents(List<com.azmicro.moms.model.HistoriqueMedical> antecedents) {
+        if (antecedents == null || antecedents.isEmpty()) {
+            return "-";
+        }
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return antecedents.stream()
+                .map(a -> {
+                    String date = a.getDate() != null ? a.getDate().format(fmt) : "";
+                    String type = a.getType() != null ? a.getType().name() : "";
+                    String desc = a.getDescription() != null ? a.getDescription() : "";
+                        return Arrays.stream(new String[]{date, type, desc})
+                            .filter(s -> s != null && !s.isBlank())
+                            .collect(Collectors.joining(" - "));
+                })
+                .filter(s -> s != null && !s.isBlank())
+                .map(s -> "• " + s)
+                .collect(Collectors.joining("\n"));
     }
 
     private static String cleanPosologieText(String value) {

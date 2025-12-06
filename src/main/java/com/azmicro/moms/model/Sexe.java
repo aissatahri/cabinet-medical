@@ -38,6 +38,24 @@ public enum Sexe {
         return description;
     }
 
+    /**
+     * Retourne la civilité (Monsieur/Madame) selon le sexe.
+     * 
+     * @return "Monsieur" si M, "Madame" si F
+     */
+    public String getCivilite() {
+        return this == M ? "Monsieur" : "Madame";
+    }
+
+    /**
+     * Retourne la désignation pour un mineur (jeune garçon/jeune fille) selon le sexe.
+     * 
+     * @return "le jeune garçon" si M, "la jeune fille" si F
+     */
+    public String getMineurDesignation() {
+        return this == M ? "le jeune garçon" : "la jeune fille";
+    }
+
     @Override
     public String toString() {
         return description;
