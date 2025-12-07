@@ -71,6 +71,9 @@ import java.nio.file.Files;
 import java.util.Properties;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -200,6 +203,18 @@ public class ParametreController implements Initializable {
     private TextField tfKeywordImagerie;
     @FXML
     private TextField tfKeywordAnalyse;
+
+    // Fonts & Sizes tab controls (per-type)
+    @FXML private ComboBox<String> titleFontCombo;
+    @FXML private Spinner<Integer> titleFontSizeSpinner;
+    @FXML private ComboBox<String> textFontCombo;
+    @FXML private Spinner<Integer> textFontSizeSpinner;
+    @FXML private ComboBox<String> ordFontCombo;
+    @FXML private Spinner<Integer> ordFontSizeSpinner;
+    @FXML private ComboBox<String> formFontCombo;
+    @FXML private Spinner<Integer> formFontSizeSpinner;
+    @FXML private Label saveStatusLabel;
+    @FXML private javafx.scene.control.Button saveFontSettingsBtn;
 
     /**
      * Initializes the controller class.
@@ -349,7 +364,136 @@ public class ParametreController implements Initializable {
         Properties properties = loadConfigProperties();
         String outputDirectory = properties.getProperty("output.directory", "D:/output");
         // Use outputDirectory as needed in your application
+
+        // Initialize Fonts & Sizes tab
+        initFontSettingsSection();
         outputDirectoryTextField.setText(outputDirectory); // Set the initial value in the text field
+    }
+
+    private void initFontSettingsSection() {
+        ObservableList<String> families = FXCollections.observableArrayList(
+                "Helvetica", "Calibri", "Cambria", "Garamond", "Book Antiqua", "Times New Roman", "Arial", "Segoe UI"
+        );
+        if (titleFontCombo != null) titleFontCombo.setItems(families);
+        if (textFontCombo != null) textFontCombo.setItems(families);
+        if (ordFontCombo != null) ordFontCombo.setItems(families);
+        if (formFontCombo != null) formFontCombo.setItems(families);
+
+        if (titleFontSizeSpinner != null)
+            titleFontSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 36, 16));
+        if (textFontSizeSpinner != null)
+            textFontSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 24, 12));
+        if (ordFontSizeSpinner != null)
+            ordFontSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 24, 12));
+        if (formFontSizeSpinner != null)
+            formFontSizeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 24, 11));
+
+        loadFontSettings();
+        if (saveFontSettingsBtn != null) {
+            saveFontSettingsBtn.setOnAction(this::handleSaveFontSettings);
+        }
+    }
+
+    private void handleSaveFontSettings(ActionEvent e) {
+        saveFontSettings();
+    }
+
+    private void loadFontSettings() {
+        try {
+            Properties props = new Properties();
+            String path = getConfigPath();
+            File file = new File(path);
+            if (file.exists()) {
+                try (InputStream in = new FileInputStream(file)) {
+                    props.load(in);
+                }
+            }
+            // Defaults per your combination
+            String defTitleFamily = "Helvetica";
+            int defTitleSize = 16;
+            String defTextFamily = "Cambria"; // or Garamond
+            int defTextSize = 12;
+            String defOrdFamily = "Times New Roman";
+            int defOrdSize = 12;
+            String defFormFamily = "Arial";
+            int defFormSize = 11;
+
+            // Load or default
+            String titleFamily = props.getProperty("pdf.font.title.family", defTitleFamily);
+            int titleSize = Integer.parseInt(props.getProperty("pdf.font.title.size", String.valueOf(defTitleSize)));
+            String textFamily = props.getProperty("pdf.font.text.family", defTextFamily);
+            int textSize = Integer.parseInt(props.getProperty("pdf.font.text.size", String.valueOf(defTextSize)));
+            String ordFamily = props.getProperty("pdf.font.ord.family", defOrdFamily);
+            int ordSize = Integer.parseInt(props.getProperty("pdf.font.ord.size", String.valueOf(defOrdSize)));
+            String formFamily = props.getProperty("pdf.font.form.family", defFormFamily);
+            int formSize = Integer.parseInt(props.getProperty("pdf.font.form.size", String.valueOf(defFormSize)));
+
+            if (titleFontCombo != null) titleFontCombo.setValue(titleFamily);
+            if (titleFontSizeSpinner != null) titleFontSizeSpinner.getValueFactory().setValue(titleSize);
+            if (textFontCombo != null) textFontCombo.setValue(textFamily);
+            if (textFontSizeSpinner != null) textFontSizeSpinner.getValueFactory().setValue(textSize);
+            if (ordFontCombo != null) ordFontCombo.setValue(ordFamily);
+            if (ordFontSizeSpinner != null) ordFontSizeSpinner.getValueFactory().setValue(ordSize);
+            if (formFontCombo != null) formFontCombo.setValue(formFamily);
+            if (formFontSizeSpinner != null) formFontSizeSpinner.getValueFactory().setValue(formSize);
+        } catch (Exception ex) {
+            // Silent load failure; keep defaults
+        }
+    }
+
+    private void saveFontSettings() {
+        try {
+            Properties props = new Properties();
+            // Load existing to preserve other keys
+            String path = getConfigPath();
+            File file = new File(path);
+            if (file.exists()) {
+                try (InputStream in = new FileInputStream(file)) {
+                    props.load(in);
+                }
+            } else {
+                File parent = file.getParentFile();
+                if (parent != null && !parent.exists()) parent.mkdirs();
+            }
+            if (titleFontCombo != null && titleFontCombo.getValue() != null)
+                props.setProperty("pdf.font.title.family", titleFontCombo.getValue());
+            if (titleFontSizeSpinner != null && titleFontSizeSpinner.getValue() != null)
+                props.setProperty("pdf.font.title.size", String.valueOf(titleFontSizeSpinner.getValue()));
+
+            if (textFontCombo != null && textFontCombo.getValue() != null)
+                props.setProperty("pdf.font.text.family", textFontCombo.getValue());
+            if (textFontSizeSpinner != null && textFontSizeSpinner.getValue() != null)
+                props.setProperty("pdf.font.text.size", String.valueOf(textFontSizeSpinner.getValue()));
+
+            if (ordFontCombo != null && ordFontCombo.getValue() != null)
+                props.setProperty("pdf.font.ord.family", ordFontCombo.getValue());
+            if (ordFontSizeSpinner != null && ordFontSizeSpinner.getValue() != null)
+                props.setProperty("pdf.font.ord.size", String.valueOf(ordFontSizeSpinner.getValue()));
+
+            if (formFontCombo != null && formFontCombo.getValue() != null)
+                props.setProperty("pdf.font.form.family", formFontCombo.getValue());
+            if (formFontSizeSpinner != null && formFontSizeSpinner.getValue() != null)
+                props.setProperty("pdf.font.form.size", String.valueOf(formFontSizeSpinner.getValue()));
+            try (OutputStream out = new FileOutputStream(file)) {
+                props.store(out, "Font settings");
+            }
+            if (saveStatusLabel != null) {
+                saveStatusLabel.setText("Enregistré ✔");
+            }
+        } catch (IOException ex) {
+            if (saveStatusLabel != null) {
+                saveStatusLabel.setText("Erreur d'enregistrement");
+            }
+        }
+    }
+
+    private String getConfigPath() {
+        if (configFilePath != null && !configFilePath.isEmpty()) {
+            return configFilePath;
+        }
+        String userHome = System.getProperty("user.home");
+        File appDir = new File(userHome, "app-config");
+        return new File(appDir, CONFIG_FILE_NAME).getAbsolutePath();
     }
 
     private void loadTableViewData() {

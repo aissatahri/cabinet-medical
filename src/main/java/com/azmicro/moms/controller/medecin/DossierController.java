@@ -168,27 +168,19 @@ public class DossierController implements Initializable {
     @FXML
     private TableColumn<HistoriqueMedical, String> clmDescriptionAntecedent;
     @FXML
-    private TextField tfPoid;
+    private Button btnSaisirConstantes;
     @FXML
-    private TextField tfTaille;
-    @FXML
-    private TextField tfImc;
-    @FXML
-    private TextField tfPressionGauche;
-    @FXML
-    private TextField tfPressionDroite;
-    @FXML
-    private TextField tfFrequenceRespiratoire;
-    @FXML
-    private TextField tfGlycimie;
-    @FXML
-    private TextField tfTmperature;
-    @FXML
-    private TextField tfSaOpatient;
+    private Label lblConstantesStatus;
+    
+    // Temporary storage for vitals data
+    private Consultations tempConstantesVitales;
+    
     @FXML
     private TextArea txtSymptomes;
     @FXML
     private TextArea txtExamenClinique;
+    @FXML
+    private TextArea txtEtt;
     @FXML
     private TextArea txtDiagnostiqueMedical;
     @FXML
@@ -206,8 +198,6 @@ public class DossierController implements Initializable {
 
     HistoriqueMedicalService historiqueMedicalService;
     private ConsultationService consultationService;
-    @FXML
-    private TextField tfFrquenceCardiaque;
     @FXML
     private TableView<Consultations> tvConsultation;
     @FXML
@@ -362,14 +352,6 @@ public class DossierController implements Initializable {
 
         refreshTableViewAntecedent();
 
-        setupFrequenceCardiaqueField();
-
-        setupFrequenceRespiratoireField();
-
-        setupSaturationOxygenField();
-
-        setupGlycemiaField();
-
         loadConsultations();
 
         getConsultationSelected();
@@ -463,10 +445,6 @@ public class DossierController implements Initializable {
                 populateFields(newValue);
             }
         });
-
-        tfPoid.textProperty().addListener((observable, oldValue, newValue) -> updateIMC());
-        tfTaille.textProperty().addListener((observable, oldValue, newValue) -> updateIMC());
-        setupPressionArterielleField();
     }
 
     private void initializeBilansTable() {
@@ -611,127 +589,34 @@ public class DossierController implements Initializable {
         }
     }
 
-    private void setupGlycemiaField() {
-        tfGlycimie.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                Double glycemyLevel = Double.parseDouble(newValue);
-                String classification = MedicalCalculationService.classifyGlycemiaFastingInGl(glycemyLevel);
-                Tooltip tooltip = new Tooltip(classification);
-                tfGlycimie.setTooltip(tooltip);
-            } catch (NumberFormatException e) {
-                tfGlycimie.setTooltip(new Tooltip("Veuillez entrer une valeur numérique valide en g/L."));
-            }
-        });
-    }
-
-    private void setupSaturationOxygenField() {
-        tfSaOpatient.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                int spo2 = Integer.parseInt(newValue);
-                String classification = MedicalCalculationService.classifyOxygenSaturation(spo2);
-                Tooltip tooltip = new Tooltip(classification);
-                tfSaOpatient.setTooltip(tooltip);
-            } catch (NumberFormatException e) {
-                tfSaOpatient.setTooltip(new Tooltip("Veuillez entrer une valeur numérique valide."));
-            }
-        });
-
-    }
-
-    private void setupFrequenceRespiratoireField() {
-        MedicalFieldValidator.setupFrequenceField(tfFrequenceRespiratoire, 2);
-        
-        tfFrequenceRespiratoire.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                int frequence = Integer.parseInt(newValue);
-                String classification = MedicalCalculationService.classifyRespiratoryRate(frequence, patient);
-                Tooltip tooltip = new Tooltip(classification);
-                tfFrequenceRespiratoire.setTooltip(tooltip);
-            } else {
-                tfFrequenceRespiratoire.setTooltip(null);
-            }
-        });
-    }
-
-    private void setupPressionArterielleField() {
-        MedicalFieldValidator.setupPressionArterielleField(tfPressionGauche);
-        MedicalFieldValidator.setupPressionArterielleField(tfPressionDroite);
-    }
-
-    private void setupFrequenceCardiaqueField() {
-        tfFrquenceCardiaque.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                try {
-                    int frequenceCardiaque = Integer.parseInt(newValue);
-                    int age = patient.getAge();
-                    String sexe = patient.getSexe().getDescription();
-
-                    String interpretation = MedicalCalculationService.getHeartRateInterpretation(age, sexe, frequenceCardiaque);
-                    Tooltip tooltip = new Tooltip(interpretation);
-                    tfFrquenceCardiaque.setTooltip(tooltip);
-                } catch (NumberFormatException e) {
-                    tfFrquenceCardiaque.setTooltip(new Tooltip("Veuillez entrer une valeur numérique valide."));
-                }
-            } else {
-                tfFrquenceCardiaque.setTooltip(null);
-            }
-        });
-
-    }
-
-    private double parseDoubleField(TextField field) {
-        String value = field.getText() == null ? "" : field.getText().trim();
-        if (value.isEmpty()) {
-            return 0.0;
-        }
-        try {
-            return MedicalFieldValidator.parseDecimal(value);
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
-    }
-
-    private int parseIntField(TextField field) {
-        String value = field.getText() == null ? "" : field.getText().trim();
-        if (value.isEmpty()) {
-            return 0;
-        }
-        try {
-            return MedicalFieldValidator.parseInt(value);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
     private void applyVitalsFromForm(Consultations target) {
-        double poids = parseDoubleField(tfPoid);
-        double taille = parseDoubleField(tfTaille);
-
-        double imc = 0.0;
-        if (poids > 0 && taille > 0) {
-            double tailleM = taille / 100;
-            imc = MedicalCalculationService.calculateIMC(poids, tailleM);
-            tfImc.setText(String.format("%.2f", imc));
+        // Copy vitals from tempConstantesVitales if available
+        if (tempConstantesVitales != null) {
+            target.setPoids(tempConstantesVitales.getPoids());
+            target.setTaille(tempConstantesVitales.getTaille());
+            target.setImc(tempConstantesVitales.getImc());
+            target.setTemperature(tempConstantesVitales.getTemperature());
+            target.setPression(tempConstantesVitales.getPression());
+            target.setPressionDroite(tempConstantesVitales.getPressionDroite());
+            target.setFrequencequardiaque(tempConstantesVitales.getFrequencequardiaque());
+            target.setFrequencerespiratoire(tempConstantesVitales.getFrequencerespiratoire());
+            target.setGlycimie(tempConstantesVitales.getGlycimie());
+            target.setSaO(tempConstantesVitales.getSaO());
+        } else {
+            // If no vitals entered, set defaults
+            target.setPoids(0.0);
+            target.setTaille(0.0);
+            target.setImc(0.0);
+            target.setTemperature(0.0);
+            target.setPression("");
+            target.setPressionDroite("");
+            target.setFrequencequardiaque(0);
+            target.setFrequencerespiratoire(0);
+            target.setGlycimie(0.0);
+            target.setSaO(0);
         }
-
-        target.setPoids(poids);
-        target.setTaille(taille);
-        target.setImc(imc > 0 ? imc : parseDoubleField(tfImc));
-        target.setTemperature(parseDoubleField(tfTmperature));
-        target.setPression(tfPressionGauche.getText());
-        target.setPressionDroite(tfPressionDroite.getText());
-        target.setFrequencequardiaque(parseIntField(tfFrquenceCardiaque));
-        target.setFrequencerespiratoire(parseIntField(tfFrequenceRespiratoire));
-        target.setGlycimie(parseDoubleField(tfGlycimie));
-        target.setSaO(parseIntField(tfSaOpatient));
-    }
-
-    private String formatIfPositive(double value) {
-        return value > 0 ? String.valueOf(value) : "";
-    }
-
-    private String formatIfPositiveInt(int value) {
-        return value > 0 ? String.valueOf(value) : "";
+        // ETT is now a separate field
+        target.setEtt(txtEtt.getText());
     }
 
     @FXML
@@ -884,29 +769,90 @@ public class DossierController implements Initializable {
         }
     }
 
-    // Méthode pour mettre à jour l'IMC
-    private void updateIMC() {
+    /**
+     * Open constantes vitales dialog for data entry
+     */
+    @FXML
+    private void ouvrirConstantesVitales(ActionEvent event) {
         try {
-            double poids = Double.parseDouble(tfPoid.getText());
-            double tailleCm = Double.parseDouble(tfTaille.getText());
-            double tailleM = tailleCm / 100; // Convertir la taille en mètres
-
-            if (tailleM > 0) { // Éviter la division par zéro
-                double imc = MedicalCalculationService.calculateIMC(poids, tailleM);
-                tfImc.setText(String.format("%.2f", imc));
-                formatImcField(imc);
-            } else {
-                tfImc.setText("");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/constantesVitales-view.fxml"));
+            Parent root = loader.load();
+            
+            com.azmicro.moms.controller.assistante.ConstantesVitalesController controller = loader.getController();
+            
+            // Create a temporary consultation object for the dialog
+            Consultations tempConsult = new Consultations();
+            if (tempConstantesVitales != null) {
+                // Pre-fill with existing values
+                tempConsult.setPoids(tempConstantesVitales.getPoids());
+                tempConsult.setTaille(tempConstantesVitales.getTaille());
+                tempConsult.setImc(tempConstantesVitales.getImc());
+                tempConsult.setTemperature(tempConstantesVitales.getTemperature());
+                tempConsult.setPression(tempConstantesVitales.getPression());
+                tempConsult.setPressionDroite(tempConstantesVitales.getPressionDroite());
+                tempConsult.setFrequencequardiaque(tempConstantesVitales.getFrequencequardiaque());
+                tempConsult.setFrequencerespiratoire(tempConstantesVitales.getFrequencerespiratoire());
+                tempConsult.setGlycimie(tempConstantesVitales.getGlycimie());
+                tempConsult.setSaO(tempConstantesVitales.getSaO());
             }
-        } catch (NumberFormatException e) {
-            tfImc.setText("");
+            tempConsult.setPatient(patient);
+            tempConsult.setDateConsultation(dateConsultaion.getValue() != null ? dateConsultaion.getValue() : LocalDate.now());
+            
+            // Create a FilesAttente wrapper for the controller
+            com.azmicro.moms.model.FilesAttente filesAttente = new com.azmicro.moms.model.FilesAttente();
+            filesAttente.setPatient(patient);
+            filesAttente.setDateArrivee(tempConsult.getDateConsultation());
+            
+            controller.setFilesAttente(filesAttente);
+            controller.setConsultationData(tempConsult);
+            
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Saisir Constantes Vitales - " + patient.getPrenom() + " " + patient.getNom());
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(btnSaisirConstantes.getScene().getWindow());
+            dialogStage.setScene(new Scene(root));
+            
+            // Wait for dialog to close
+            dialogStage.showAndWait();
+            
+            // Retrieve updated data after dialog closes
+            Consultations updated = controller.getConsultationData();
+            if (updated != null) {
+                tempConstantesVitales = updated;
+                updateConstantesStatus();
+            }
+            
+        } catch (IOException e) {
+            Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, "Error opening constantes vitales dialog", e);
+            showAlert(AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de saisie des constantes vitales.");
         }
     }
-
-    private void formatImcField(double imc) {
-        MedicalCalculationService.IMCClassification classification = MedicalCalculationService.classifyIMC(imc);
-        tfImc.setTooltip(new Tooltip(classification.getInterpretation()));
-        tfImc.setStyle(classification.getStyle());
+    
+    /**
+     * Update status label based on vitals data
+     */
+    private void updateConstantesStatus() {
+        if (tempConstantesVitales != null && (tempConstantesVitales.getPoids() > 0 || 
+                                               tempConstantesVitales.getTemperature() > 0 ||
+                                               tempConstantesVitales.getFrequencequardiaque() > 0)) {
+            StringBuilder status = new StringBuilder("Constantes saisies: ");
+            if (tempConstantesVitales.getPoids() > 0) {
+                status.append(String.format("Poids: %.1f kg", tempConstantesVitales.getPoids()));
+            }
+            if (tempConstantesVitales.getTemperature() > 0) {
+                if (status.length() > 20) status.append(" | ");
+                status.append(String.format("Temp: %.1f°C", tempConstantesVitales.getTemperature()));
+            }
+            if (tempConstantesVitales.getFrequencequardiaque() > 0) {
+                if (status.length() > 20) status.append(" | ");
+                status.append(String.format("FC: %d bpm", tempConstantesVitales.getFrequencequardiaque()));
+            }
+            lblConstantesStatus.setText(status.toString());
+            lblConstantesStatus.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+        } else {
+            lblConstantesStatus.setText("Aucune constante saisie");
+            lblConstantesStatus.setStyle("-fx-text-fill: #95a5a6; -fx-font-style: italic;");
+        }
     }
 
     @FXML
@@ -978,8 +924,6 @@ public class DossierController implements Initializable {
         selectedConsultation.setExamenClinique(txtExamenClinique.getText());
         selectedConsultation.setSymptome(txtSymptomes.getText());
         selectedConsultation.setDiagnostique(txtDiagnostiqueMedical.getText());
-        selectedConsultation.setGlycimie(tfGlycimie.getText().trim().isEmpty() ? 0.0 : MedicalFieldValidator.parseDecimal(tfGlycimie.getText()));
-        selectedConsultation.setSaO(tfSaOpatient.getText().trim().isEmpty() ? 0 : MedicalFieldValidator.parseInt(tfSaOpatient.getText()));
         selectedConsultation.setCat(txtCat.getText());
         selectedConsultation.setPatient(patient);
         selectedConsultation.setDateConsultation(dateConsultaion.getValue());
@@ -1005,18 +949,11 @@ public class DossierController implements Initializable {
     }
 
     private void clearFields() {
-        tfPoid.clear();
-        tfTaille.clear();
-        tfImc.clear();
-        tfFrquenceCardiaque.clear();
-        tfPressionGauche.clear();
-        tfPressionDroite.clear();
-        tfFrequenceRespiratoire.clear();
-        tfGlycimie.clear();
-        tfTmperature.clear();
-        tfSaOpatient.clear();
+        tempConstantesVitales = null;
+        lblConstantesStatus.setText("Aucune constante saisie");
         txtSymptomes.clear();
         txtExamenClinique.clear();
+        txtEtt.clear();
         txtDiagnostiqueMedical.clear();
         txtCat.clear();
         dateConsultaion.setValue(null); // Clear the DatePicker
@@ -1100,18 +1037,26 @@ public class DossierController implements Initializable {
     }
 
     private void populateFields(Consultations consultation) {
-        tfPoid.setText(formatIfPositive(consultation.getPoids()));
-        tfTaille.setText(formatIfPositive(consultation.getTaille()));
-        tfImc.setText(formatIfPositive(consultation.getImc()));
-        tfFrquenceCardiaque.setText(formatIfPositiveInt(consultation.getFrequencequardiaque()));
-        tfPressionGauche.setText(consultation.getPression() != null ? consultation.getPression() : "");
-        tfPressionDroite.setText(consultation.getPressionDroite() != null ? consultation.getPressionDroite() : "");
-        tfFrequenceRespiratoire.setText(formatIfPositiveInt(consultation.getFrequencerespiratoire()));
-        tfGlycimie.setText(formatIfPositive(consultation.getGlycimie()));
-        tfTmperature.setText(formatIfPositive(consultation.getTemperature()));
-        tfSaOpatient.setText(formatIfPositiveInt(consultation.getSaO()));
+        // Store vitals in temp object
+        tempConstantesVitales = new Consultations();
+        tempConstantesVitales.setPoids(consultation.getPoids());
+        tempConstantesVitales.setTaille(consultation.getTaille());
+        tempConstantesVitales.setImc(consultation.getImc());
+        tempConstantesVitales.setTemperature(consultation.getTemperature());
+        tempConstantesVitales.setPression(consultation.getPression());
+        tempConstantesVitales.setPressionDroite(consultation.getPressionDroite());
+        tempConstantesVitales.setFrequencequardiaque(consultation.getFrequencequardiaque());
+        tempConstantesVitales.setFrequencerespiratoire(consultation.getFrequencerespiratoire());
+        tempConstantesVitales.setGlycimie(consultation.getGlycimie());
+        tempConstantesVitales.setSaO(consultation.getSaO());
+        
+        // Update status label
+        updateConstantesStatus();
+        
+        // Populate other fields
         txtSymptomes.setText(consultation.getSymptome());
         txtExamenClinique.setText(consultation.getExamenClinique());
+        txtEtt.setText(consultation.getEtt());
         txtDiagnostiqueMedical.setText(consultation.getDiagnostique());
         txtCat.setText(consultation.getCat());
         dateConsultaion.setValue(consultation.getDateConsultation());
@@ -2611,17 +2556,84 @@ public class DossierController implements Initializable {
             return;
         }
 
+        Consultations selectedConsultation = resolveSelectedConsultation();
+        
         try {
             int age = patient.getAgeInYears();
             String designation = age < 18 ? patient.getSexe().getMineurDesignation() : patient.getSexe().getCivilite();
+            
+            // Récupérer motif de consultation
+            String motifConsultation = "";
+            if (selectedConsultation != null && selectedConsultation.getSymptome() != null && !selectedConsultation.getSymptome().trim().isEmpty()) {
+                motifConsultation = selectedConsultation.getSymptome();
+            }
+            
+            // Récupérer antécédents
+            List<HistoriqueMedical> antecedents = historiqueMedicalService.findAllHistoriquesMedicalByIdPatient(patient.getPatientID());
+            String antecedentsText = "";
+            if (antecedents != null && !antecedents.isEmpty()) {
+                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                antecedentsText = antecedents.stream()
+                    .map(a -> {
+                        String date = a.getDate() != null ? a.getDate().format(fmt) : "";
+                        String type = a.getType() != null ? a.getType().name() : "";
+                        String desc = a.getDescription() != null ? a.getDescription() : "";
+                        List<String> parts = new ArrayList<>();
+                        if (!date.isEmpty()) parts.add(date);
+                        if (!type.isEmpty()) parts.add(type);
+                        if (!desc.isEmpty()) parts.add(desc);
+                        return String.join(" - ", parts);
+                    })
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.joining("\n• ", "• ", ""));
+            }
+            
+            // Récupérer traitement en cours (consultation précédente + consultation courante)
+            StringBuilder traitementBuilder = new StringBuilder();
+            
+            // Traitement de la consultation précédente
+            Consultations precedente = findPreviousConsultation(selectedConsultation);
+            List<Prescriptions> traitementPrecedent = getPrescriptionsForConsultation(precedente);
+            if (traitementPrecedent != null && !traitementPrecedent.isEmpty()) {
+                for (Prescriptions p : traitementPrecedent) {
+                    if (p.getMedicament() != null && p.getMedicament().getNomMedicament() != null && !p.getMedicament().getNomMedicament().trim().isEmpty()) {
+                        if (traitementBuilder.length() > 0) {
+                            traitementBuilder.append("\n");
+                        }
+                        traitementBuilder.append("• ").append(p.getMedicament().getNomMedicament());
+                        if (p.getDescription() != null && !p.getDescription().trim().isEmpty()) {
+                            traitementBuilder.append(" - ").append(p.getDescription());
+                        }
+                    }
+                }
+            }
+            
+            // Traitement de sortie de la consultation courante
+            List<Prescriptions> traitementCourant = getPrescriptionsForConsultation(selectedConsultation);
+            if (traitementCourant != null && !traitementCourant.isEmpty()) {
+                for (Prescriptions p : traitementCourant) {
+                    if (p.getMedicament() != null && p.getMedicament().getNomMedicament() != null && !p.getMedicament().getNomMedicament().trim().isEmpty()) {
+                        if (traitementBuilder.length() > 0) {
+                            traitementBuilder.append("\n");
+                        }
+                        traitementBuilder.append("• ").append(p.getMedicament().getNomMedicament());
+                        if (p.getDescription() != null && !p.getDescription().trim().isEmpty()) {
+                            traitementBuilder.append(" - ").append(p.getDescription());
+                        }
+                    }
+                }
+            }
+            
+            String traitementText = traitementBuilder.toString();
+            
             String lettreText = "LETTRE D'ORIENTATION"
                 + "\n\nÀ l'attention du confrère spécialiste,"
                 + "\n\nJe vous adresse " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + ", pour avis spécialisé et prise en charge."
-                + "\n\nMotif de la consultation : [À compléter]"
-                + "\n\nAntécédents notables : [À compléter]"
-                + "\n\nTraitement en cours : [À compléter]"
+                + "\n\nMotif de la consultation : " + (motifConsultation.isEmpty() ? "[À compléter]" : motifConsultation)
+                + "\n\nAntécédents notables : " + (antecedentsText.isEmpty() ? "[À compléter]" : "\n" + antecedentsText)
+                + "\n\nTraitement en cours : " + (traitementText.isEmpty() ? "[À compléter]" : "\n" + traitementText)
                 + "\n\nJe vous remercie de bien vouloir me tenir informé(e) de vos conclusions."
                 + "\n\nAvec mes confraternels salutations."
                 + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));

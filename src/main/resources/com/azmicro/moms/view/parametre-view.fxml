@@ -4,11 +4,35 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="649.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.azmicro.moms.controller.ParametreController">
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="760.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.azmicro.moms.controller.ParametreController">
     <stylesheets>
         <URL value="@../css/parametre.css" />
     </stylesheets>
-   <children>
-      <Label layoutX="227.0" layoutY="183.0" text="Parametre" />
-   </children>
+    <children>
+        <TabPane layoutX="20.0" layoutY="20.0" prefWidth="720.0" prefHeight="480.0">
+            <tabs>
+                <Tab text="Général" closable="false">
+                    <content>
+                        <AnchorPane />
+                    </content>
+                </Tab>
+                <Tab text="Police & Taille" closable="false">
+                    <content>
+                        <AnchorPane>
+                            <children>
+                                <Label layoutX="20.0" layoutY="20.0" text="Police par défaut (PDF)" />
+                                <ComboBox fx:id="fontFamilyCombo" layoutX="220.0" layoutY="16.0" prefWidth="300.0" />
+                                <Label layoutX="20.0" layoutY="70.0" text="Taille du texte normal" />
+                                <Spinner fx:id="fontSizeSpinner" layoutX="220.0" layoutY="66.0" prefWidth="120.0" />
+                                <Label layoutX="20.0" layoutY="120.0" text="Taille des titres" />
+                                <Spinner fx:id="titleSizeSpinner" layoutX="220.0" layoutY="116.0" prefWidth="120.0" />
+                                <Button fx:id="saveFontSettingsBtn" layoutX="220.0" layoutY="170.0" text="Enregistrer" />
+                                <Label fx:id="saveStatusLabel" layoutX="320.0" layoutY="174.0" text="" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </AnchorPane>

@@ -51,6 +51,7 @@ module com.azmicro.moms {
     exports com.azmicro.moms.util;
     exports com.azmicro.moms.dao;
     exports com.azmicro.moms.service;
+    exports com.azmicro.moms.model;
     
     
 }

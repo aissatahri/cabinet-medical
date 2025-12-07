@@ -53,22 +53,20 @@
                               </HBox>
                            </graphic>
                         </Button>
-                        <Button fx:id="btnRendezVous" alignment="CENTER_LEFT" onAction="#openRendezVous" prefHeight="50.0" prefWidth="178.0" styleClass="menu-button" text="  Planning">
+                        <Button fx:id="btnRendezVous" alignment="TOP_LEFT" onAction="#openRendezVous" prefHeight="50.0" prefWidth="178.0" styleClass="menu-button" text="  Planning">
                            <graphic>
-                              <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                              <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="23.0" spacing="10" HBox.hgrow="ALWAYS">
                                  <children>
                                     <FontIcon iconLiteral="fas-calendar-alt" iconSize="20" />
-                                    <Label fx:id="badgePlanning" styleClass="badge" text="" visible="false" />
                                  </children>
                               </HBox>
                            </graphic>
                         </Button>
-                        <Button fx:id="btnDossier" alignment="CENTER_LEFT" onAction="#openDossier" prefHeight="50.0" prefWidth="179.0" styleClass="menu-button" text="  Dossiers médicaux">
+                        <Button fx:id="btnDossier" alignment="TOP_LEFT" onAction="#openDossier" prefHeight="50.0" prefWidth="179.0" styleClass="menu-button" text="  Dossiers médicaux">
                            <graphic>
                               <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
                                  <children>
                                     <FontIcon iconLiteral="fas-folder-open" iconSize="20" />
-                                    <Label fx:id="badgeDossier" styleClass="badge" text="" visible="false" />
                                  </children>
                               </HBox>
                            </graphic>
@@ -78,7 +76,6 @@
                               <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
                                  <children>
                                     <FontIcon iconLiteral="fas-file-invoice-dollar" iconSize="20" />
-                                    <Label fx:id="badgeFacturation" styleClass="badge" text="" visible="false" />
                                  </children>
                               </HBox>
                            </graphic>
@@ -88,7 +85,6 @@
                               <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
                                  <children>
                                     <FontIcon iconLiteral="fas-cog" iconSize="20" />
-                                    <Label fx:id="badgeParametre" styleClass="badge" text="" visible="false" />
                                  </children>
                               </HBox>
                            </graphic>

@@ -60,6 +60,7 @@ public class ConstantesVitalesController implements Initializable {
     private Patient patient;
     private ConsultationService consultationService;
     private Consultations existingConsultation;
+    private boolean dialogMode = false; // Flag to determine if in dialog mode (no database save)
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -222,17 +223,23 @@ public class ConstantesVitalesController implements Initializable {
                 existingConsultation.setGlycimie(0);
             }
 
-            // Save to database
-            if (existingConsultation.getConsultationID() == 0) {
-                consultationService.save(existingConsultation);
-                showSuccess("Succès", "Constantes vitales enregistrées avec succès");
+            if (dialogMode) {
+                // In dialog mode, just close the window without saving to database
+                // Data will be retrieved by parent controller
+                closeWindow();
             } else {
-                consultationService.update(existingConsultation);
-                showSuccess("Succès", "Constantes vitales mises à jour avec succès");
-            }
+                // Save to database
+                if (existingConsultation.getConsultationID() == 0) {
+                    consultationService.save(existingConsultation);
+                    showSuccess("Succès", "Constantes vitales enregistrées avec succès");
+                } else {
+                    consultationService.update(existingConsultation);
+                    showSuccess("Succès", "Constantes vitales mises à jour avec succès");
+                }
 
-            // Close window
-            closeWindow();
+                // Close window
+                closeWindow();
+            }
 
         } catch (NumberFormatException e) {
             showError("Erreur de saisie", "Veuillez vérifier que les valeurs numériques sont correctes");
@@ -241,9 +248,62 @@ public class ConstantesVitalesController implements Initializable {
             showError("Erreur", "Impossible d'enregistrer les constantes vitales: " + ex.getMessage());
         }
     }
+    
+    /**
+     * Set consultation data for dialog mode (medecin usage)
+     * This enables editing vitals without saving to database
+     */
+    public void setConsultationData(Consultations consultation) {
+        this.dialogMode = true;
+        this.existingConsultation = consultation;
+        this.patient = consultation.getPatient();
+        
+        // Update UI
+        lblPatientName.setText(patient.getPrenom() + " " + patient.getNom());
+        dpDateConsultation.setValue(consultation.getDateConsultation());
+        
+        // Pre-fill fields with existing data
+        if (consultation.getPoids() > 0) {
+            tfPoids.setText(String.valueOf(consultation.getPoids()));
+        }
+        if (consultation.getTaille() > 0) {
+            tfTaille.setText(String.valueOf(consultation.getTaille()));
+        }
+        if (consultation.getTemperature() > 0) {
+            tfTemperature.setText(String.valueOf(consultation.getTemperature()));
+        }
+        if (consultation.getFrequencequardiaque() > 0) {
+            tfFrequenceCardiaque.setText(String.valueOf(consultation.getFrequencequardiaque()));
+        }
+        if (consultation.getPression() != null && !consultation.getPression().isEmpty()) {
+            tfPressionArterielleGauche.setText(consultation.getPression());
+        }
+        if (consultation.getPressionDroite() != null && !consultation.getPressionDroite().isEmpty()) {
+            tfPressionArterielleDroite.setText(consultation.getPressionDroite());
+        }
+        if (consultation.getFrequencerespiratoire() > 0) {
+            tfFrequenceRespiratoire.setText(String.valueOf(consultation.getFrequencerespiratoire()));
+        }
+        if (consultation.getSaO() > 0) {
+            tfSaO2.setText(String.valueOf(consultation.getSaO()));
+        }
+        if (consultation.getGlycimie() > 0) {
+            tfGlycimie.setText(String.valueOf(consultation.getGlycimie()));
+        }
+    }
+    
+    /**
+     * Get the consultation data (for dialog mode)
+     */
+    public Consultations getConsultationData() {
+        return existingConsultation;
+    }
 
     @FXML
     private void handleAnnuler(ActionEvent event) {
+        if (dialogMode) {
+            existingConsultation = null; // Clear data on cancel
+        }
         closeWindow();
     }
 

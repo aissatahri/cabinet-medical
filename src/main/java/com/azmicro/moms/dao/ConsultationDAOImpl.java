@@ -39,7 +39,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
 
     @Override
     public boolean save(Consultations consultation) {
-        String sql = "INSERT INTO consultations (RendezVousID, DateConsultation, symptome, diagnostique, cat, poids, taille, imc, frequencequardiaque, pression, pression_droite, frequencerespiratoire, glycimie, temperature, saO, idPatient, examenClinique) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO consultations (RendezVousID, DateConsultation, symptome, diagnostique, cat, poids, taille, imc, frequencequardiaque, pression, pression_droite, frequencerespiratoire, glycimie, temperature, saO, idPatient, examenClinique, ett) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             // Remplir les paramètres
@@ -60,6 +60,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(15, consultation.getSaO());
             stmt.setInt(16, consultation.getPatient().getPatientID()); // Associer le patient
             stmt.setString(17, consultation.getExamenClinique()); // Ajouter examenClinique
+            stmt.setString(18, consultation.getEtt()); // Ajouter ett
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -83,7 +84,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
     // Méthode pour mettre à jour une consultation
     @Override
     public boolean update(Consultations consultation) {
-        String sql = "UPDATE consultations SET RendezVousID = ?, DateConsultation = ?, symptome = ?, diagnostique = ?, cat = ?, poids = ?, taille = ?, imc = ?, frequencequardiaque = ?, pression = ?, pression_droite = ?, frequencerespiratoire = ?, glycimie = ?, temperature = ?, saO = ?, idPatient = ?, examenClinique = ? WHERE ConsultationID = ?";
+        String sql = "UPDATE consultations SET RendezVousID = ?, DateConsultation = ?, symptome = ?, diagnostique = ?, cat = ?, poids = ?, taille = ?, imc = ?, frequencequardiaque = ?, pression = ?, pression_droite = ?, frequencerespiratoire = ?, glycimie = ?, temperature = ?, saO = ?, idPatient = ?, examenClinique = ?, ett = ? WHERE ConsultationID = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, consultation.getRendezVous() != null ? consultation.getRendezVous().getRendezVousID() : null);
@@ -103,7 +104,8 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(15, consultation.getSaO());
             stmt.setInt(16, consultation.getPatient().getPatientID()); // Associer le patient
             stmt.setString(17, consultation.getExamenClinique()); // Ajouter examenClinique
-            stmt.setInt(18, consultation.getConsultationID());
+            stmt.setString(18, consultation.getEtt()); // Ajouter ett
+            stmt.setInt(19, consultation.getConsultationID());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -139,6 +141,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setTemperature(rs.getDouble("temperature"));
                     consultation.setSaO(rs.getInt("saO"));
                     consultation.setExamenClinique(rs.getString("examenClinique")); // Ajouter examenClinique
+                    consultation.setEtt(rs.getString("ett")); // Ajouter ett
                     return consultation;
                 }
             }
@@ -175,6 +178,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                 consultation.setTemperature(rs.getDouble("temperature"));
                 consultation.setSaO(rs.getInt("saO"));
                 consultation.setExamenClinique(rs.getString("examenClinique")); // Ajouter examenClinique
+                consultation.setEtt(rs.getString("ett")); // Ajouter ett
                 consultations.add(consultation);
             }
         } catch (SQLException e) {
@@ -223,6 +227,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setTemperature(rs.getDouble("temperature"));
                     consultation.setSaO(rs.getInt("saO"));
                     consultation.setExamenClinique(rs.getString("examenClinique")); // Ajouter examenClinique
+                    consultation.setEtt(rs.getString("ett")); // Ajouter ett
                     consultations.add(consultation);
                 }
             }

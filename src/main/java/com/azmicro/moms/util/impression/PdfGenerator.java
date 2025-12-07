@@ -48,8 +48,19 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.properties.VerticalAlignment;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 
 public class PdfGenerator {
+    // Exact A5 page size: 148 x 209.97 mm (width x height)
+    // Convert mm to points: 1 mm = 72 / 25.4 pt
+    private static com.itextpdf.kernel.geom.PageSize getExactA5PageSize() {
+        final float mmToPt = 72f / 25.4f;
+        final float widthPt = 148f * mmToPt;      // ~419.53 pt
+        final float heightPt = 209.97f * mmToPt;  // ~595.28 pt
+        System.out.println("DEBUG A5: Creating page size " + widthPt + " x " + heightPt + " pt (" + 148 + " x " + 209.97 + " mm)");
+        return new com.itextpdf.kernel.geom.PageSize(widthPt, heightPt);
+    }
 
     private static String getOutputDirectory() {
         // Charger le répertoire de sortie à partir des propriétés de configuration
@@ -68,6 +79,83 @@ public class PdfGenerator {
         return properties.getProperty("output.directory", "D:/output");
     }
 
+    private static class FontConfig {
+        final String titleFamily; final float titleSize;
+        final String textFamily; final float textSize;
+        final String ordFamily; final float ordSize;
+        final String formFamily; final float formSize;
+        FontConfig(String titleFamily, float titleSize, String textFamily, float textSize,
+                   String ordFamily, float ordSize, String formFamily, float formSize) {
+            this.titleFamily = titleFamily; this.titleSize = titleSize;
+            this.textFamily = textFamily; this.textSize = textSize;
+            this.ordFamily = ordFamily; this.ordSize = ordSize;
+            this.formFamily = formFamily; this.formSize = formSize;
+        }
+    }
+
+    private static FontConfig loadFontConfig() {
+        Properties properties = new Properties();
+        String configFilePath = System.getProperty("user.home") + "/app-config/config.properties";
+        File configFile = new File(configFilePath);
+        if (configFile.exists()) {
+            try (InputStream input = new FileInputStream(configFile)) {
+                properties.load(input);
+            } catch (IOException e) {
+                // ignore
+            }
+        }
+        String titleFamily = properties.getProperty("pdf.font.title.family", "Helvetica");
+        float titleSize = parseFloat(properties.getProperty("pdf.font.title.size", "16"), 16f);
+        String textFamily = properties.getProperty("pdf.font.text.family", "Cambria");
+        float textSize = parseFloat(properties.getProperty("pdf.font.text.size", "12"), 12f);
+        String ordFamily = properties.getProperty("pdf.font.ord.family", "Times New Roman");
+        float ordSize = parseFloat(properties.getProperty("pdf.font.ord.size", "12"), 12f);
+        String formFamily = properties.getProperty("pdf.font.form.family", "Arial");
+        float formSize = parseFloat(properties.getProperty("pdf.font.form.size", "11"), 11f);
+        return new FontConfig(titleFamily, titleSize, textFamily, textSize, ordFamily, ordSize, formFamily, formSize);
+    }
+
+    private static float parseFloat(String s, float def) {
+        try { return Float.parseFloat(s); } catch (Exception e) { return def; }
+    }
+
+    private static PdfFont resolveConfiguredFont(String family) {
+        // Try project fonts directory first
+        String base = System.getProperty("user.dir");
+        String[] candidates = new String[] {
+            base + "/src/main/resources/com/azmicro/moms/fonts/" + mapFamilyToFile(family),
+            base + "/target/classes/com/azmicro/moms/fonts/" + mapFamilyToFile(family),
+            base + "/src/main/resources/fonts/" + mapFamilyToFile(family),
+            base + "/target/classes/fonts/" + mapFamilyToFile(family),
+            // Windows system fonts
+            "C:/Windows/Fonts/" + mapFamilyToFile(family)
+        };
+        for (String path : candidates) {
+            try {
+                File f = new File(path);
+                if (f.exists()) {
+                    return PdfFontFactory.createFont(path, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+                }
+            } catch (Exception ignored) {}
+        }
+        // Fallback: return null so iText uses its default font (typically Helvetica)
+        return null;
+    }
+
+    private static String mapFamilyToFile(String family) {
+        if (family == null) return "";
+        String f = family.trim().toLowerCase();
+        if (f.contains("helvetica")) return ""; // will fallback to StandardFonts.HELVETICA
+        if (f.contains("calibri")) return "calibri.ttf";
+        if (f.contains("cambria")) return "cambria.ttf";
+        if (f.contains("book antiqu")) return "BOOKANT.TTF";
+        if (f.contains("times")) return "times.ttf"; // may vary per system
+        if (f.contains("arial")) return "arial.ttf";
+        if (f.contains("segoe")) return "segoeui.ttf";
+        if (f.contains("garamond")) return "garamond.ttf"; // common name; also try GARA.TTF
+        return "arial.ttf"; // default fallback name
+    }
+
     public static String generatePrescriptionPdf(String consultationDetails, Patient patient, List<Prescriptions> prescriptions, Medecin medecin) throws FileNotFoundException {
         String outputDirectory = getOutputDirectory();
         String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
@@ -84,17 +172,24 @@ public class PdfGenerator {
         String pdfPath = patientDir.getPath() + "/ordonnance_" + dateStr + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc, PageSize.A5);
+        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        Document document = new Document(pdfDoc, a5);
 
         // Set margins
         document.setMargins(140f, 30, 50f, 30);
 
-        float fontSize = 9f;
+        FontConfig fc = loadFontConfig();
+        float fontSize = fc.ordSize; // ordonnance body size
+        PdfFont pdfFont = resolveConfiguredFont(fc.ordFamily);
+        if (pdfFont != null) {
+            document.setFont(pdfFont);
+        }
 
         // En-tête avec date
         Paragraph dateParagraph = new Paragraph(dateSt)
-                .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize + 1)
+            .setTextAlignment(TextAlignment.RIGHT)
+            .setFontSize(fc.titleSize)
                 .setBold()
                 .setMarginBottom(15);
         document.add(dateParagraph);
@@ -106,11 +201,11 @@ public class PdfGenerator {
         Cell patientCell = new Cell()
                 .add(new Paragraph()
                     .add(new Text(patient.getNom().toUpperCase() + " " + patient.getPrenom())
-                        .setFontSize(14)
+                        .setFontSize(fc.titleSize)
                         .setBold())
                     .add(new Text("\n" + patient.getAge() + " ans")
                         .setFontSize(fontSize))
-                    .add(new Text(patient.getSexe() != null ? " • " + patient.getSexe() : "")
+                    .add(new Text(formatAgeDescriptor(patient))
                         .setFontSize(fontSize)))
                 .setBackgroundColor(new DeviceRgb(240, 248, 255))
                 .setPadding(10)
@@ -180,11 +275,11 @@ public class PdfGenerator {
             // Numéro et nom du médicament
             Paragraph medNamePara = new Paragraph()
                     .add(new Text(index + ". ")
-                        .setFontSize(fontSize + 1)
+                        .setFontSize(fc.titleSize)
                         .setBold()
                         .setFontColor(new DeviceRgb(22, 160, 133)))
                     .add(new Text(prescription.getMedicament().getNomMedicament())
-                        .setFontSize(fontSize + 2)
+                        .setFontSize(fc.titleSize)
                         .setBold())
                     .add(new Text(" " + prescription.getMedicament().getFormeDosage())
                         .setFontSize(fontSize)
@@ -205,10 +300,11 @@ public class PdfGenerator {
             }
             
             Paragraph posologyPara = new Paragraph()
-                    .add(new Text("   ➤ ")
+                    // Use a widely supported bullet to avoid missing glyphs
+                    .add(new Text("   • ")
                         .setFontColor(new DeviceRgb(52, 152, 219)))
                     .add(new Text(posologyText.toString())
-                        .setFontSize(fontSize + 1));
+                        .setFontSize(fontSize));
             
             // Ajouter les instructions sur la même ligne si elles existent
             if (!description.isEmpty()) {
@@ -239,6 +335,29 @@ public class PdfGenerator {
         return pdfPath;
     }
 
+    private static String formatAgeDescriptor(Patient patient) {
+        try {
+            Integer age = patient.getAge();
+            com.azmicro.moms.model.Sexe sexe = patient.getSexe();
+            if (age == null || age <= 0) {
+                return ""; // Unknown age: avoid descriptor
+            }
+            String s = sexe != null ? sexe.name().toLowerCase() : "";
+            boolean isFemale = s.startsWith("fem") || s.equals("f") || s.contains("girl") || s.contains("fille");
+
+            if (age < 12) {
+                return " • enfant";
+            } else if (age < 18) {
+                return isFemale ? " • jeune fille" : " • jeune garçon";
+            } else {
+                if (s.isEmpty()) return ""; // If sex unknown, skip
+                return isFemale ? " • femme" : " • homme";
+            }
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     public static String generateImageriePdf(String consultationDetails, Patient patient, List<Imagerie> imageries, Medecin medecin) throws FileNotFoundException {
         String outputDirectory = getOutputDirectory();
         String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
@@ -249,15 +368,24 @@ public class PdfGenerator {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(new Date());
-        String pdfPath = patientDir.getPath() + "/demande_imagerie_" + dateStr.replace("/", "-") + ".pdf";
+        String uniqueTimeStamp = "_" + System.currentTimeMillis();
+        String pdfPath = patientDir.getPath() + "/demande_imagerie_" + dateStr.replace("/", "-") + uniqueTimeStamp + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc, PageSize.A5);
+        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        Document document = new Document(pdfDoc, a5);
 
         // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
         document.setMargins(140f, 30, 50f, 30);
 
-        float fontSize = 8f;
+        FontConfig fc = loadFontConfig();
+        float fontSize = fc.textSize - 7f < 8f ? 8f : fc.textSize - 7f; // keep imagerie/analyse compact
+        PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
 
         // Create a table with 2 columns for title and date
         Table table = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
@@ -265,20 +393,22 @@ public class PdfGenerator {
 
         // Title cell
         Cell titleCell = new Cell()
-                .add(new Paragraph("Demande d'Imagerie")
-                        .setTextAlignment(TextAlignment.CENTER)
-                        .setBold()
-                        .setFontSize(fontSize + 4))
+            .add(new Paragraph("Demande d'Imagerie")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(fc.titleSize))
                 .setBorder(Border.NO_BORDER);
         titleCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+        if (titleFont != null) { titleCell.setFont(titleFont); }
 
         // Date cell
         Cell dateCell = new Cell()
-                .add(new Paragraph(dateStr)
-                        .setTextAlignment(TextAlignment.RIGHT)
-                        .setFontSize(fontSize + 2))
+            .add(new Paragraph(dateStr)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fc.titleSize))
                 .setBorder(Border.NO_BORDER);
         dateCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+        if (titleFont != null) { dateCell.setFont(titleFont); }
 
         table.addCell(titleCell);
         table.addCell(dateCell);
@@ -290,11 +420,11 @@ public class PdfGenerator {
 
         // Create the name and age text with different font sizes
         Text nameText = new Text(patient.getNom() + " " + patient.getPrenom())
-                .setFontSize(16) // Bold and size 16 for the name
+                .setFontSize(fc.titleSize) // Bold and configured size for the name
                 .setBold();
 
         Text ageText = new Text(" (" + patient.getAge() + " ans)")
-                .setFontSize(fontSize + 3);  // Smaller font size for age
+                .setFontSize(fontSize);  // Smaller font size for age
 
         // Combine the name and age into one paragraph
         Paragraph patientInfo = new Paragraph()
@@ -314,18 +444,18 @@ public class PdfGenerator {
             String displayText = imagerie.getTypeImagerie().getCodeImagerieFr() + " - " + imagerie.getTypeImagerie().getNomImagerieFr();
             Paragraph imagerieParagraph = new Paragraph()
                     .add(new Text(index + ". ")
-                        .setFontSize(fontSize + 2)
+                        .setFontSize(fc.titleSize)
                         .setBold()
                         .setFontColor(new DeviceRgb(22, 160, 133)))
                     .add(new Text(displayText)
-                        .setFontSize(fontSize + 2))
+                        .setFontSize(fc.titleSize))
                     .setMarginLeft(10)
                     .setMarginBottom(5);
             document.add(imagerieParagraph);
             index++;
         }
 
-        document.add(new Paragraph("\n").setFontSize(fontSize + 2));
+        document.add(new Paragraph("\n").setFontSize(fc.titleSize));
         document.add(new Paragraph("\n").setFontSize(48.24f + 30));
 
         // Add signature
@@ -355,15 +485,24 @@ public class PdfGenerator {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(new Date());
-        String pdfPath = patientDir.getPath() + "/demande_analyse_" + dateStr.replace("/", "-") + ".pdf";
+        String uniqueTimeStamp = "_" + System.currentTimeMillis();
+        String pdfPath = patientDir.getPath() + "/demande_analyse_" + dateStr.replace("/", "-") + uniqueTimeStamp + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc, PageSize.A5);
+        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        Document document = new Document(pdfDoc, a5);
 
         // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
         document.setMargins(140f, 30, 50f, 30);
 
-        float fontSize = 8f;
+        FontConfig fc = loadFontConfig();
+        float fontSize = fc.textSize - 7f < 8f ? 8f : fc.textSize - 7f;
+        PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
 
         // Create a table with 2 columns for title and date
         Table table = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
@@ -371,20 +510,22 @@ public class PdfGenerator {
 
         // Title cell
         Cell titleCell = new Cell()
-                .add(new Paragraph("Demande d'Analyse")
-                        .setTextAlignment(TextAlignment.CENTER)
-                        .setBold()
-                        .setFontSize(fontSize + 4))
+            .add(new Paragraph("Demande d'Analyse")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(fc.titleSize))
                 .setBorder(Border.NO_BORDER);
         titleCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+        if (titleFont != null) { titleCell.setFont(titleFont); }
 
         // Date cell
         Cell dateCell = new Cell()
-                .add(new Paragraph(dateStr)
-                        .setTextAlignment(TextAlignment.RIGHT)
-                        .setFontSize(fontSize + 2))
+            .add(new Paragraph(dateStr)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fc.titleSize))
                 .setBorder(Border.NO_BORDER);
         dateCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+        if (titleFont != null) { dateCell.setFont(titleFont); }
 
         table.addCell(titleCell);
         table.addCell(dateCell);
@@ -396,11 +537,11 @@ public class PdfGenerator {
 
         // Create the name and age text with different font sizes
         Text nameText = new Text(patient.getNom() + " " + patient.getPrenom())
-                .setFontSize(16) // Bold and size 16 for the name
+                .setFontSize(fc.titleSize) // Bold and configured size for the name
                 .setBold();
 
         Text ageText = new Text(" (" + patient.getAge() + " ans)")
-                .setFontSize(fontSize + 3);  // Smaller font size for age
+                .setFontSize(fontSize);  // Smaller font size for age
 
         // Combine the name and age into one paragraph
         Paragraph patientInfo = new Paragraph()
@@ -420,18 +561,18 @@ public class PdfGenerator {
             String displayText = analyse.getTypeAnalyse().getCodeAnalyseFr() + " - " + analyse.getTypeAnalyse().getNomAnalyseFr();
             Paragraph analyseParagraph = new Paragraph()
                     .add(new Text(index + ". ")
-                        .setFontSize(fontSize + 2)
+                        .setFontSize(fc.titleSize)
                         .setBold()
                         .setFontColor(new DeviceRgb(22, 160, 133)))
                     .add(new Text(displayText)
-                        .setFontSize(fontSize + 2))
+                        .setFontSize(fc.titleSize))
                     .setMarginLeft(10)
                     .setMarginBottom(5);
             document.add(analyseParagraph);
             index++;
         }
 
-        document.add(new Paragraph("\n").setFontSize(fontSize + 2));
+        document.add(new Paragraph("\n").setFontSize(fc.titleSize));
         document.add(new Paragraph("\n").setFontSize(48.24f + 30));
 
         // Add signature
@@ -464,54 +605,63 @@ public class PdfGenerator {
         String pdfPath = patientDir.getPath() + "/certificat_medical_" + dateStr + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc, PageSize.A5);
-        document.setMargins(127, 20, 48.24f, 20);
+        // Ensure exact A5 default page size in this generator as well
+        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        Document document = new Document(pdfDoc, a5);
+        // Compact margins similar to generic certificat
+        document.setMargins(90f, 24f, 30f, 24f);
 
-        float fontSize = 8f;
+        FontConfig fc = loadFontConfig();
+        PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
+        float fontSize = fc.textSize;
 
         // Titre "Certificat Médical" et date
         Paragraph title = new Paragraph("Certificat Médical")
-                .setTextAlignment(TextAlignment.CENTER)
-                .setBold()
-                .setFontSize(fontSize + 4);
+            .setTextAlignment(TextAlignment.CENTER)
+            .setBold()
+            .setFontSize(fc.titleSize);
+        if (titleFont != null) { title.setFont(titleFont); }
 
         Paragraph dateParagraph = new Paragraph("Date : " + dateStr)
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize + 2);
+            .setFontSize(fc.titleSize);
+        if (titleFont != null) { dateParagraph.setFont(titleFont); }
 
-        document.add(new Paragraph("\n").setFontSize(fontSize));
+        document.add(new Paragraph("").setMarginTop(6));
         document.add(title);
         document.add(dateParagraph);
 
         document.add(new Paragraph("")
             .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
-            .setMarginBottom(10));
-        document.add(new Paragraph("\n").setFontSize(fontSize));
+            .setMarginBottom(6));
 
         // Informations du patient
         Paragraph patientInfo = new Paragraph("Patient : " + patient.getNom() + " " + patient.getPrenom() + "\n"
-                + "Âge : " + patient.getAge() + " ans")
+            + "Âge : " + patient.getAge() + " ans")
                 .setTextAlignment(TextAlignment.LEFT)
-                .setFontSize(fontSize + 3);
+            .setFontSize(fc.textSize);
         document.add(patientInfo);
 
         document.add(new Paragraph("\n").setFontSize(fontSize));
 
         // Ajouter chaque élément du certificat (utilisé de manière générique)
         for (T element : listeElements) {
-            Paragraph elementParagraph = new Paragraph()
-                    .setFontSize(fontSize + 2)
-                    .add("\t" + element.toString());
+                Paragraph elementParagraph = new Paragraph()
+                    .setFontSize(fc.textSize)
+                    .add("\t" + element.toString())
+                    .setMarginBottom(4);
             document.add(elementParagraph);
         }
 
-        document.add(new Paragraph("\n").setFontSize(fontSize + 2));
-
-        float spaceAboveFooter = 48.24f + 30;
-        document.add(new Paragraph("\n").setFontSize(spaceAboveFooter));
+            document.add(new Paragraph("").setMarginTop(8));
 
         // Signature et cachet du médecin
-        Paragraph signature = new Paragraph("Signature du médecin : _____________________\n\n")
+        Paragraph signature = new Paragraph("Signature du médecin : _____________________")
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setFontSize(fontSize);
         document.add(signature);
@@ -542,11 +692,19 @@ public class PdfGenerator {
 
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc, PageSize.A5);
+        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        Document document = new Document(pdfDoc, a5);
         // Réduire les marges pour maximiser l'espace sur une seule page
         document.setMargins(80, 20, 30, 20);
 
-        float fontSize = 7f;
+        FontConfig fc = loadFontConfig();
+        PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
+        float fontSize = fc.textSize;
 
         // Titre "Facture" centré et date sur la même ligne (compact)
         Table headerTable = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
@@ -556,13 +714,15 @@ public class PdfGenerator {
         Cell titleCell = new Cell().add(new Paragraph("Facture")
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
-                .setFontSize(fontSize + 4))
+            .setFontSize(fc.titleSize))
                 .setBorder(Border.NO_BORDER);
+        if (titleFont != null) { titleCell.setFont(titleFont); }
         
         Cell dateCell = new Cell().add(new Paragraph("Date : " + dateStr)
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize + 1))
+            .setFontSize(fc.titleSize))
                 .setBorder(Border.NO_BORDER);
+        if (titleFont != null) { dateCell.setFont(titleFont); }
         
         headerTable.addCell(titleCell);
         headerTable.addCell(dateCell);
@@ -577,7 +737,7 @@ public class PdfGenerator {
         // Informations du patient compactes
         Paragraph patientInfo = new Paragraph("Patient : " + patient.getNom() + " " + patient.getPrenom() + " - Âge : " + patient.getAge() + " ans")
                 .setTextAlignment(TextAlignment.LEFT)
-                .setFontSize(fontSize + 1)
+            .setFontSize(fc.titleSize)
                 .setMarginBottom(8);
         document.add(patientInfo);
 
@@ -737,8 +897,15 @@ public class PdfGenerator {
         Document document = new Document(pdfDoc, PageSize.A4);
         document.setMargins(60, 36, 50, 36);
 
-        float labelSize = 10f;
-        float valueSize = 10f;
+        FontConfig fc = loadFontConfig();
+        PdfFont formFont = resolveConfiguredFont(fc.formFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (formFont != null) {
+            document.setFont(formFont);
+        }
+
+        float labelSize = fc.formSize;
+        float valueSize = fc.formSize;
         SimpleDateFormat dateHuman = new SimpleDateFormat("dd/MM/yyyy");
 
         // Header date
@@ -747,61 +914,63 @@ public class PdfGenerator {
                 .setFontSize(labelSize));
 
         // Title
-        document.add(new Paragraph("FICHE DE SOINS LOCAUX")
+        Paragraph ficheTitle = new Paragraph("FICHE DE SOINS LOCAUX")
             .setTextAlignment(TextAlignment.CENTER)
             .setBold()
-            .setFontSize(14)
-            .setMarginBottom(8));
+            .setFontSize(fc.titleSize)
+            .setMarginBottom(8);
+        if (titleFont != null) { ficheTitle.setFont(titleFont); }
+        document.add(ficheTitle);
 
         // Consultation date under title, aligned left
         if (consultation.getDateConsultation() != null) {
-            document.add(new Paragraph("Date de consultation : " + consultation.getDateConsultation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-            .setTextAlignment(TextAlignment.LEFT)
-            .setFontSize(labelSize)
-            .setMarginBottom(10));
+            Paragraph dateConsultPara = new Paragraph()
+                .add(new Text("Date de consultation : ").setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(0, 0, 255)))
+                .add(new Text(consultation.getDateConsultation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).setFontSize(labelSize));
+            document.add(dateConsultPara.setTextAlignment(TextAlignment.LEFT).setMarginBottom(10));
         }
 
         // Patient info table 2 cols
         Table info = new Table(UnitValue.createPercentArray(new float[]{1, 1})).useAllAvailableWidth();
-        info.addCell(makeLabelValue("Nom :", patient.getNom() + " " + patient.getPrenom(), labelSize, valueSize));
-        info.addCell(makeLabelValue("CIN :", safe(""), labelSize, valueSize));
-        info.addCell(makeLabelValue("Date de naissance :", safeDate(patient.getDateNaissance(), dateHuman), labelSize, valueSize));
-        info.addCell(makeLabelValue("Couverture sanitaire :", safe(patient.getCouvertureSanitaire()), labelSize, valueSize));
-        info.addCell(makeLabelValue("Adresse :", safe(patient.getAdresse()), labelSize, valueSize));
-        info.addCell(makeLabelValue("Numéro de téléphone :", safe(patient.getTelephone()), labelSize, valueSize));
-        info.addCell(makeLabelValue("Profession :", safe(patient.getProfession()), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("Nom :", patient.getNom() + " " + patient.getPrenom(), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("CIN :", safe(""), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("Date de naissance :", safeDate(patient.getDateNaissance(), dateHuman), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("Couverture sanitaire :", safe(patient.getCouvertureSanitaire()), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("Adresse :", safe(patient.getAdresse()), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("Numéro de téléphone :", safe(patient.getTelephone()), labelSize, valueSize));
+        info.addCell(makeLabelValueBlue("Profession :", safe(patient.getProfession()), labelSize, valueSize));
         info.addCell(makeLabelValue("", "", labelSize, valueSize));
         document.add(info.setMarginBottom(10));
 
         // Motif en plein format gauche
-        document.add(makeLabelValueMultiline("Motif de consultation :", safe(consultation.getSymptome()), labelSize, valueSize));
+        document.add(makeLabelValueMultilineBlue("Motif de consultation :", safe(consultation.getSymptome()), labelSize, valueSize));
         document.add(new Paragraph(""));
 
-        document.add(makeSectionWithBullets("ATCD :", formatAntecedents(antecedents), labelSize, valueSize));
-        document.add(makeSectionWithBullets("Traitement en cours :", formatPrescriptions(traitementEnCours), labelSize, valueSize));
+        document.add(makeSectionWithBulletsBlue("ATCD :", formatAntecedents(antecedents), labelSize, valueSize));
+        document.add(makeSectionWithBulletsBlue("Traitement en cours :", formatPrescriptions(traitementEnCours), labelSize, valueSize));
 
         // Exam section
-        document.add(new Paragraph("Examen :").setBold().setFontSize(labelSize + 1).setMarginTop(12).setMarginBottom(6));
+        document.add(new Paragraph("Examen :").setBold().setFontSize(labelSize + 1).setFontColor(new DeviceRgb(0, 0, 255)).setMarginTop(12).setMarginBottom(6));
         Table exam = new Table(UnitValue.createPercentArray(new float[]{1, 1, 1, 1})).useAllAvailableWidth();
-        exam.addCell(makeLabelValue("TA bras droit :", safe(consultation.getPressionDroite()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("TA bras gauche :", safe(consultation.getPression()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("FC :", formatInt(consultation.getFrequencequardiaque()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("SaO2 :", formatInt(consultation.getSaO()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("Glycémie :", formatDouble(consultation.getGlycimie()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("Poids :", formatDouble(consultation.getPoids()), labelSize, valueSize));
-        exam.addCell(makeLabelValue("Température :", formatDouble(consultation.getTemperature()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("TA bras droit :", safe(consultation.getPressionDroite()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("TA bras gauche :", safe(consultation.getPression()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("FC :", formatInt(consultation.getFrequencequardiaque()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("SaO2 :", formatInt(consultation.getSaO()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("Glycémie :", formatDouble(consultation.getGlycimie()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("Poids :", formatDouble(consultation.getPoids()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("Température :", formatDouble(consultation.getTemperature()), labelSize, valueSize));
         exam.addCell(makeLabelValue("", "", labelSize, valueSize));
         document.add(exam.setMarginBottom(6));
 
         // Clinique en plein format gauche
-        document.add(makeLabelValueMultiline("Clinique :", safe(consultation.getExamenClinique()), labelSize, valueSize));
+        document.add(makeLabelValueMultilineRed("Clinique :", safe(consultation.getExamenClinique()), labelSize, valueSize));
         document.add(new Paragraph(""));
 
-        document.add(makeSectionWithBullets("ECG :", "", labelSize, valueSize));
-        document.add(makeSectionWithBullets("ETT :", "", labelSize, valueSize));
-        document.add(makeSectionWithBullets("Traitement de sortie :", formatPrescriptions(traitementSortie), labelSize, valueSize));
-        document.add(makeSectionWithBullets("Remarques :", "", labelSize, valueSize));
-        document.add(makeSectionWithBullets("Prochains RDV :", "", labelSize, valueSize));
+        document.add(makeSectionWithBulletsRed("ECG :", "", labelSize, valueSize));
+        document.add(makeSectionWithBulletsRed("ETT :", safe(consultation.getEtt()), labelSize, valueSize));
+        document.add(makeSectionWithBulletsBlue("Traitement de sortie :", formatPrescriptions(traitementSortie), labelSize, valueSize));
+        document.add(makeSectionWithBulletsBlue("Remarques :", "", labelSize, valueSize));
+        document.add(makeSectionWithBulletsBlue("Prochains RDV :", "", labelSize, valueSize));
 
         // Rendez-vous (sans répétition de titre)
         if (rendezVousLies != null && !rendezVousLies.isEmpty()) {
@@ -829,6 +998,20 @@ public class PdfGenerator {
         return new Cell().add(p).setBorder(Border.NO_BORDER);
     }
 
+    private static Cell makeLabelValueRed(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+            .add(new Text(label).setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(255, 0, 0)))
+            .add(new Text(" " + (value != null ? value : ""))).setFontSize(valueSize);
+        return new Cell().add(p).setBorder(Border.NO_BORDER);
+    }
+
+    private static Cell makeLabelValueBlue(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+            .add(new Text(label).setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(0, 0, 255)))
+            .add(new Text(" " + (value != null ? value : ""))).setFontSize(valueSize);
+        return new Cell().add(p).setBorder(Border.NO_BORDER);
+    }
+
     private static Cell makeLabelValueMultiline(String label, String value, float labelSize, float valueSize) {
         Paragraph p = new Paragraph()
             .add(new Text(label).setBold().setFontSize(labelSize))
@@ -836,9 +1019,47 @@ public class PdfGenerator {
         return new Cell().add(p).setBorder(Border.NO_BORDER);
     }
 
+    private static Cell makeLabelValueMultilineBlue(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+            .add(new Text(label).setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(0, 0, 255)))
+            .add(new Text("\n" + (value != null ? value : "")).setFontSize(valueSize));
+        return new Cell().add(p).setBorder(Border.NO_BORDER);
+    }
+
+    private static Cell makeLabelValueMultilineRed(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+            .add(new Text(label).setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(255, 0, 0)))
+            .add(new Text("\n" + (value != null ? value : "")).setFontSize(valueSize));
+        return new Cell().add(p).setBorder(Border.NO_BORDER);
+    }
+
     private static Paragraph makeSectionWithBullets(String label, String value, float labelSize, float valueSize) {
         Paragraph p = new Paragraph()
                 .add(new Text(label).setBold().setFontSize(labelSize))
+                .add(new Text("\n").setFontSize(valueSize));
+
+        if (value != null && !value.isBlank()) {
+            p.add(new Text(value).setFontSize(valueSize));
+        }
+
+        return p.setMarginBottom(8);
+    }
+
+    private static Paragraph makeSectionWithBulletsRed(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+                .add(new Text(label).setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(255, 0, 0)))
+                .add(new Text("\n").setFontSize(valueSize));
+
+        if (value != null && !value.isBlank()) {
+            p.add(new Text(value).setFontSize(valueSize));
+        }
+
+        return p.setMarginBottom(8);
+    }
+
+    private static Paragraph makeSectionWithBulletsBlue(String label, String value, float labelSize, float valueSize) {
+        Paragraph p = new Paragraph()
+                .add(new Text(label).setBold().setFontSize(labelSize).setFontColor(new DeviceRgb(0, 0, 255)))
                 .add(new Text("\n").setFontSize(valueSize));
 
         if (value != null && !value.isBlank()) {
@@ -1010,12 +1231,22 @@ public class PdfGenerator {
     }
 
     private static String generateGenericCertificat(String pdfPath, String titre, String contenu, Patient patient, Medecin medecin) throws FileNotFoundException {
+        System.out.println("DEBUG: Génération PDF avec PageSize.A5 - Largeur: " + PageSize.A5.getWidth() + " Hauteur: " + PageSize.A5.getHeight());
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc, PageSize.A4);
-        document.setMargins(127, 40, 48.24f, 40);
-
-        float fontSize = 10f;
+        // Enforce exact A5 as the default page size on the PdfDocument
+        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        Document document = new Document(pdfDoc, a5);
+        // Compact margins to keep everything on a single A5 page
+        document.setMargins(90f, 24f, 30f, 24f);
+        FontConfig fc = loadFontConfig();
+        PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
+        float fontSize = fc.textSize;
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(new Date());
@@ -1024,35 +1255,44 @@ public class PdfGenerator {
         Paragraph title = new Paragraph(titre)
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
-                .setFontSize(fontSize + 6)
+            .setFontSize(fc.titleSize)
                 .setUnderline();
+        if (titleFont != null) { title.setFont(titleFont); }
 
-        document.add(new Paragraph("\n").setFontSize(fontSize));
+        // Minimal spacing before title
+        document.add(new Paragraph("").setMarginTop(6));
         document.add(title);
+        // Verify actual page size of the first page after content is added
+        try {
+            com.itextpdf.kernel.geom.PageSize defaultSize = pdfDoc.getDefaultPageSize();
+            System.out.println("DEBUG: pdfDoc default page size = " + defaultSize.getWidth() + " x " + defaultSize.getHeight());
+        } catch (Exception ignored) {}
         
         // Date
         Paragraph dateParagraph = new Paragraph("Date : " + dateStr)
                 .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize);
+            .setFontSize(fontSize);
+        if (titleFont != null) { dateParagraph.setFont(titleFont); }
         document.add(dateParagraph);
 
         document.add(new Paragraph("")
             .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
-            .setMarginBottom(10));
-        document.add(new Paragraph("\n").setFontSize(fontSize));
+            .setMarginBottom(6));
 
         // Contenu du certificat
         Paragraph contenuParagraph = new Paragraph(contenu)
-                .setTextAlignment(TextAlignment.LEFT)
-                .setFontSize(fontSize);
+            .setTextAlignment(TextAlignment.LEFT)
+            .setFontSize(fontSize)
+            .setMarginTop(6)
+            .setMarginBottom(6);
         document.add(contenuParagraph);
-
-        document.add(new Paragraph("\n\n").setFontSize(fontSize));
+        // Compact spacing before signature
+        document.add(new Paragraph("").setMarginTop(8));
 
         // Signature
-        Paragraph signature = new Paragraph("Signature et cachet du médecin\n\n\n\n")
-                .setTextAlignment(TextAlignment.RIGHT)
-                .setFontSize(fontSize);
+        Paragraph signature = new Paragraph("Signature et cachet du médecin")
+            .setTextAlignment(TextAlignment.RIGHT)
+            .setFontSize(fontSize);
         document.add(signature);
 
         Paragraph medecinInfo = new Paragraph("Dr " + medecin.getNom() + " " + medecin.getPrenom())
@@ -1060,6 +1300,14 @@ public class PdfGenerator {
                 .setFontSize(fontSize)
                 .setBold();
         document.add(medecinInfo);
+
+        // Log first page size before closing
+        try {
+            if (pdfDoc.getNumberOfPages() > 0) {
+                com.itextpdf.kernel.geom.Rectangle firstPageSize = pdfDoc.getFirstPage().getPageSize();
+                System.out.println("DEBUG: First page size = " + firstPageSize.getWidth() + " x " + firstPageSize.getHeight());
+            }
+        } catch (Exception ignored) {}
 
         document.close();
         return pdfPath;

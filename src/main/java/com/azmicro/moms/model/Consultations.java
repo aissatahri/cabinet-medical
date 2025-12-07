@@ -33,6 +33,7 @@ public class Consultations {
     private double temperature;
     private int saO;
     private String examenClinique;
+    private String ett;
     private List<Prescriptions> prescriptions;
 
 
@@ -180,6 +181,14 @@ public class Consultations {
     public void setExamenClinique(String examenClinique) {
         this.examenClinique = examenClinique;
     }
+
+    public String getEtt() {
+        return ett;
+    }
+
+    public void setEtt(String ett) {
+        this.ett = ett;
+    }
    
     public List<Prescriptions> getPrescriptions() {
         return prescriptions;
@@ -209,6 +218,8 @@ public class Consultations {
                 + ", glycimie=" + glycimie
                 + ", temperature=" + temperature
                 + ", saO=" + saO
+                + ", examenClinique='" + examenClinique + '\''
+                + ", ett='" + ett + '\''
                 + '}';
     }
 }
