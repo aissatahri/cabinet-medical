@@ -140,7 +140,7 @@
                         <StackPane prefHeight="150.0" prefWidth="350.0" HBox.hgrow="ALWAYS">
                            <children>
                               <TextField fx:id="tfKeyword" prefHeight="40.0" promptText="Rechercher un patient (nom, prénom, téléphone...)" styleClass="modern-search-field" />
-                              <HBox alignment="CENTER_RIGHT" spacing="5" StackPane.alignment="CENTER_RIGHT">
+                              <HBox alignment="CENTER_RIGHT" mouseTransparent="true" spacing="5" StackPane.alignment="CENTER_RIGHT">
                                  <children>
                                     <FontIcon iconColor="#6c757d" iconLiteral="fas-search" iconSize="16" />
                                  </children>
