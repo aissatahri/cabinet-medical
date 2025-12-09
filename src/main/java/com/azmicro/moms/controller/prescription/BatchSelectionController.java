@@ -22,7 +22,7 @@ public class BatchSelectionController {
     @FXML private TableView<MedicamentRow> tableMedicaments;
     @FXML private TableColumn<MedicamentRow, Boolean> colSelect;
     @FXML private TableColumn<MedicamentRow, String> colNom;
-    @FXML private TableColumn<MedicamentRow, String> colCategorie;
+    @FXML private TableColumn<MedicamentRow, String> colDosage;
     @FXML private Label lblSelectionCount;
     @FXML private Button btnNext;
     @FXML private Button btnCancel;
@@ -40,7 +40,7 @@ public class BatchSelectionController {
         colSelect.setCellFactory(CheckBoxTableCell.forTableColumn(colSelect));
         
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        colCategorie.setCellValueFactory(new PropertyValueFactory<>("categorie"));
+        colDosage.setCellValueFactory(new PropertyValueFactory<>("dosage"));
 
         // Load medicaments
         loadMedicaments();
@@ -62,7 +62,7 @@ public class BatchSelectionController {
             for (Medicaments med : meds) {
                 MedicamentRow row = new MedicamentRow(
                     med.getNomMedicament(),
-                    determineCategorie(med.getNomMedicament())
+                    med.getFormeDosage() != null ? med.getFormeDosage() : ""
                 );
                 row.selectedProperty().addListener((obs, old, newVal) -> updateSelectionCount());
                 allMedicaments.add(row);
@@ -71,17 +71,6 @@ public class BatchSelectionController {
         } catch (Exception e) {
             showError("Erreur lors du chargement des médicaments: " + e.getMessage());
         }
-    }
-
-    private String determineCategorie(String nom) {
-        String lower = nom.toLowerCase();
-        if (lower.contains("amoxicilline") || lower.contains("antibio")) return "Antibiotique";
-        if (lower.contains("paracetamol") || lower.contains("ibuprofene")) return "Antalgique";
-        if (lower.contains("metformine") || lower.contains("insulin")) return "Antidiabétique";
-        if (lower.contains("amlodipine") || lower.contains("enalapril")) return "Antihypertenseur";
-        if (lower.contains("cetirizine") || lower.contains("loratadine")) return "Antihistaminique";
-        if (lower.contains("omeprazole") || lower.contains("pantoprazole")) return "IPP";
-        return "Autre";
     }
 
     private void filterMedicaments(String searchText) {
@@ -134,17 +123,17 @@ public class BatchSelectionController {
     // Inner class for table row
     public static class MedicamentRow {
         private final String nom;
-        private final String categorie;
+        private final String dosage;
         private final BooleanProperty selected;
 
-        public MedicamentRow(String nom, String categorie) {
+        public MedicamentRow(String nom, String dosage) {
             this.nom = nom;
-            this.categorie = categorie;
+            this.dosage = dosage;
             this.selected = new SimpleBooleanProperty(false);
         }
 
         public String getNom() { return nom; }
-        public String getCategorie() { return categorie; }
+        public String getDosage() { return dosage; }
         public boolean isSelected() { return selected.get(); }
         public BooleanProperty selectedProperty() { return selected; }
         public void setSelected(boolean value) { selected.set(value); }

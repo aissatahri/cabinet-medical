@@ -180,6 +180,8 @@ public class DossierController implements Initializable {
     @FXML
     private TextArea txtExamenClinique;
     @FXML
+    private TextArea txtEcg;
+    @FXML
     private TextArea txtEtt;
     @FXML
     private TextArea txtDiagnostiqueMedical;
@@ -191,8 +193,7 @@ public class DossierController implements Initializable {
     private Button btnEditConsultation;
     @FXML
     private Button btnSupprimerConsultation;
-    @FXML
-    private Button btnImprimerConsultation;
+
 
     private Consultations consultation;
 
@@ -449,6 +450,9 @@ public class DossierController implements Initializable {
 
     private void initializeBilansTable() {
         TableViewConfigurator.configureBilansTable(tvBilan, clmLigneBilan);
+        
+        // Activer la sélection multiple
+        tvBilan.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
 
         tvBilan.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -458,7 +462,9 @@ public class DossierController implements Initializable {
         });
 
         tvBilan.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1 && tvBilan.getSelectionModel().getSelectedItem() != null) {
+            if (event.getClickCount() == 2 && !tvBilan.getSelectionModel().isEmpty()) {
+                editBilan(new ActionEvent());
+            } else if (event.getClickCount() == 1 && tvBilan.getSelectionModel().getSelectedItem() != null) {
                 Analyse selectedAnalyse = tvBilan.getSelectionModel().getSelectedItem();
                 dpDateAnalyse.setValue(selectedAnalyse.getDateAnalyse());
                 txtRsltLigneBilan.setText(selectedAnalyse.getResultat());
@@ -474,6 +480,9 @@ public class DossierController implements Initializable {
 
     private void initializeImagerieTable() {
         TableViewConfigurator.configureImagerieTable(tvRadio, clmLigneImagerie);
+        
+        // Activer la sélection multiple
+        tvRadio.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
 
         tvRadio.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -483,7 +492,9 @@ public class DossierController implements Initializable {
         });
 
         tvRadio.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1 && tvRadio.getSelectionModel().getSelectedItem() != null) {
+            if (event.getClickCount() == 2 && !tvRadio.getSelectionModel().isEmpty()) {
+                editImagerie(new ActionEvent());
+            } else if (event.getClickCount() == 1 && tvRadio.getSelectionModel().getSelectedItem() != null) {
                 Imagerie selectedImagerie = tvRadio.getSelectionModel().getSelectedItem();
                 dpDateImagerie.setValue(selectedImagerie.getDateImagerie());
                 txtresultImagerie.setText(selectedImagerie.getResultat());
@@ -513,6 +524,15 @@ public class DossierController implements Initializable {
         TableViewConfigurator.configurePrescriptionsTable(
             tvOrdonnance, clmMedicament, clmDetailsOrdonnance
         );
+        // Activer la sélection multiple
+        tvOrdonnance.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+        
+        // Ajouter l'événement de double-clic pour modifier
+        tvOrdonnance.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && !tvOrdonnance.getSelectionModel().isEmpty()) {
+                editOrdonnance(new ActionEvent());
+            }
+        });
     }
 
     private void initializeRendezVousTable() {
@@ -592,6 +612,10 @@ public class DossierController implements Initializable {
     private void applyVitalsFromForm(Consultations target) {
         // Copy vitals from tempConstantesVitales if available
         if (tempConstantesVitales != null) {
+            System.out.println("DEBUG: Applying vitals from tempConstantesVitales");
+            System.out.println("DEBUG: TA bras gauche (pression): " + tempConstantesVitales.getPression());
+            System.out.println("DEBUG: TA bras droit (pressionDroite): " + tempConstantesVitales.getPressionDroite());
+            
             target.setPoids(tempConstantesVitales.getPoids());
             target.setTaille(tempConstantesVitales.getTaille());
             target.setImc(tempConstantesVitales.getImc());
@@ -602,6 +626,8 @@ public class DossierController implements Initializable {
             target.setFrequencerespiratoire(tempConstantesVitales.getFrequencerespiratoire());
             target.setGlycimie(tempConstantesVitales.getGlycimie());
             target.setSaO(tempConstantesVitales.getSaO());
+            
+            System.out.println("DEBUG: After setting - target.getPressionDroite(): " + target.getPressionDroite());
         } else {
             // If no vitals entered, set defaults
             target.setPoids(0.0);
@@ -615,7 +641,8 @@ public class DossierController implements Initializable {
             target.setGlycimie(0.0);
             target.setSaO(0);
         }
-        // ETT is now a separate field
+        // ECG and ETT are separate fields
+        target.setEcg(txtEcg.getText());
         target.setEtt(txtEtt.getText());
     }
 
@@ -707,15 +734,13 @@ public class DossierController implements Initializable {
 
     private void showSuccessMessage(String message) {
         // Implement this method to show a success message to the user
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);
+        Alert alert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.INFORMATION, "Succès", null, message);
         alert.show();
     }
 
     private void showErrorMessage(String message) {
         // Implement this method to show an error message to the user
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
+        Alert alert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.ERROR, "Erreur", null, message);
         alert.show();
     }
 
@@ -730,6 +755,10 @@ public class DossierController implements Initializable {
         consultation.setPatient(patient);
         consultation.setDateConsultation(dateConsultaion.getValue());
 
+        System.out.println("DEBUG: Before saving consultation:");
+        System.out.println("DEBUG: consultation.getPression() = " + consultation.getPression());
+        System.out.println("DEBUG: consultation.getPressionDroite() = " + consultation.getPressionDroite());
+        
         // Sauvegarder la consultation
         boolean success = consultationService.save(consultation);
         if (success) {
@@ -818,6 +847,9 @@ public class DossierController implements Initializable {
             // Retrieve updated data after dialog closes
             Consultations updated = controller.getConsultationData();
             if (updated != null) {
+                System.out.println("DEBUG: Data retrieved from constantes vitales dialog");
+                System.out.println("DEBUG: TA bras gauche: " + updated.getPression());
+                System.out.println("DEBUG: TA bras droit: " + updated.getPressionDroite());
                 tempConstantesVitales = updated;
                 updateConstantesStatus();
             }
@@ -861,19 +893,13 @@ public class DossierController implements Initializable {
         Consultations selectedConsultation = tvConsultation.getSelectionModel().getSelectedItem();
         if (selectedConsultation == null) {
             // Afficher un message d'erreur si aucune consultation n'est sélectionnée
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une consultation à supprimer.");
+            Alert alert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.ERROR, "Erreur", null, "Veuillez sélectionner une consultation à supprimer.");
             alert.showAndWait();
             return;
         }
 
         // Demander confirmation de la suppression
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Confirmation de la suppression");
-        confirmationAlert.setHeaderText(null);
-        confirmationAlert.setContentText("Êtes-vous sûr de vouloir supprimer cette consultation ?");
+        Alert confirmationAlert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.CONFIRMATION, "Confirmation de la suppression", null, "Êtes-vous sûr de vouloir supprimer cette consultation ?");
 
         // Attendre la réponse de l'utilisateur
         Optional<ButtonType> result = confirmationAlert.showAndWait();
@@ -883,26 +909,16 @@ public class DossierController implements Initializable {
 
             // Afficher un message de confirmation ou d'erreur
             if (success) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Succès");
-                alert.setHeaderText(null);
-                alert.setContentText("La consultation a été supprimée avec succès.");
+                Alert alert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.INFORMATION, "Succès", null, "La consultation a été supprimée avec succès.");
                 alert.showAndWait();
 
                 // Retirer la consultation de la TableView
                 tvConsultation.getItems().remove(selectedConsultation);
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText(null);
-                alert.setContentText("Une erreur s'est produite lors de la suppression de la consultation.");
+                Alert alert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.ERROR, "Erreur", null, "Une erreur s'est produite lors de la suppression de la consultation.");
                 alert.showAndWait();
             }
         }
-    }
-
-    @FXML
-    private void imprimeConsulation(ActionEvent event) {
     }
 
     @FXML
@@ -911,10 +927,7 @@ public class DossierController implements Initializable {
         Consultations selectedConsultation = tvConsultation.getSelectionModel().getSelectedItem();
         if (selectedConsultation == null) {
             // Afficher un message d'erreur si aucune consultation n'est sélectionnée
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une consultation à modifier.");
+            Alert alert = com.azmicro.moms.util.AlertUtil.createAlert(Alert.AlertType.ERROR, "Erreur", null, "Veuillez sélectionner une consultation à modifier.");
             alert.showAndWait();
             return;
         }
@@ -928,6 +941,10 @@ public class DossierController implements Initializable {
         selectedConsultation.setPatient(patient);
         selectedConsultation.setDateConsultation(dateConsultaion.getValue());
 
+        System.out.println("DEBUG editConsultation: Before update");
+        System.out.println("DEBUG editConsultation: TA gauche = " + selectedConsultation.getPression());
+        System.out.println("DEBUG editConsultation: TA droit = " + selectedConsultation.getPressionDroite());
+        
         boolean success = consultationService.update(selectedConsultation);
         if (success) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -953,6 +970,7 @@ public class DossierController implements Initializable {
         lblConstantesStatus.setText("Aucune constante saisie");
         txtSymptomes.clear();
         txtExamenClinique.clear();
+        txtEcg.clear();
         txtEtt.clear();
         txtDiagnostiqueMedical.clear();
         txtCat.clear();
@@ -1037,6 +1055,10 @@ public class DossierController implements Initializable {
     }
 
     private void populateFields(Consultations consultation) {
+        System.out.println("DEBUG populateFields: Loading consultation ID=" + consultation.getConsultationID());
+        System.out.println("DEBUG populateFields: TA gauche from DB = " + consultation.getPression());
+        System.out.println("DEBUG populateFields: TA droit from DB = " + consultation.getPressionDroite());
+        
         // Store vitals in temp object
         tempConstantesVitales = new Consultations();
         tempConstantesVitales.setPoids(consultation.getPoids());
@@ -1050,12 +1072,15 @@ public class DossierController implements Initializable {
         tempConstantesVitales.setGlycimie(consultation.getGlycimie());
         tempConstantesVitales.setSaO(consultation.getSaO());
         
+        System.out.println("DEBUG populateFields: Stored in temp - TA droit = " + tempConstantesVitales.getPressionDroite());
+        
         // Update status label
         updateConstantesStatus();
         
         // Populate other fields
         txtSymptomes.setText(consultation.getSymptome());
         txtExamenClinique.setText(consultation.getExamenClinique());
+        txtEcg.setText(consultation.getEcg());
         txtEtt.setText(consultation.getEtt());
         txtDiagnostiqueMedical.setText(consultation.getDiagnostique());
         txtCat.setText(consultation.getCat());
@@ -1409,8 +1434,9 @@ public class DossierController implements Initializable {
     private void editBilan(ActionEvent event) {
         // Vérifier si une consultation est sélectionnée
         Consultations selectedDate = lvDateConsultationBilan.getSelectionModel().getSelectedItem();
+        ObservableList<Analyse> selectedAnalyses = tvBilan.getSelectionModel().getSelectedItems();
 
-        if (selectedDate != null) {
+        if (selectedDate != null && selectedAnalyses != null && !selectedAnalyses.isEmpty()) {
             try {
                 // Charger la vue FXML
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/bilan/bilan-view.fxml"));
@@ -1423,8 +1449,8 @@ public class DossierController implements Initializable {
                 bilanController.setConsultation(selectedConsultation);
                 bilanController.setDossierController(this);
                 
-                // Charger les analyses existantes
-                bilanController.loadExistingAnalyses();
+                // Charger les analyses sélectionnées
+                bilanController.loadSelectedAnalyses(new ArrayList<>(selectedAnalyses));
 
                 // Créer une nouvelle scène
                 Scene scene = new Scene(root);
@@ -1440,8 +1466,14 @@ public class DossierController implements Initializable {
                 stage.initModality(Modality.WINDOW_MODAL);
 
                 // Lier le stage modal à la fenêtre principale
-                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.initOwner(primaryStage);
+                if (event != null && event.getSource() instanceof Node) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                } else {
+                    // Si appelé depuis double-clic, récupérer la fenêtre depuis tvBilan
+                    Stage primaryStage = (Stage) tvBilan.getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                }
 
                 // Désactiver la possibilité d'agrandir la fenêtre
                 stage.setResizable(false);
@@ -1459,10 +1491,11 @@ public class DossierController implements Initializable {
                 alert.showAndWait();
             }
         } else {
+            // Afficher un message d'alerte si aucune sélection
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aucune sélection");
             alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une consultation dans la liste.");
+            alert.setContentText("Veuillez sélectionner au moins une analyse dans la table.");
             alert.showAndWait();
         }
     }
@@ -1558,8 +1591,9 @@ public class DossierController implements Initializable {
     private void editImagerie(ActionEvent event) {
         // Vérifier si une consultation est sélectionnée
         Consultations selectedDateConsultation = lvDateConsultationRadio.getSelectionModel().getSelectedItem();
+        ObservableList<Imagerie> selectedImageries = tvRadio.getSelectionModel().getSelectedItems();
         
-        if (selectedDateConsultation != null) {
+        if (selectedDateConsultation != null && selectedImageries != null && !selectedImageries.isEmpty()) {
             try {
                 // Charger la vue FXML
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/imagerie/imagerie-view.fxml"));
@@ -1572,8 +1606,8 @@ public class DossierController implements Initializable {
                 imagerieController.setConsultation(selectedConsultation);
                 imagerieController.setDossierController(this);
                 
-                // Charger les imageries existantes
-                imagerieController.loadExistingImageries();
+                // Charger les imageries sélectionnées
+                imagerieController.loadSelectedImageries(new ArrayList<>(selectedImageries));
 
                 // Créer une nouvelle scène
                 Scene scene = new Scene(root);
@@ -1589,8 +1623,14 @@ public class DossierController implements Initializable {
                 stage.initModality(Modality.WINDOW_MODAL);
 
                 // Lier le stage modal à la fenêtre principale
-                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.initOwner(primaryStage);
+                if (event != null && event.getSource() instanceof Node) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                } else {
+                    // Si appelé depuis double-clic, récupérer la fenêtre depuis tvRadio
+                    Stage primaryStage = (Stage) tvRadio.getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                }
 
                 // Désactiver la possibilité d'agrandir la fenêtre
                 stage.setResizable(false);
@@ -1611,7 +1651,7 @@ public class DossierController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aucune sélection");
             alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une consultation dans la liste.");
+            alert.setContentText("Veuillez sélectionner au moins une imagerie dans la table.");
             alert.showAndWait();
         }
     }
@@ -1808,7 +1848,9 @@ public class DossierController implements Initializable {
     @FXML
     private void editOrdonnance(ActionEvent event) {
         Consultations selectedConsultation = tvConsultationOrd.getSelectionModel().getSelectedItem();
-        if (selectedConsultation != null) {
+        ObservableList<Prescriptions> selectedPrescriptions = tvOrdonnance.getSelectionModel().getSelectedItems();
+        
+        if (selectedConsultation != null && selectedPrescriptions != null && !selectedPrescriptions.isEmpty()) {
             try {
                 // Charger la vue prescription-view.fxml
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/prescription/prescription-view.fxml"));
@@ -1817,9 +1859,9 @@ public class DossierController implements Initializable {
                 // Obtenir le contrôleur associé à la vue
                 PrescriptionController prescriptionController = loader.getController();
 
-                // Passer la consultation et les prescriptions existantes au contrôleur
+                // Passer la consultation et les prescriptions sélectionnées au contrôleur
                 prescriptionController.setConsultation(selectedConsultation);
-                prescriptionController.loadExistingPrescriptions();
+                prescriptionController.loadSelectedPrescriptions(new ArrayList<>(selectedPrescriptions));
 
                 // Créer une nouvelle scène
                 Scene scene = new Scene(root);
@@ -1835,8 +1877,14 @@ public class DossierController implements Initializable {
                 stage.initModality(Modality.WINDOW_MODAL);
 
                 // Lier le stage modal à la fenêtre principale (si nécessaire)
-                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.initOwner(primaryStage);
+                if (event != null && event.getSource() instanceof Node) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                } else {
+                    // Si appelé depuis double-clic, récupérer la fenêtre depuis tvOrdonnance
+                    Stage primaryStage = (Stage) tvOrdonnance.getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                }
 
                 // Désactiver la possibilité d'agrandir la fenêtre
                 stage.setResizable(false);
@@ -1850,11 +1898,11 @@ public class DossierController implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            // Afficher un message d'alerte si aucune ligne n'est sélectionnée
+            // Afficher un message d'alerte si aucune sélection
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aucune sélection");
             alert.setHeaderText(null);
-            alert.setContentText("Veuillez sélectionner une ligne dans la table avant d'ajouter une ordonnance.");
+            alert.setContentText("Veuillez sélectionner une consultation et au moins un médicament dans la table.");
             alert.showAndWait();
         }
 
@@ -1939,7 +1987,7 @@ public class DossierController implements Initializable {
                 selectedConsultation = tvConsultationOrd.getSelectionModel().getSelectedItem();
                 if (selectedConsultation != null) {
                     List<Prescriptions> prescriptions = prescriptionService.getPrescriptionByConsultation(selectedConsultation.getConsultationID());
-                    ImpressionUtil.imprimerDocument(TypeImpression.ORDONNANCE, prescriptions, this.patient, this.medecin);
+                    ImpressionUtil.imprimerDocument(TypeImpression.ORDONNANCE, prescriptions, this.patient, this.medecin, clickedButton.getScene().getWindow());
                     isConsultationSelected = true;
                 }
                 break;
@@ -1948,7 +1996,7 @@ public class DossierController implements Initializable {
                 selectedConsultation = lvDateConsultationBilan.getSelectionModel().getSelectedItem();
                 if (selectedConsultation != null) {
                     List<Analyse> bilans = analyseService.getAnalysesByConsultationId(selectedConsultation.getConsultationID());
-                    ImpressionUtil.imprimerDocument(TypeImpression.ORDONNANCE_BILAN, bilans, this.patient, this.medecin);
+                    ImpressionUtil.imprimerDocument(TypeImpression.ORDONNANCE_BILAN, bilans, this.patient, this.medecin, clickedButton.getScene().getWindow());
                     isConsultationSelected = true;
                 }
                 break;
@@ -1957,7 +2005,7 @@ public class DossierController implements Initializable {
                 selectedConsultation = lvDateConsultationRadio.getSelectionModel().getSelectedItem();
                 if (selectedConsultation != null) {
                     List<Imagerie> imageries = imagerieService.findByConsultationId(selectedConsultation.getConsultationID());
-                    ImpressionUtil.imprimerDocument(TypeImpression.ORDONNANCE_IMAGERIE, imageries, this.patient, this.medecin);
+                    ImpressionUtil.imprimerDocument(TypeImpression.ORDONNANCE_IMAGERIE, imageries, this.patient, this.medecin, clickedButton.getScene().getWindow());
                     isConsultationSelected = true;
                 }
                 break;
@@ -1971,7 +2019,7 @@ public class DossierController implements Initializable {
                 }
                 if (!selectedConsultationActes.isEmpty()) {
                     // Imprimer la facture basée sur les éléments sélectionnés
-                    ImpressionUtil.imprimerFacture(TypeImpression.FACTURE, selectedConsultationActes, this.patient, this.medecin);
+                    ImpressionUtil.imprimerFacture(TypeImpression.FACTURE, selectedConsultationActes, this.patient, this.medecin, clickedButton.getScene().getWindow());
                     isConsultationActeSelected = true;
                 }
                 break;
@@ -2271,7 +2319,7 @@ public class DossierController implements Initializable {
                 + ", certifie avoir examiné " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + " le " + dateConsultation + ".";
             
-            if (!motifConsultation.isEmpty()) {
+            if (motifConsultation != null && !motifConsultation.isEmpty()) {
                 certificatText += "\n\nMotif de consultation : " + motifConsultation;
             }
             
@@ -2281,9 +2329,9 @@ public class DossierController implements Initializable {
                 certificatText, patient, medecin
             );
             
-            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat médical généré avec succès.", 
-                     btnCertificatConsultation.getScene().getWindow());
+            com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                pdfPath, btnCertificatConsultation.getScene().getWindow(), "Certificat de consultation"
+            );
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
@@ -2313,9 +2361,9 @@ public class DossierController implements Initializable {
                 certificatText, patient, medecin
             );
             
-            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat d'aptitude sportive généré avec succès.",
-                     btnCertificatAptitudeSportive.getScene().getWindow());
+            com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                pdfPath, btnCertificatAptitudeSportive.getScene().getWindow(), "Certificat d'aptitude sportive"
+            );
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
@@ -2390,9 +2438,9 @@ public class DossierController implements Initializable {
                     certificatText, patient, medecin
                 );
                 
-                com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-                showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt scolaire généré avec succès.",
-                         btnCertificatArretScolaire.getScene().getWindow());
+                com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                    pdfPath, btnCertificatArretScolaire.getScene().getWindow(), "Certificat d'arrêt scolaire"
+                );
                 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
@@ -2470,9 +2518,9 @@ public class DossierController implements Initializable {
                     certificatText, patient, medecin
                 );
                 
-                com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-                showAlert(AlertType.INFORMATION, "Succès", "Certificat d'arrêt de travail généré avec succès.",
-                         btnCertificatArretTravail.getScene().getWindow());
+                com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                    pdfPath, btnCertificatArretTravail.getScene().getWindow(), "Certificat d'arrêt de travail"
+                );
                 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
@@ -2503,9 +2551,9 @@ public class DossierController implements Initializable {
                 certificatText, patient, medecin
             );
             
-            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Certificat maladie chronique généré avec succès.",
-                     btnCertificatMaladieChronique.getScene().getWindow());
+            com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                pdfPath, btnCertificatMaladieChronique.getScene().getWindow(), "Certificat de maladie chronique"
+            );
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
@@ -2538,9 +2586,9 @@ public class DossierController implements Initializable {
                 consultationSelectionnee, traitementEnCours, traitementSortie, rdvLies, antecedents, patient, medecin
             );
             
-            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Fiche de soins locaux générée avec succès.",
-                     btnFicheSoinsLocaux.getScene().getWindow());
+            com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                pdfPath, btnFicheSoinsLocaux.getScene().getWindow(), "Fiche de soins locaux"
+            );
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);
@@ -2626,8 +2674,7 @@ public class DossierController implements Initializable {
             
             String traitementText = traitementBuilder.toString();
             
-            String lettreText = "LETTRE D'ORIENTATION"
-                + "\n\nÀ l'attention du confrère spécialiste,"
+            String lettreText = "À l'attention du confrère spécialiste,"
                 + "\n\nJe vous adresse " + designation + " " + patient.getNom() + " " + patient.getPrenom()
                 + ", né(e) le " + patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 + ", pour avis spécialisé et prise en charge."
@@ -2635,16 +2682,15 @@ public class DossierController implements Initializable {
                 + "\n\nAntécédents notables : " + (antecedentsText.isEmpty() ? "[À compléter]" : "\n" + antecedentsText)
                 + "\n\nTraitement en cours : " + (traitementText.isEmpty() ? "[À compléter]" : "\n" + traitementText)
                 + "\n\nJe vous remercie de bien vouloir me tenir informé(e) de vos conclusions."
-                + "\n\nAvec mes confraternels salutations."
-                + "\n\nFait le " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                + "\n\nAvec mes confraternels salutations.";
             
             String pdfPath = com.azmicro.moms.util.impression.PdfGenerator.generateLettreOrientationPdf(
                 lettreText, patient, medecin
             );
             
-            com.azmicro.moms.util.impression.PdfViewer.openPdf(pdfPath);
-            showAlert(AlertType.INFORMATION, "Succès", "Lettre d'orientation générée avec succès.",
-                     btnLettreOrientation.getScene().getWindow());
+            com.azmicro.moms.util.impression.PdfSuccessDialog.showSuccessAndOpenPdf(
+                pdfPath, btnLettreOrientation.getScene().getWindow(), "Lettre de référence"
+            );
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DossierController.class.getName()).log(Level.SEVERE, null, ex);

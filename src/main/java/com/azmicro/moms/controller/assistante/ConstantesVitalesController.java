@@ -199,13 +199,16 @@ public class ConstantesVitalesController implements Initializable {
             }
             if (!tfPressionArterielleGauche.getText().isEmpty()) {
                 existingConsultation.setPression(tfPressionArterielleGauche.getText());
+                System.out.println("DEBUG ConstantesVitales: Setting TA gauche = " + tfPressionArterielleGauche.getText());
             } else {
                 existingConsultation.setPression("");
             }
             if (!tfPressionArterielleDroite.getText().isEmpty()) {
                 existingConsultation.setPressionDroite(tfPressionArterielleDroite.getText());
+                System.out.println("DEBUG ConstantesVitales: Setting TA droit = " + tfPressionArterielleDroite.getText());
             } else {
                 existingConsultation.setPressionDroite("");
+                System.out.println("DEBUG ConstantesVitales: TA droit field is EMPTY");
             }
             if (!tfFrequenceRespiratoire.getText().isEmpty()) {
                 existingConsultation.setFrequencerespiratoire(Integer.parseInt(tfFrequenceRespiratoire.getText()));

@@ -21,7 +21,7 @@ public class DatabaseInitializer {
         try (Connection connectionWithoutDB = DatabaseUtil.getConnectionWithoutDB(); Statement statement = connectionWithoutDB.createStatement()) {
 
             // Création de la base de données si elle n'existe pas
-            statement.executeUpdate("CREATE DATABASE IF NOT EXISTS CabinetMedical CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            statement.executeUpdate("CREATE DATABASE IF NOT EXISTS CabinetMedicalbis CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class DatabaseInitializer {
               Statement statement = connection.createStatement()) {
 
             // Utilisation de la base de données
-            statement.executeUpdate("USE CabinetMedical");
+            statement.executeUpdate("USE CabinetMedicalbis");
 
             // Création des tables et migrations
             createTables(connection, statement);
@@ -274,7 +274,7 @@ public class DatabaseInitializer {
     private static void ensureConsultationRightArmColumn(Connection connection, Statement statement) throws SQLException {
         String schema = connection.getCatalog();
         if (schema == null || schema.isEmpty()) {
-            schema = "CabinetMedical";
+            schema = "CabinetMedicalbis";
         }
 
         String checkColumnSql = "SELECT COUNT(*) FROM information_schema.COLUMNS " +

@@ -13,6 +13,7 @@ import com.azmicro.moms.model.Jours;
 import com.azmicro.moms.model.Medecin;
 import com.azmicro.moms.model.Patient;
 import com.azmicro.moms.model.Statut;
+import com.azmicro.moms.model.Utilisateur;
 import com.azmicro.moms.service.DisponibilitesService;
 import com.azmicro.moms.service.FilesAttenteService;
 import com.azmicro.moms.service.MedecinService;
@@ -22,12 +23,17 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -104,8 +110,15 @@ public class ListeAttenteController implements Initializable {
 // Ajoutez un champ pour DisponibilitesService
     private DisponibilitesService disponibilitesService;
     private MedecinService medecinService;
+    private Utilisateur utilisateur;
     @FXML
     private Button btnPaiement;
+    @FXML
+    private Label lblUser;
+    @FXML
+    private Label lblDate;
+    @FXML
+    private Label lblTime;
 
     /**
      * Initializes the controller class.
@@ -117,8 +130,33 @@ public class ListeAttenteController implements Initializable {
         this.patient = patient;
     }
 
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+        // Update label immediately if it's already initialized
+        if (lblUser != null && utilisateur != null) {
+            lblUser.setText(utilisateur.getNomUtilisateur());
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Set current date
+        LocalDate currentDate = LocalDate.now();
+        lblDate.setText(currentDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        
+        // Real-time clock
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            LocalTime currentTime = LocalTime.now();
+            lblTime.setText(currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+        
+        // Set user name if utilisateur was set before initialize
+        if (utilisateur != null) {
+            lblUser.setText(utilisateur.getNomUtilisateur());
+        }
+        
         FilesAttenteDAOImpl filesAttenteDAO;
         try {
             filesAttenteDAO = new FilesAttenteDAOImpl(new PatientDAOImpl(DatabaseUtil.getConnection()));
@@ -227,6 +265,12 @@ public class ListeAttenteController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/dashboardAssistante-view.fxml"));
 
         Pane root = loader.load();
+        
+        // Pass utilisateur to controller
+        DashboardAssistanteController controller = loader.getController();
+        if (controller != null && utilisateur != null) {
+            controller.setUtilisateur(utilisateur);
+        }
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         Scene dashboardScene = new Scene(root, bounds.getWidth(), bounds.getHeight());
         dashboardScene.getStylesheets().add(getClass().getResource("/com/azmicro/moms/css/dashboardassistante.css").toExternalForm());
@@ -267,13 +311,16 @@ public class ListeAttenteController implements Initializable {
         Jours jour = Jours.valueOf(Jours.convertDayOfWeekToJours(today.getDayOfWeek()));
 
         Disponibilites disponibilites = disponibilitesService.findByMedecinAndJour(currentMedecin, jour);
-        System.out.println(disponibilites.toString());
+        
         if (disponibilites != null) {
+            System.out.println(disponibilites.toString());
             System.out.println(" Jour "+jour);
             startTime = disponibilites.getHeureDebut();
             System.out.println(" startTime "+startTime);
             endTime = disponibilites.getHeureFin();
             System.out.println(" endTime "+endTime);
+        } else {
+            System.out.println("Aucune disponibilité trouvée pour le médecin " + currentMedecin.getNom() + " le " + jour);
         }
 
         // Appeler la méthode de service avec les statuts sélectionnés et les horaires de disponibilité
@@ -347,6 +394,12 @@ public class ListeAttenteController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/paiement-view.fxml"));
 
         Pane root = loader.load();
+        
+        // Pass utilisateur to controller
+        PaiementController controller = loader.getController();
+        if (controller != null && utilisateur != null) {
+            controller.setUtilisateur(utilisateur);
+        }
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         Scene dashboardScene = new Scene(root, bounds.getWidth(), bounds.getHeight());
         dashboardScene.getStylesheets().add(getClass().getResource("/com/azmicro/moms/css/paiement.css").toExternalForm());

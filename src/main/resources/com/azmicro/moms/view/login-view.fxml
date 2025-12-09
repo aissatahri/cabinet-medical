@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -16,13 +17,6 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.LoginController">
     <children>
-        <!-- Bouton de fermeture -->
-        <Button fx:id="btnClose" onAction="#close" styleClass="close-button" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
-            <graphic>
-                <FontIcon iconLiteral="fas-times" iconSize="18" iconColor="white" />
-            </graphic>
-        </Button>
-        
         <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <!-- Panneau gauche avec gradient -->
@@ -83,7 +77,7 @@
                                         <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #f5f7fa; -fx-background-radius: 8; -fx-padding: 12; -fx-border-color: #e1e8ed; -fx-border-radius: 8; -fx-border-width: 1;" styleClass="input-container">
                                             <children>
                                                 <FontIcon iconLiteral="fas-user" iconSize="18" iconColor="#2193b0" />
-                                                <TextField fx:id="usernameField" promptText="Entrez votre nom d'utilisateur" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;" text="Fadoua" HBox.hgrow="ALWAYS" />
+                                                <TextField fx:id="usernameField" promptText="Entrez votre nom d'utilisateur" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -98,8 +92,8 @@
                                                 <FontIcon iconLiteral="fas-lock" iconSize="18" iconColor="#2193b0" />
                                                 <AnchorPane fx:id="passwordContainer" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;" text="123" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="0.0" />
-                                                        <TextField fx:id="passwordTextField" promptText="Entrez votre mot de passe" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="0.0" />
+                                                        <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="0.0" />
+                                                        <TextField fx:id="passwordTextField" promptText="Entrez votre mot de passe" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="0.0" />
                                                         <Button fx:id="togglePasswordVisibility" onAction="#togglePasswordVisibility" style="-fx-background-color: transparent; -fx-cursor: hand;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <graphic>
                                                                 <FontIcon fx:id="togglePasswordIcon" iconLiteral="fas-eye" iconSize="16" iconColor="#999" />
@@ -111,6 +105,13 @@
                                         </HBox>
                                     </children>
                                 </VBox>
+
+                                <!-- Case à cocher Se souvenir de moi -->
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                    <children>
+                                        <CheckBox fx:id="rememberMeCheckBox" style="-fx-font-size: 13px; -fx-text-fill: #666;" text="Se souvenir de moi" />
+                                    </children>
+                                </HBox>
 
                                 <!-- Bouton de connexion -->
                                 <Button fx:id="btnLogin" maxWidth="Infinity" onAction="#login" styleClass="login-button" text="Se connecter">
@@ -147,5 +148,12 @@
                 </VBox>
             </children>
         </HBox>
+        
+        <!-- Bouton de fermeture (au-dessus de tout) -->
+        <Button fx:id="btnClose" onAction="#close" styleClass="close-button" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <graphic>
+                <FontIcon iconLiteral="fas-times" iconSize="22" iconColor="#e74c3c" />
+            </graphic>
+        </Button>
     </children>
 </AnchorPane>

@@ -22,14 +22,14 @@
       <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <!-- Header Section -->
-            <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" style="-fx-background-color: linear-gradient(to right, #3498db, #2193b0); -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 2);">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <FontIcon iconLiteral="fas-calendar-check" iconSize="28" iconColor="#2193b0" />
-                        <Label text="Gestion des Rendez-vous" textFill="#2c3e50">
+                        <FontIcon iconColor="white" iconLiteral="fas-calendar-check" iconSize="20" />
+                        <Label fx:id="lblUser" text="Assistante" textFill="white">
                            <font>
-                              <Font name="Segoe UI Semibold" size="22" />
+                              <Font name="Segoe UI Semibold" size="16" />
                            </font>
                         </Label>
                      </children>
@@ -38,12 +38,30 @@
                      </padding>
                   </HBox>
                   
-                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logout" styleClass="btn-logout" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                  <!-- Date et Heure à droite -->
+                  <VBox alignment="CENTER_RIGHT" spacing="2">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" spacing="6">
+                           <children>
+                              <FontIcon iconColor="white" iconLiteral="fas-calendar-alt" iconSize="14" />
+                              <Label fx:id="lblDate" style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" text="08-12-2025" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="6">
+                           <children>
+                              <FontIcon iconColor="white" iconLiteral="fas-clock" iconSize="14" />
+                              <Label fx:id="lblTime" style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;" text="00:30:00" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  
+                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logout" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-cursor: hand;">
                      <graphic>
-                        <FontIcon iconLiteral="fas-sign-out-alt" iconColor="#e74c3c" iconSize="24" />
+                        <FontIcon iconColor="white" iconLiteral="fas-sign-out-alt" iconSize="20" />
                      </graphic>
                      <HBox.margin>
-                        <Insets right="15.0" />
+                        <Insets left="15.0" right="15.0" />
                      </HBox.margin>
                   </Button>
                </children>

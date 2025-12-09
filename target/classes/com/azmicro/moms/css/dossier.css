@@ -54,3 +54,153 @@
 .btn-info:hover {
 	-fx-background-color: linear-gradient(to bottom, #0e7490, #155e75);
 }
+
+/* ================================================================
+   MODERN TAB PANE STYLING - Professional & Clean Design
+   ================================================================ */
+
+/* TabPane container */
+.tab-pane {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+/* Tab header area */
+.tab-pane .tab-header-area {
+	-fx-background-color: #ffffff;
+	-fx-padding: 8 0 0 0;
+	-fx-border-color: transparent transparent #e5e7eb transparent;
+	-fx-border-width: 0 0 2 0;
+}
+
+.tab-pane .tab-header-background {
+	-fx-background-color: transparent;
+}
+
+.tab-pane .headers-region {
+	-fx-background-color: transparent;
+}
+
+.tab-pane .tab-header-area .tab {
+	-fx-background-color: transparent;
+	-fx-background-radius: 8 8 0 0;
+	-fx-border-color: transparent;
+	-fx-padding: 12 24 12 24;
+	-fx-cursor: hand;
+}
+
+/* Tab label - unselected state */
+.tab-pane .tab-label {
+	-fx-text-fill: #6b7280;
+	-fx-font-size: 14px;
+	-fx-font-weight: 600;
+	-fx-alignment: center;
+	-fx-padding: 0;
+}
+
+/* Tab hover effect */
+.tab-pane .tab:hover {
+	-fx-background-color: #f3f4f6;
+}
+
+.tab-pane .tab:hover .tab-label {
+	-fx-text-fill: #374151;
+}
+
+/* Selected tab */
+.tab-pane .tab:selected {
+	-fx-background-color: #ffffff;
+	-fx-border-color: transparent transparent #2563eb transparent;
+	-fx-border-width: 0 0 3 0;
+}
+
+.tab-pane .tab:selected .tab-label {
+	-fx-text-fill: #2563eb;
+	-fx-font-weight: bold;
+}
+
+/* Tab focus indicator - remove default blue ring */
+.tab-pane .tab:focused {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
+
+/* Tab content area */
+.tab-pane .tab-content-area {
+	-fx-background-color: #ffffff;
+	-fx-border-color: #e5e7eb;
+	-fx-border-width: 0 1 1 1;
+	-fx-border-radius: 0 0 8 8;
+	-fx-background-radius: 0 0 8 8;
+	-fx-padding: 16;
+}
+
+/* Remove default tab close button (since tabs are unclosable) */
+.tab-pane .tab-close-button {
+	-fx-background-color: transparent;
+}
+
+/* Tab with icon styling (if using FontIcon) */
+.tab-pane .tab .glyph-icon {
+	-fx-fill: #6b7280;
+	-fx-font-size: 16px;
+}
+
+.tab-pane .tab:hover .glyph-icon {
+	-fx-fill: #374151;
+}
+
+.tab-pane .tab:selected .glyph-icon {
+	-fx-fill: #2563eb;
+}
+
+/* Smooth transitions */
+.tab-pane .tab {
+	-fx-transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab-pane .tab-label {
+	-fx-transition: text-fill 0.2s ease;
+}
+
+/* Alternative modern style - gradient accent on selected tab */
+.tab-pane.modern-gradient .tab:selected {
+	-fx-background-color: linear-gradient(to bottom, #eff6ff 0%, #ffffff 100%);
+	-fx-border-color: transparent transparent #2563eb transparent;
+	-fx-border-width: 0 0 3 0;
+}
+
+/* Alternative minimalist style - underline only */
+.tab-pane.minimalist .tab-header-area {
+	-fx-background-color: #fafbfc;
+	-fx-border-color: transparent transparent #e5e7eb transparent;
+	-fx-border-width: 0 0 1 0;
+}
+
+.tab-pane.minimalist .tab:selected {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent transparent #2563eb transparent;
+	-fx-border-width: 0 0 3 0;
+}
+
+/* Elevated style with shadow */
+.tab-pane.elevated .tab:selected {
+	-fx-background-color: #ffffff;
+	-fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.15), 8, 0, 0, 2);
+	-fx-border-color: transparent transparent #2563eb transparent;
+	-fx-border-width: 0 0 3 0;
+	-fx-translate-y: -2;
+}
+
+/* Colored tabs variant */
+.tab-pane.colored .tab:selected {
+	-fx-background-color: #2563eb;
+}
+
+.tab-pane.colored .tab:selected .tab-label {
+	-fx-text-fill: #ffffff;
+}
+
+.tab-pane.colored .tab:selected .glyph-icon {
+	-fx-fill: #ffffff;
+}

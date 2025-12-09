@@ -1,0 +1,75 @@
+package com.azmicro.moms.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class DatabaseUtil {
+
+    private static final String HOST = "pcdb-mau7krg.c02.dbaas.infomaniak.cloud";
+    private static final int PORT = 24158;
+
+    // ✅ Nom EXACT vu dans MySQL Workbench (majuscule/minuscule)
+    private static final String DB_NAME = "cabinetmedicalbis";
+
+    private static final String USER = "admin";
+
+    // ✅ Ne jamais hardcoder le mot de passe
+    private static final String PASSWORD = System.getenv("DB_PASSWORD");
+
+    // ✅ Paramètres conseillés (Workbench utilise SSL)
+    private static final String PARAMS =
+            "useSSL=true"
+          + "&requireSSL=true"
+          + "&sslMode=REQUIRED"
+          + "&allowPublicKeyRetrieval=true"
+          + "&serverTimezone=UTC";
+
+    // ✅ Connexion sans DB (utile pour SHOW DATABASES / CREATE DATABASE si nécessaire)
+    private static final String URL_NO_DB =
+            "jdbc:mysql://" + HOST + ":" + PORT + "/?" + PARAMS;
+
+    // ✅ Connexion avec DB
+    private static final String URL_WITH_DB =
+            "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME + "?" + PARAMS;
+
+    public static Connection getConnection() throws SQLException {
+        checkPassword();
+        return DriverManager.getConnection(URL_WITH_DB, USER, PASSWORD);
+    }
+
+    public static Connection getConnectionWithoutDB() throws SQLException {
+        checkPassword();
+        return DriverManager.getConnection(URL_NO_DB, USER, PASSWORD);
+    }
+
+    public static boolean databaseExists() {
+        String sql = "SHOW DATABASES LIKE '" + DB_NAME + "'";
+        try (Connection connection = getConnectionWithoutDB();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private static void checkPassword() {
+        if (PASSWORD == null || PASSWORD.isBlank()) {
+            throw new IllegalStateException(
+                "DB_PASSWORD n'est pas défini. Dans PowerShell: $env:DB_PASSWORD=\"votre_mot_de_passe\""
+            );
+        }
+    }
+
+    public static String getDbName() {
+    return DB_NAME;   // assure-toi que DB_NAME existe bien
+}
+
+public static String getHost() {
+    return HOST;      // assure-toi que HOST existe bien
+}
+}

@@ -1,0 +1,17 @@
+# Exemple de configuration pour serveur distant
+# Copiez ce fichier et renommez-le en "database.properties"
+# puis modifiez les valeurs selon votre configuration
+
+# Configuration serveur distant
+db.host=192.168.1.100
+db.port=3306
+db.name=CabinetMedicalbis
+db.username=votre_utilisateur
+db.password=votre_mot_de_passe
+
+# Exemple pour Infomaniak
+# db.host=pcdb-mau7krg.c02.dbaas.infomaniak.cloud
+# db.port=24158
+# db.name=Cabinetmedical
+# db.username=admin
+# db.password=votre_mot_de_passe_sécurisé

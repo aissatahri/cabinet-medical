@@ -410,6 +410,13 @@ public class PrescriptionController implements Initializable {
                 }
 
                 Prescriptions prescription = new Prescriptions();
+                
+                // Check if this is an existing prescription (has an ID stored in user data)
+                Object userData = lineContainer.getUserData();
+                if (userData instanceof Integer) {
+                    prescription.setPrescriptionID((Integer) userData);
+                }
+                
                 prescription.setConsultationID(consultations.getConsultationID());
                 
                 Medicaments medicament = findMedicamentByName(medText);
@@ -427,15 +434,24 @@ public class PrescriptionController implements Initializable {
                 String description = "";
                 
                 // Parse each line and extract values by removing prefixes
+                boolean hasStructuredData = false;
                 for (String line : lines) {
                     line = line.trim();
                     if (line.startsWith("Posologie:")) {
                         dose = line.substring("Posologie:".length()).trim();
+                        hasStructuredData = true;
                     } else if (line.startsWith("Durée:")) {
                         duree = line.substring("Durée:".length()).trim();
+                        hasStructuredData = true;
                     } else if (line.startsWith("Instructions:")) {
                         description = line.substring("Instructions:".length()).trim();
+                        hasStructuredData = true;
                     }
+                }
+                
+                // Si aucun préfixe n'a été trouvé (saisie libre), tout va dans description
+                if (!hasStructuredData && !instructions.trim().isEmpty()) {
+                    description = instructions.trim();
                 }
                 
                 // Set cleaned values
@@ -444,7 +460,14 @@ public class PrescriptionController implements Initializable {
                 prescription.setDescription(description);
 
                 try {
-                    boolean result = prescriptionService.savePrescription(prescription);
+                    boolean result;
+                    // Check if this is an update (has prescriptionID) or a new prescription
+                    if (prescription.getPrescriptionID() > 0) {
+                        result = prescriptionService.updatePrescription(prescription);
+                    } else {
+                        result = prescriptionService.savePrescription(prescription);
+                    }
+                    
                     if (!result) {
                         success = false;
                     }
@@ -513,6 +536,9 @@ public class PrescriptionController implements Initializable {
         for (Prescriptions prescription : lst) {
             VBox line = createPrescriptionLine();
             
+            // Store the prescription ID in the line container's user data for later update
+            line.setUserData(prescription.getPrescriptionID());
+            
             DatePicker datePicker = (DatePicker) line.getChildren().get(3);
             ComboBox<String> medCombo = (ComboBox<String>) line.getChildren().get(5);
             TextArea instructionArea = (TextArea) line.getChildren().get(7);
@@ -542,6 +568,56 @@ public class PrescriptionController implements Initializable {
             
             instructionArea.setText(instructions.toString());
         }
+    }
+
+    public void loadSelectedPrescriptions(List<Prescriptions> prescriptions) {
+        if (prescriptions == null || prescriptions.isEmpty()) {
+            return;
+        }
+        
+        for (Prescriptions prescription : prescriptions) {
+            loadSinglePrescription(prescription);
+        }
+    }
+
+    public void loadSinglePrescription(Prescriptions prescription) {
+        if (prescription == null) {
+            return;
+        }
+        
+        VBox line = createPrescriptionLine();
+        
+        // Store the prescription ID in the line container's user data for later update
+        line.setUserData(prescription.getPrescriptionID());
+        
+        DatePicker datePicker = (DatePicker) line.getChildren().get(3);
+        ComboBox<String> medCombo = (ComboBox<String>) line.getChildren().get(5);
+        TextArea instructionArea = (TextArea) line.getChildren().get(7);
+        
+        if (prescription.getMedicament() != null) {
+            String medName = prescription.getMedicament().getNomMedicament() + " - " + 
+                            prescription.getMedicament().getFormeDosage();
+            medCombo.getEditor().setText(medName);
+            medCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+        }
+        
+        StringBuilder instructions = new StringBuilder();
+        if (prescription.getDose() != null && !prescription.getDose().isEmpty()) {
+            instructions.append(prescription.getDose());
+        }
+        if (prescription.getDuree() != null && !prescription.getDuree().isEmpty()) {
+            if (instructions.length() > 0) {
+                instructions.append(" / ");
+            }
+            instructions.append(prescription.getDuree());
+        }
+        if (prescription.getDescription() != null && !prescription.getDescription().isEmpty()) {
+            if (instructions.length() == 0) {
+                instructions.append(prescription.getDescription());
+            }
+        }
+        
+        instructionArea.setText(instructions.toString());
     }
 
     @FXML

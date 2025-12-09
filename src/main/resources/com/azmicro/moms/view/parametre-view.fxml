@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="760.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.azmicro.moms.controller.ParametreController">
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="760.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.azmicro.moms.controller.medecin.ParametreController">
     <stylesheets>
         <URL value="@../css/parametre.css" />
     </stylesheets>
@@ -13,10 +14,63 @@
             <tabs>
                 <Tab text="Général" closable="false">
                     <content>
-                        <AnchorPane />
+                        <AnchorPane>
+                            <children>
+                                <Label layoutX="20.0" layoutY="30.0" text="Configuration de la Base de Données" 
+                                       style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                                <Label layoutX="20.0" layoutY="70.0" text="Configurez les paramètres de connexion à votre serveur MySQL" 
+                                       style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" wrapText="true" prefWidth="650.0" />
+                                <Button fx:id="configureDatabaseBtn" layoutX="20.0" layoutY="120.0" 
+                                        text="⚙ Configurer la Base de Données" 
+                                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-cursor: hand;" />
+                                <Label layoutX="20.0" layoutY="180.0" 
+                                       text="💡 Utilisez ce bouton pour modifier l'adresse IP, le port, ou les identifiants de connexion."
+                                       style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;" wrapText="true" prefWidth="650.0" />
+                            </children>
+                        </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Police & Taille" closable="false">
+                <Tab text="Gestion Utilisateurs" closable="false">
+                    <content>
+                        <AnchorPane>
+                            <children>
+                                <!-- Header -->
+                                <HBox layoutX="20.0" layoutY="20.0" spacing="15.0" alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Gestion des Utilisateurs" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                                        <Button fx:id="btnAjouterUtilisateur" text="Ajouter Utilisateur" 
+                                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 15; -fx-cursor: hand;"
+                                                onAction="#handleAjouterUtilisateur">
+                                            <graphic>
+                                                <FontIcon iconLiteral="fas-user-plus" iconSize="14" iconColor="white" />
+                                            </graphic>
+                                        </Button>
+                                        <Button fx:id="btnRafraichir" text="Rafraîchir" 
+                                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15; -fx-cursor: hand;"
+                                                onAction="#handleRafraichir">
+                                            <graphic>
+                                                <FontIcon iconLiteral="fas-sync" iconSize="14" iconColor="white" />
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                
+                                <!-- Table des utilisateurs -->
+                                <TableView fx:id="tableUtilisateurs" layoutX="20.0" layoutY="70.0" prefWidth="680.0" prefHeight="350.0">
+                                    <columns>
+                                        <TableColumn fx:id="colID" text="ID" prefWidth="50.0" />
+                                        <TableColumn fx:id="colNomUtilisateur" text="Nom d'utilisateur" prefWidth="150.0" />
+                                        <TableColumn fx:id="colRole" text="Rôle" prefWidth="120.0" />
+                                        <TableColumn fx:id="colMedecin" text="Médecin" prefWidth="150.0" />
+                                        <TableColumn fx:id="colDateCreation" text="Date Création" prefWidth="120.0" />
+                                        <TableColumn fx:id="colActions" text="Actions" prefWidth="90.0" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Police &amp; Taille" closable="false">
                     <content>
                         <AnchorPane>
                             <children>

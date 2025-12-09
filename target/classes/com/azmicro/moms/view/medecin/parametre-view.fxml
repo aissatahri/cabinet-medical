@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -17,31 +18,41 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="711.0" style="-fx-background-color: #f5f7fa;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.ParametreController">
-    <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="711.0" style="-fx-background-color: #f6f7fb;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.azmicro.moms.controller.medecin.ParametreController">
+    <stylesheets>
+        <URL value="@../../css/dossier.css" />
+    </stylesheets>
+    <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
         </padding>
         <children>
             <!-- Header -->
-            <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);">
-                <children>
-                    <FontIcon iconLiteral="fas-cog" iconSize="28" iconColor="#2193b0" />
-                    <Label text="Paramètres" textFill="#2c3e50">
-                        <font>
-                            <Font name="Segoe UI Semibold" size="22" />
-                        </font>
-                    </Label>
-                </children>
-                <padding>
-                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                </padding>
-            </HBox>
+            <AnchorPane prefHeight="42.0" prefWidth="600.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="Paramètres" textFill="#581dabf7">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="24" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </AnchorPane>
             
-    <TabPane prefHeight="614.0" prefWidth="703.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);">
+    <TabPane prefHeight="614.0" prefWidth="703.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <tabs>
-            <Tab text="Medecin">
+            <Tab text="  Médecin  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-user-md" iconSize="16" />
+                </graphic>
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="344.0" prefWidth="399.0">
                         <children>
@@ -113,7 +124,10 @@
                     </AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Disponibilite">
+            <Tab text="  Disponibilité  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-clock" iconSize="16" />
+                </graphic>
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -150,7 +164,10 @@
                     </AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Actes">
+            <Tab text="  Actes  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-briefcase-medical" iconSize="16" />
+                </graphic>
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -179,7 +196,10 @@
                     </AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Medicaments">
+            <Tab text="  Médicaments  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-pills" iconSize="16" />
+                </graphic>
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -226,7 +246,10 @@
                     </AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Imageries">
+            <Tab text="  Imageries  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-x-ray" iconSize="16" />
+                </graphic>
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -275,7 +298,10 @@
                     </AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Analyses">
+            <Tab text="  Analyses  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-flask" iconSize="16" />
+                </graphic>
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -318,6 +344,127 @@
                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                         </columnResizePolicy>
                                     </TableView>
+                                </children>
+                            </VBox>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="  Gestion Utilisateurs  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-users-cog" iconSize="16" />
+                </graphic>
+                <content>
+                    <AnchorPane>
+                        <children>
+                            <!-- Header -->
+                            <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="20.0" spacing="15.0">
+                                <children>
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Gestion des Utilisateurs" />
+                                    <Button fx:id="btnAjouterUtilisateur" onAction="#handleAjouterUtilisateur" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 15; -fx-cursor: hand;" text="Ajouter Utilisateur">
+                                        <graphic>
+                                            <FontIcon iconColor="white" iconLiteral="fas-user-plus" iconSize="14" />
+                                        </graphic>
+                                    </Button>
+                                    <Button fx:id="btnRafraichir" onAction="#handleRafraichir" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15; -fx-cursor: hand;" text="Rafraîchir">
+                                        <graphic>
+                                            <FontIcon iconColor="white" iconLiteral="fas-sync" iconSize="14" />
+                                        </graphic>
+                                    </Button>
+                                </children>
+                            </HBox>
+                            
+                            <!-- Table des utilisateurs -->
+                            <TableView fx:id="tableUtilisateurs" layoutX="20.0" layoutY="70.0" prefHeight="480.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+                                <columns>
+                                    <TableColumn fx:id="colID" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="colNomUtilisateur" prefWidth="150.0" text="Nom d'utilisateur" />
+                                    <TableColumn fx:id="colRole" prefWidth="100.0" text="Rôle" />
+                                    <TableColumn fx:id="colMedecin" prefWidth="180.0" text="Médecin" />
+                                    <TableColumn fx:id="colDateCreation" prefWidth="100.0" text="Date Création" />
+                                    <TableColumn fx:id="colActions" prefWidth="100.0" text="Actions" />
+                                </columns>
+                            </TableView>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="  BD  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-database" iconSize="16" />
+                </graphic>
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                        <children>
+                            <VBox spacing="20.0" stylesheets="@../../css/parametre.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <children>
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Configuration de la Base de Données" />
+                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" text="Configurez les paramètres de connexion à votre serveur MySQL" wrapText="true" />
+                                    <Button fx:id="configureDatabaseBtn" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-cursor: hand;" text="⚙ Configurer la Base de Données" />
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;" text="💡 Utilisez ce bouton pour modifier l'adresse IP, le port, ou les identifiants de connexion." wrapText="true" />
+                                </children>
+                            </VBox>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="  Police &amp; Taille  ">
+                <graphic>
+                    <FontIcon iconLiteral="fas-font" iconSize="16" />
+                </graphic>
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                        <children>
+                            <VBox spacing="10.0" stylesheets="@../../css/parametre.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <children>
+                                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Configurer les polices par type de document" />
+
+                                    <!-- Titres -->
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <children>
+                                            <Label text="Titres : Police" />
+                                            <ComboBox fx:id="titleFontCombo" prefWidth="200.0" />
+                                            <Label text="Taille" />
+                                            <Spinner fx:id="titleFontSizeSpinner" prefWidth="100.0" />
+                                        </children>
+                                    </HBox>
+
+                                    <!-- Texte principal (documents généraux) -->
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <children>
+                                            <Label text="Texte (documents) : Police" />
+                                            <ComboBox fx:id="textFontCombo" prefWidth="200.0" />
+                                            <Label text="Taille" />
+                                            <Spinner fx:id="textFontSizeSpinner" prefWidth="100.0" />
+                                        </children>
+                                    </HBox>
+
+                                    <!-- Ordonnances -->
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <children>
+                                            <Label text="Ordonnances : Police" />
+                                            <ComboBox fx:id="ordFontCombo" prefWidth="200.0" />
+                                            <Label text="Taille" />
+                                            <Spinner fx:id="ordFontSizeSpinner" prefWidth="100.0" />
+                                        </children>
+                                    </HBox>
+
+                                    <!-- Formulaires PDF -->
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <children>
+                                            <Label text="Formulaires PDF : Police" />
+                                            <ComboBox fx:id="formFontCombo" prefWidth="200.0" />
+                                            <Label text="Taille" />
+                                            <Spinner fx:id="formFontSizeSpinner" prefWidth="100.0" />
+                                        </children>
+                                    </HBox>
+
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                        <children>
+                                            <Button fx:id="saveFontSettingsBtn" text="Enregistrer" />
+                                            <Label fx:id="saveStatusLabel" text="" />
+                                        </children>
+                                    </HBox>
                                 </children>
                             </VBox>
                         </children>

@@ -391,5 +391,10 @@ public class FichePatientController implements Initializable {
         this.dashboardController = dashboardAssistanteController; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @FXML
+    private void handleClose(ActionEvent event) {
+        Stage stage = (Stage) btnClose.getScene().getWindow();
+        stage.close();
+    }
     
 }

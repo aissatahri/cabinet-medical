@@ -46,6 +46,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 
@@ -89,7 +90,9 @@ public class DashboardMedecinController implements Initializable {
     @FXML
     private Button btnLogout;
     @FXML
-    private Label lblDateTime;
+    private Label lblDate;
+    @FXML
+    private Label lblTime;
     
     @FXML
     private Label badgePlanning;
@@ -306,14 +309,19 @@ public class DashboardMedecinController implements Initializable {
 
     @FXML
     private void logout(ActionEvent event) throws IOException {
+        // Ne PAS effacer les préférences pour que "Se souvenir de moi" fonctionne
+        // Les préférences seront gérées par l'utilisateur via la checkbox
+        
         Stage stage = new Stage();
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/azmicro/moms/images/cardiology.png")));
         stage.getIcons().add(icon);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("SGM"); // Set the window title
+        stage.initStyle(StageStyle.UNDECORATED); // Supprimer la barre de titre
         stage.setScene(scene);
-        stage.setWidth(800);
+        stage.setResizable(false); // Rendre la fenêtre non redimensionnable
+        stage.setWidth(900);
         stage.setHeight(600);
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getBounds();
@@ -345,7 +353,8 @@ public class DashboardMedecinController implements Initializable {
     private void updateTimeLabele(){
         String heureActuelle = TimeUtil.getCurrentTime();
         String currentDate = TimeUtil.getCurrentDate();
-        lblDateTime.setText(currentDate+"\n"+heureActuelle);
+        lblDate.setText(currentDate);
+        lblTime.setText(heureActuelle);
     }
     
     /**

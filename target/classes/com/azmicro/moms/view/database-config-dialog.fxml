@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx" 
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.azmicro.moms.controller.DatabaseConfigController"
+      prefWidth="600" prefHeight="500"
+      spacing="20" 
+      style="-fx-background-color: white; -fx-padding: 30;">
+
+    <!-- En-tête -->
+    <VBox spacing="10" style="-fx-alignment: center;">
+        <Label text="Configuration de la Base de Données" 
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Label text="Configurez les paramètres de connexion à votre serveur MySQL" 
+               style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+        <Separator prefWidth="540"/>
+    </VBox>
+
+    <!-- Formulaire -->
+    <GridPane hgap="15" vgap="15" style="-fx-padding: 20 0 0 0;">
+        <columnConstraints>
+            <ColumnConstraints minWidth="150" prefWidth="150"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Hôte / IP -->
+        <Label text="Adresse IP / Hôte :" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;">
+            <tooltip>
+                <Tooltip text="Adresse IP ou nom d'hôte du serveur MySQL (ex: localhost, 192.168.1.10)"/>
+            </tooltip>
+        </Label>
+        <TextField fx:id="hostField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                   promptText="localhost ou 192.168.1.10"
+                   style="-fx-font-size: 13px; -fx-padding: 8;">
+            <tooltip>
+                <Tooltip text="Entrez l'adresse IP ou le nom d'hôte du serveur MySQL"/>
+            </tooltip>
+        </TextField>
+
+        <!-- Port -->
+        <Label text="Port :" GridPane.columnIndex="0" GridPane.rowIndex="1"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;">
+            <tooltip>
+                <Tooltip text="Numéro de port MySQL (généralement 3306)"/>
+            </tooltip>
+        </Label>
+        <TextField fx:id="portField" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                   promptText="3306"
+                   style="-fx-font-size: 13px; -fx-padding: 8;">
+            <tooltip>
+                <Tooltip text="Numéro de port du serveur MySQL (par défaut: 3306)"/>
+            </tooltip>
+        </TextField>
+
+        <!-- Base de données -->
+        <Label text="Nom de la base :" GridPane.columnIndex="0" GridPane.rowIndex="2"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;">
+            <tooltip>
+                <Tooltip text="Nom de la base de données"/>
+            </tooltip>
+        </Label>
+        <TextField fx:id="databaseField" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                   promptText="CabinetMedical"
+                   style="-fx-font-size: 13px; -fx-padding: 8;">
+            <tooltip>
+                <Tooltip text="Nom de la base de données (elle sera créée si elle n'existe pas)"/>
+            </tooltip>
+        </TextField>
+
+        <!-- Nom d'utilisateur -->
+        <Label text="Nom d'utilisateur :" GridPane.columnIndex="0" GridPane.rowIndex="3"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;">
+            <tooltip>
+                <Tooltip text="Nom d'utilisateur MySQL"/>
+            </tooltip>
+        </Label>
+        <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                   promptText="root"
+                   style="-fx-font-size: 13px; -fx-padding: 8;">
+            <tooltip>
+                <Tooltip text="Nom d'utilisateur pour se connecter à MySQL"/>
+            </tooltip>
+        </TextField>
+
+        <!-- Mot de passe -->
+        <Label text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="4"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;">
+            <tooltip>
+                <Tooltip text="Mot de passe MySQL"/>
+            </tooltip>
+        </Label>
+        <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                       promptText="Mot de passe MySQL"
+                       style="-fx-font-size: 13px; -fx-padding: 8;">
+            <tooltip>
+                <Tooltip text="Mot de passe pour se connecter à MySQL"/>
+            </tooltip>
+        </PasswordField>
+    </GridPane>
+
+    <!-- Label de statut -->
+    <Label fx:id="statusLabel" 
+           style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"
+           wrapText="true"/>
+
+    <!-- Zone d'information -->
+    <VBox spacing="8" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;">
+        <Label text="💡 Conseils :" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2980b9;"/>
+        <Label text="• Utilisez 'localhost' pour une connexion locale" 
+               style="-fx-font-size: 12px; -fx-text-fill: #34495e;" wrapText="true"/>
+        <Label text="• Pour une connexion distante, utilisez l'adresse IP du serveur" 
+               style="-fx-font-size: 12px; -fx-text-fill: #34495e;" wrapText="true"/>
+        <Label text="• Testez la connexion avant de sauvegarder" 
+               style="-fx-font-size: 12px; -fx-text-fill: #34495e;" wrapText="true"/>
+        <Label text="• Redémarrez l'application après avoir modifié la configuration" 
+               style="-fx-font-size: 12px; -fx-text-fill: #34495e;" wrapText="true"/>
+    </VBox>
+
+    <!-- Boutons -->
+    <HBox spacing="15" style="-fx-alignment: center-right; -fx-padding: 10 0 0 0;">
+        <Button fx:id="testButton" text="🔌 Tester la connexion" 
+                onAction="#handleTestConnection"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-cursor: hand; -fx-background-radius: 5;">
+            <font>
+                <Font name="System Bold" size="13"/>
+            </font>
+        </Button>
+        
+        <Button fx:id="saveButton" text="💾 Sauvegarder" 
+                onAction="#handleSaveConfig"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-cursor: hand; -fx-background-radius: 5;">
+            <font>
+                <Font name="System Bold" size="13"/>
+            </font>
+        </Button>
+        
+        <Button fx:id="cancelButton" text="❌ Annuler" 
+                onAction="#handleCancel"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-cursor: hand; -fx-background-radius: 5;">
+            <font>
+                <Font name="System Bold" size="13"/>
+            </font>
+        </Button>
+    </HBox>
+
+</VBox>

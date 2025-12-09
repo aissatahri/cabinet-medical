@@ -14,17 +14,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /* Bouton de fermeture */
 .close-button {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-color: rgba(255, 255, 255, 0.9);
     -fx-background-radius: 50;
     -fx-cursor: hand;
-    -fx-padding: 8;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-padding: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 2);
 }
 
 .close-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.3);
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
+    -fx-background-color: #e74c3c;
+    -fx-scale-x: 1.15;
+    -fx-scale-y: 1.15;
 }
 
 /* Conteneurs d'inputs */

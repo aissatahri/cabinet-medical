@@ -53,7 +53,10 @@
                <children>
                   <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="583.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <tabs>
-                        <Tab text="Info">
+                        <Tab text="  Info  ">
+                           <graphic>
+                              <FontIcon iconLiteral="fas-user-circle" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -296,50 +299,16 @@
                                  </children>
                               </AnchorPane>
                            </content>
-                           <graphic>
-                              <FontIcon fill="#0810f4" iconLiteral="fas-info-circle" iconSize="16" />
-                           </graphic>
                         </Tab>
-                        <Tab text="Consultation">
+                        <Tab text="  Consultation  ">
+                           <graphic>
+                              <FontIcon iconLiteral="fas-stethoscope" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="820.0">
                                  <children>
                                     <VBox prefHeight="599.0" prefWidth="789.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <AnchorPane prefHeight="35.0" prefWidth="642.0">
-                                             <children>
-                                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="456.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <children>
-                                                      <Button fx:id="btnAjouterConsultation" mnemonicParsing="false" onAction="#ajouterConsultation" prefHeight="35.0" prefWidth="97.0" styleClass="btn-success" text="Ajouter">
-                                                         <graphic>
-                                                            <FontIcon iconLiteral="fas-plus" iconSize="16" />
-                                                         </graphic>
-                                                      </Button>
-                                                      <Button fx:id="btnEditConsultation" mnemonicParsing="false" onAction="#editConsultation" prefHeight="35.0" prefWidth="108.0" styleClass="btn-warning" text="Modifier">
-                                                         <graphic>
-                                                            <FontIcon iconLiteral="fas-edit" iconSize="16" />
-                                                         </graphic>
-                                                      </Button>
-                                                      <Button fx:id="btnSupprimerConsultation" mnemonicParsing="false" onAction="#supprimerConsultation" prefHeight="35.0" prefWidth="116.0" styleClass="btn-danger" text="Supprimer">
-                                                         <graphic>
-                                                            <FontIcon iconLiteral="fas-trash" iconSize="16" />
-                                                         </graphic>
-                                                      </Button>
-                                                      <Button fx:id="btnImprimerConsultation" mnemonicParsing="false" onAction="#imprimeConsulation" prefHeight="35.0" prefWidth="109.0" styleClass="btn-info" text="Imprimer">
-                                                         <graphic>
-                                                            <FontIcon iconLiteral="fas-print" iconSize="16" />
-                                                         </graphic>
-                                                      </Button>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" right="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets left="10.0" right="10.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
                                           <AnchorPane prefHeight="547.0" prefWidth="820.0">
                                              <children>
                                                 <HBox prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -348,6 +317,38 @@
                                                          <children>
                                                             <VBox prefHeight="379.0" prefWidth="319.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                <children>
+                                                                  <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="456.0" spacing="5.0">
+                                                                     <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="263.0" HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <Label prefHeight="17.0" prefWidth="59.0" text="Date" />
+                                                                              <DatePicker fx:id="dateConsultaion" />
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="315.0" spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <Button fx:id="btnAjouterConsultation" mnemonicParsing="false" onAction="#ajouterConsultation" prefHeight="35.0" prefWidth="97.0" styleClass="btn-success" text="Ajouter">
+                                                                                 <graphic>
+                                                                                    <FontIcon iconLiteral="fas-plus" iconSize="16" />
+                                                                                 </graphic>
+                                                                              </Button>
+                                                                              <Button fx:id="btnEditConsultation" mnemonicParsing="false" onAction="#editConsultation" prefHeight="35.0" prefWidth="108.0" styleClass="btn-warning" text="Modifier">
+                                                                                 <graphic>
+                                                                                    <FontIcon iconLiteral="fas-edit" iconSize="16" />
+                                                                                 </graphic>
+                                                                              </Button>
+                                                                              <Button fx:id="btnSupprimerConsultation" mnemonicParsing="false" onAction="#supprimerConsultation" prefHeight="35.0" prefWidth="116.0" styleClass="btn-danger" text="Supprimer">
+                                                                                 <graphic>
+                                                                                    <FontIcon iconLiteral="fas-trash" iconSize="16" />
+                                                                                 </graphic>
+                                                                              </Button>
+                                                                           </children>
+                                                                        </HBox>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                                                                     </padding>
+                                                                  </HBox>
                                                                   <AnchorPane prefHeight="0.0" prefWidth="375.0">
                                                                      <children>
                                                                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="375.0" style="-fx-background-color: purple;" text="Consultations de Patient" textFill="#f6f4f4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -382,12 +383,6 @@
                                                          <children>
                                                             <VBox alignment="TOP_RIGHT" layoutX="-184.0" prefHeight="461.0" prefWidth="321.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                <children>
-                                                                  <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="400.0">
-                                                                     <children>
-                                                                        <Label text="Date  de consultation" />
-                                                                        <DatePicker fx:id="dateConsultaion" />
-                                                                     </children>
-                                                                  </HBox>
                                                                   <VBox prefHeight="80.0" prefWidth="413.0" spacing="10.0">
                                                                      <children>
                                                                         <HBox prefHeight="38.0" prefWidth="413.0">
@@ -411,46 +406,64 @@
                                                                         </Label>
                                                                      </children>
                                                                   </VBox>
-                                                                  <VBox prefHeight="401.0" prefWidth="413.0">
+                                                                  <VBox prefHeight="350.0" prefWidth="395.0" VBox.vgrow="ALWAYS">
                                                                      <children>
                                                                         <Label prefHeight="26.0" prefWidth="214.0" text="Resultats">
                                                                            <graphic>
                                                                               <FontIcon fill="#3627bc" iconLiteral="fas-chart-line" iconSize="24" />
                                                                            </graphic>
                                                                         </Label>
-                                                                        <HBox prefHeight="266.0" prefWidth="413.0">
+                                                                        <HBox prefHeight="266.0" prefWidth="317.0" VBox.vgrow="ALWAYS">
                                                                            <children>
                                                                               <VBox alignment="TOP_CENTER" prefHeight="193.0" prefWidth="9.0">
                                                                                  <children>
                                                                                     <Line endX="-115.92574310302734" endY="416.5242919921875" startX="-116.37098693847656" startY="91.89804077148438" VBox.vgrow="ALWAYS" />
                                                                                  </children>
                                                                               </VBox>
-                                                                              <VBox prefHeight="260.0" prefWidth="383.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                              <VBox spacing="5.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                                                                  <children>
-                                                                                    <HBox prefHeight="77.0" prefWidth="383.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                                                                    <HBox spacing="5.0">
                                                                                        <children>
-                                                                                          <VBox prefHeight="85.0" prefWidth="181.0" HBox.hgrow="ALWAYS">
+                                                                                          <VBox HBox.hgrow="ALWAYS">
                                                                                              <children>
                                                                                                 <Label text="Symptômes:" />
-                                                                                                <TextArea fx:id="txtSymptomes" prefHeight="97.0" prefWidth="181.0" />
+                                                                                                <TextArea fx:id="txtSymptomes" prefHeight="80.0" VBox.vgrow="ALWAYS" />
                                                                                              </children>
                                                                                           </VBox>
                                                                                           <VBox HBox.hgrow="ALWAYS">
                                                                                              <children>
                                                                                                 <Label text="Examen clinique:" />
-                                                                                                <TextArea fx:id="txtExamenClinique" prefHeight="95.0" prefWidth="197.0" />
+                                                                                                <TextArea fx:id="txtExamenClinique" prefHeight="80.0" VBox.vgrow="ALWAYS" />
                                                                                              </children>
                                                                                           </VBox>
                                                                                        </children>
                                                                                     </HBox>
-                                                                                    <VBox prefHeight="167.0" prefWidth="383.0" spacing="5.0">
+                                                                                    <HBox spacing="5.0">
                                                                                        <children>
-                                                                                          <Label text="Diagnostique Medical:" />
-                                                                                          <TextArea fx:id="txtDiagnostiqueMedical" prefHeight="56.0" prefWidth="383.0" />
+                                                                                          <VBox>
+                                                                                             <children>
+                                                                                                <Label text="Diagnostique Medical:" />
+                                                                                                <TextArea fx:id="txtDiagnostiqueMedical" prefHeight="50.0" />
+                                                                                             </children>
+                                                                                          </VBox>
+                                                                                          <VBox>
+                                                                                             <children>
+                                                                                                <Label text="ECG:" />
+                                                                                                <TextArea fx:id="txtEcg" prefHeight="50.0" />
+                                                                                             </children>
+                                                                                          </VBox>
+                                                                                       </children>
+                                                                                    </HBox>
+                                                                                    <VBox>
+                                                                                       <children>
                                                                                           <Label text="ETT:" />
-                                                                                          <TextArea fx:id="txtEtt" prefHeight="58.0" prefWidth="383.0" />
+                                                                                          <TextArea fx:id="txtEtt" prefHeight="5.0" prefWidth="373.0" />
+                                                                                       </children>
+                                                                                    </VBox>
+                                                                                    <VBox>
+                                                                                       <children>
                                                                                           <Label text="Conduite a tenir:" />
-                                                                                          <TextArea fx:id="txtCat" prefHeight="58.0" prefWidth="383.0" />
+                                                                                          <TextArea fx:id="txtCat" prefHeight="50.0" />
                                                                                        </children>
                                                                                     </VBox>
                                                                                  </children>
@@ -478,11 +491,11 @@
                                  </children>
                               </AnchorPane>
                            </content>
-                           <graphic>
-                              <FontIcon fill="#0a02f2" iconLiteral="fas-search-plus" iconSize="16" />
-                           </graphic>
                         </Tab>
-                        <Tab text="Bilans">
+                        <Tab text="  Bilans  ">
+                           <graphic>
+                              <FontIcon iconLiteral="fas-flask" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -641,13 +654,10 @@
                                  </children>
                               </AnchorPane>
                            </content>
-                           <graphic>
-                              <FontIcon fill="#3414c5" iconLiteral="fas-vial" iconSize="16" />
-                           </graphic>
                         </Tab>
-                        <Tab text="Radiologies">
+                        <Tab text="  Radiologies  ">
                            <graphic>
-                              <FontIcon fill="#3498db" iconLiteral="fas-x-ray" iconSize="16" />
+                              <FontIcon iconLiteral="fas-x-ray" iconSize="16" />
                            </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -799,15 +809,18 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab text="Fichiers">
+                        <Tab text="  Fichiers  ">
+                           <graphic>
+                              <FontIcon iconLiteral="fas-folder-open" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>
-                           <graphic>
-                              <FontIcon fill="#ffd04b" iconLiteral="fas-file-alt" iconSize="16" />
-                           </graphic>
                         </Tab>
-                        <Tab text="Ordonnances">
+                        <Tab text="  Ordonnances  ">
+                           <graphic>
+                              <FontIcon iconLiteral="fas-prescription-bottle-alt" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -964,7 +977,7 @@
                                                                                     <FontIcon iconLiteral="fas-band-aid" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="btnLettreOrientation" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintLettreOrientation" prefHeight="32.0" prefWidth="189.0" text="Lettre D'Orientation">
+                                                                              <Button fx:id="btnLettreOrientation" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintLettreOrientation" prefHeight="32.0" prefWidth="189.0" text="Lettre de Référence">
                                                                                  <graphic>
                                                                                     <FontIcon iconLiteral="fas-share" iconSize="16" />
                                                                                  </graphic>
@@ -986,11 +999,11 @@
                                  </children>
                               </AnchorPane>
                            </content>
-                           <graphic>
-                              <FontIcon iconLiteral="fas-pills" iconSize="16" />
-                           </graphic>
                         </Tab>
-                        <Tab text="Rendez-vous">
+                        <Tab text="  Rendez-vous  ">
+                           <graphic>
+                              <FontIcon iconLiteral="fas-calendar-alt" iconSize="16" />
+                           </graphic>
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

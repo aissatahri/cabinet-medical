@@ -1,0 +1,38 @@
+# Compiled class files
+*.class
+target/
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Installers - too large for GitHub
+installers/*.exe
+installers/*.msi
+
+# Output files
+output/
+*.pdf
+
+# IDE specific files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Database config
+database.properties

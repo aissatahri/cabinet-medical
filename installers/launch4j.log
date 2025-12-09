@@ -1,0 +1,19 @@
+
+
+Version:	3.50
+CmdLine:	D:\Project_JavaFX\CabinetMedical\installers\CabinetMedical-Localhost.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\Project_JavaFX\CabinetMedical\installers\.
+Requires JDK:	No
+Requires 64-Bit: Yes
+Java min ver:	1.021.000
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Zulu\zulu-22\
+JRE paths:	C:\Program Files\Zulu\zulu-22\
+Check launcher:	C:\Program Files\Zulu\zulu-22\bin\javaw.exe (OK)
+Version string: 1.022.000_001 / 64-Bit (OK)
+Launcher:	C:\Program Files\Zulu\zulu-22\bin\javaw.exe
+Launcher args:	-Ddb.host=localhost -Ddb.port=3306 -jar "D:\Project_JavaFX\CabinetMedical\installers\CabinetMedical-Localhost.exe"
+Args length:	114/32768 chars
+Exit code:	0

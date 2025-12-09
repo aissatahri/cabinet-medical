@@ -13,6 +13,7 @@ import com.azmicro.moms.model.Specialites;
 import com.azmicro.moms.model.TypeAnalyse;
 import com.azmicro.moms.model.TypeImagerie;
 import com.azmicro.moms.model.Utilisateur;
+import com.azmicro.moms.model.Role;
 import com.azmicro.moms.service.ActeService;
 import com.azmicro.moms.service.DisponibilitesService;
 import com.azmicro.moms.service.MedecinService;
@@ -20,6 +21,7 @@ import com.azmicro.moms.service.MedicamentsService;
 import com.azmicro.moms.service.SpecialitesService;
 import com.azmicro.moms.service.TypeAnalyseService;
 import com.azmicro.moms.service.TypeImagerieService;
+import com.azmicro.moms.service.UtilisateurService;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -215,6 +217,20 @@ public class ParametreController implements Initializable {
     @FXML private Spinner<Integer> formFontSizeSpinner;
     @FXML private Label saveStatusLabel;
     @FXML private javafx.scene.control.Button saveFontSettingsBtn;
+    @FXML private javafx.scene.control.Button configureDatabaseBtn;
+
+    // Gestion Utilisateurs
+    @FXML private TableView<Utilisateur> tableUtilisateurs;
+    @FXML private TableColumn<Utilisateur, Integer> colID;
+    @FXML private TableColumn<Utilisateur, String> colNomUtilisateur;
+    @FXML private TableColumn<Utilisateur, String> colRole;
+    @FXML private TableColumn<Utilisateur, String> colMedecin;
+    @FXML private TableColumn<Utilisateur, String> colDateCreation;
+    @FXML private TableColumn<Utilisateur, Void> colActions;
+    @FXML private javafx.scene.control.Button btnAjouterUtilisateur;
+    @FXML private javafx.scene.control.Button btnRafraichir;
+
+    private UtilisateurService utilisateurService;
 
     /**
      * Initializes the controller class.
@@ -226,6 +242,7 @@ public class ParametreController implements Initializable {
         medicamentsService = new MedicamentsService();
         typeImagerieService = new TypeImagerieService();
         typeAnalyseService = new TypeAnalyseService();
+        utilisateurService = new UtilisateurService();
         // TODO
         this.specialitesService = new SpecialitesService();
         this.medecinService = new MedecinService();
@@ -368,6 +385,14 @@ public class ParametreController implements Initializable {
         // Initialize Fonts & Sizes tab
         initFontSettingsSection();
         outputDirectoryTextField.setText(outputDirectory); // Set the initial value in the text field
+        
+        // Initialize Gestion Utilisateurs tab
+        initializeTableUtilisateurs();
+        
+        // Initialize Database Configuration button
+        if (configureDatabaseBtn != null) {
+            configureDatabaseBtn.setOnAction(e -> openDatabaseConfig());
+        }
     }
 
     private void initFontSettingsSection() {
@@ -1374,4 +1399,171 @@ public class ParametreController implements Initializable {
         alert.setTitle(title);
         alert.showAndWait();
     }
+
+    // ==================== GESTION DES UTILISATEURS ====================
+    
+    private void initializeTableUtilisateurs() {
+        if (tableUtilisateurs == null) {
+            return; // Tab not loaded yet
+        }
+
+        // Configuration des colonnes
+        colID.setCellValueFactory(new PropertyValueFactory<>("utilisateurID"));
+        colNomUtilisateur.setCellValueFactory(new PropertyValueFactory<>("nomUtilisateur"));
+        
+        colRole.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getRole().name()));
+        
+        colMedecin.setCellValueFactory(cellData -> {
+            Medecin med = cellData.getValue().getMedecin();
+            return new SimpleStringProperty(med != null ? "Dr. " + med.getNom() + " " + med.getPrenom() : "-");
+        });
+        
+        colDateCreation.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getDateCreation() != null 
+                ? cellData.getValue().getDateCreation().toString() : "-"));
+
+        // Colonne Actions avec boutons
+        colActions.setCellFactory(param -> new TableCell<>() {
+            private final javafx.scene.control.Button btnModifier = new javafx.scene.control.Button("✏");
+            private final javafx.scene.control.Button btnSupprimer = new javafx.scene.control.Button("🗑");
+            private final javafx.scene.layout.HBox hbox = new javafx.scene.layout.HBox(5);
+
+            {
+                btnModifier.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 5 10;");
+                btnSupprimer.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 5 10;");
+                
+                btnModifier.setOnAction(event -> {
+                    Utilisateur user = getTableView().getItems().get(getIndex());
+                    handleModifierUtilisateur(user);
+                });
+                
+                btnSupprimer.setOnAction(event -> {
+                    Utilisateur user = getTableView().getItems().get(getIndex());
+                    handleSupprimerUtilisateur(user);
+                });
+                
+                hbox.getChildren().addAll(btnModifier, btnSupprimer);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : hbox);
+            }
+        });
+
+        // Charger les données
+        chargerUtilisateurs();
+    }
+
+    private void chargerUtilisateurs() {
+        if (tableUtilisateurs == null) {
+            return;
+        }
+        try {
+            List<Utilisateur> utilisateurs = utilisateurService.getAllUtilisateurs();
+            tableUtilisateurs.setItems(FXCollections.observableArrayList(utilisateurs));
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors du chargement des utilisateurs");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleAjouterUtilisateur(ActionEvent event) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/azmicro/moms/view/utilisateur-dialog.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("Ajouter un Utilisateur");
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.setOnHidden(e -> chargerUtilisateurs());
+            stage.showAndWait();
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de l'ouverture du dialogue");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    private void handleModifierUtilisateur(Utilisateur utilisateur) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/azmicro/moms/view/utilisateur-dialog.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            UtilisateurDialogController controller = loader.getController();
+            controller.setUtilisateur(utilisateur);
+
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("Modifier l'Utilisateur");
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.setOnHidden(e -> chargerUtilisateurs());
+            stage.showAndWait();
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de l'ouverture du dialogue");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    private void handleSupprimerUtilisateur(Utilisateur utilisateur) {
+        Alert confirmation = new Alert(AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirmation");
+        confirmation.setHeaderText("Supprimer l'utilisateur");
+        confirmation.setContentText("Êtes-vous sûr de vouloir supprimer l'utilisateur \"" + utilisateur.getNomUtilisateur() + "\" ?");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                utilisateurService.deleteUtilisateur(utilisateur.getUtilisateurID());
+                chargerUtilisateurs();
+                
+                Alert success = new Alert(AlertType.INFORMATION);
+                success.setTitle("Succès");
+                success.setHeaderText(null);
+                success.setContentText("Utilisateur supprimé avec succès");
+                success.showAndWait();
+            } catch (Exception e) {
+                Alert error = new Alert(AlertType.ERROR);
+                error.setTitle("Erreur");
+                error.setHeaderText("Erreur lors de la suppression");
+                error.setContentText(e.getMessage());
+                error.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void handleRafraichir(ActionEvent event) {
+        chargerUtilisateurs();
+    }
+    
+    /**
+     * Ouvre la boîte de dialogue pour configurer la base de données
+     */
+    private void openDatabaseConfig() {
+        try {
+            com.azmicro.moms.util.DatabaseConfigDialog.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de l'ouverture de la configuration");
+            alert.setContentText("Impossible d'ouvrir la boîte de dialogue de configuration : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 }
+

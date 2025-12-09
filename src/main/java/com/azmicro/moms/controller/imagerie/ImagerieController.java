@@ -545,45 +545,63 @@ public class ImagerieController implements Initializable {
         List<Imagerie> imageries = imagerieService.findByConsultationId(consultation.getConsultationID());
         
         for (Imagerie imagerie : imageries) {
-            VBox line = createImagerieLine();
-            
-            // Structure: 0=header, 1=dateBox(HBox), 2=typeVBox, 3=descVBox
-            HBox dateBox = (HBox) line.getChildren().get(1);
-            DatePicker datePicker = (DatePicker) dateBox.getChildren().get(1);
-            
-            VBox typeVBox = (VBox) line.getChildren().get(2);
-            HBox typeBox = (HBox) typeVBox.getChildren().get(1);
-            @SuppressWarnings("unchecked")
-            ComboBox<String> typeCombo = (ComboBox<String>) typeBox.getChildren().get(1);
-            
-            VBox descVBox = (VBox) line.getChildren().get(3);
-            TextArea descArea = (TextArea) descVBox.getChildren().get(1);
-            
-            if (imagerie.getDateImagerie() != null) {
-                datePicker.setValue(imagerie.getDateImagerie());
-            }
-            
-            if (imagerie.getTypeImagerie() != null) {
-                String typeName = imagerie.getTypeImagerie().getNomImagerieFr();
-                String typeCode = imagerie.getTypeImagerie().getCodeImagerieFr();
-                if (typeCode != null && !typeCode.isEmpty()) {
-                    typeCombo.getEditor().setText(typeName + ":" + typeCode);
-                } else {
-                    typeCombo.getEditor().setText(typeName);
-                }
-                typeCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
-            }
-            
-            if (imagerie.getResultat() != null && !imagerie.getResultat().isEmpty()) {
-                descArea.setText(imagerie.getResultat());
-            }
-            
-            line.setUserData(imagerie);
-            // Ajouter la ligne au container
-            vboxLignesImagerie.getChildren().add(line);
+            loadSingleImagerie(imagerie);
         }
         
         updateImageryCount();
+    }
+    
+    public void loadSelectedImageries(List<Imagerie> imageries) {
+        if (imageries == null || imageries.isEmpty()) {
+            return;
+        }
+        for (Imagerie imagerie : imageries) {
+            loadSingleImagerie(imagerie);
+        }
+        updateImageryCount();
+    }
+    
+    public void loadSingleImagerie(Imagerie imagerie) {
+        if (imagerie == null) {
+            return;
+        }
+        
+        VBox line = createImagerieLine();
+        
+        // Structure: 0=header, 1=dateBox(HBox), 2=typeVBox, 3=descVBox
+        HBox dateBox = (HBox) line.getChildren().get(1);
+        DatePicker datePicker = (DatePicker) dateBox.getChildren().get(1);
+        
+        VBox typeVBox = (VBox) line.getChildren().get(2);
+        HBox typeBox = (HBox) typeVBox.getChildren().get(1);
+        @SuppressWarnings("unchecked")
+        ComboBox<String> typeCombo = (ComboBox<String>) typeBox.getChildren().get(1);
+        
+        VBox descVBox = (VBox) line.getChildren().get(3);
+        TextArea descArea = (TextArea) descVBox.getChildren().get(1);
+        
+        if (imagerie.getDateImagerie() != null) {
+            datePicker.setValue(imagerie.getDateImagerie());
+        }
+        
+        if (imagerie.getTypeImagerie() != null) {
+            String typeName = imagerie.getTypeImagerie().getNomImagerieFr();
+            String typeCode = imagerie.getTypeImagerie().getCodeImagerieFr();
+            if (typeCode != null && !typeCode.isEmpty()) {
+                typeCombo.getEditor().setText(typeName + ":" + typeCode);
+            } else {
+                typeCombo.getEditor().setText(typeName);
+            }
+            typeCombo.setStyle("-fx-border-color: #27ae60; -fx-border-width: 2px; -fx-border-radius: 4px;");
+        }
+        
+        if (imagerie.getResultat() != null && !imagerie.getResultat().isEmpty()) {
+            descArea.setText(imagerie.getResultat());
+        }
+        
+        line.setUserData(imagerie);
+        // Ajouter la ligne au container
+        vboxLignesImagerie.getChildren().add(line);
     }
 
     @FXML

@@ -16,24 +16,35 @@ import java.sql.Statement;
 
 public class DatabaseUtil {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String USER = "root";
-    private static final String PASSWORD = ""; // Change this to your MySQL password
-    // private static final String URL = "jdbc:mysql://pcdb-mau7krg.c02.dbaas.infomaniak.cloud:24158/Cabinetmedical";
-    // private static final String USER = "admin";
-    // private static final String PASSWORD = "pxqxj9sQ7oLr8iFmhm4zz0n0zRU0Tcr0";
+    /**
+     * Obtient une connexion à la base de données en utilisant la configuration
+     */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL + "CabinetMedicalbis", USER, PASSWORD);
+        return DriverManager.getConnection(
+            DatabaseConfig.getJdbcUrlWithDatabase(), 
+            DatabaseConfig.getUsername(), 
+            DatabaseConfig.getPassword()
+        );
     }
 
+    /**
+     * Obtient une connexion sans spécifier de base de données
+     */
     public static Connection getConnectionWithoutDB() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(
+            DatabaseConfig.getJdbcUrl(), 
+            DatabaseConfig.getUsername(), 
+            DatabaseConfig.getPassword()
+        );
     }
 
+    /**
+     * Vérifie si la base de données existe
+     */
     public static boolean databaseExists() {
         try (Connection connection = getConnectionWithoutDB();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SHOW DATABASES LIKE 'CabinetMedical'")) {
+             ResultSet resultSet = statement.executeQuery("SHOW DATABASES LIKE '" + DatabaseConfig.getDatabaseName() + "'")) {
             return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();

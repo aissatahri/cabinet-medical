@@ -199,9 +199,35 @@ public class TableViewConfigurator {
             }
         });
 
-        clmDetails.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDose() + " / " + cellData.getValue().getDuree())
-        );
+        clmDetails.setCellValueFactory(cellData -> {
+            Prescriptions prescription = cellData.getValue();
+            StringBuilder details = new StringBuilder();
+            
+            // Si dose et duree sont présents (mode structuré avec préfixes)
+            if (prescription.getDose() != null && !prescription.getDose().isEmpty()) {
+                details.append(prescription.getDose());
+            }
+            if (prescription.getDuree() != null && !prescription.getDuree().isEmpty()) {
+                if (details.length() > 0) {
+                    details.append(" / ");
+                }
+                details.append(prescription.getDuree());
+            }
+            
+            // Si description est présente et que dose/duree sont vides (mode texte libre)
+            if (prescription.getDescription() != null && !prescription.getDescription().isEmpty()) {
+                if (details.length() == 0) {
+                    // Texte libre uniquement
+                    details.append(prescription.getDescription());
+                } else {
+                    // Ajouter les instructions supplémentaires
+                    details.append(" - ").append(prescription.getDescription());
+                }
+            }
+            
+            // Si rien n'est rempli, afficher "/"
+            return new SimpleStringProperty(details.length() > 0 ? details.toString() : "/");
+        });
     }
 
     /**

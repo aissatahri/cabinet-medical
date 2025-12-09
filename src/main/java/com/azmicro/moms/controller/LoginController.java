@@ -32,6 +32,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.util.prefs.Preferences;
+
 public class LoginController {
 
     @FXML
@@ -64,8 +66,13 @@ public class LoginController {
     @FXML
     private Button btnClose;
 
+    @FXML
+    private CheckBox rememberMeCheckBox;
+
     private UtilisateurService utilisateurService;
     private boolean isPasswordVisible = false;
+    private static final String PREF_USERNAME = "username";
+    private static final String PREF_REMEMBER_ME = "rememberMe";
 
     @FXML
     private void initialize() {
@@ -79,8 +86,17 @@ public class LoginController {
         passwordField.setOnKeyPressed(this::handleKeyPress);
         passwordTextField.setOnKeyPressed(this::handleKeyPress);
 
+        // Charger les préférences
+        loadPreferences();
+
         // Mettre le focus sur le champ usernameField
-        Platform.runLater(() -> usernameField.requestFocus());
+        Platform.runLater(() -> {
+            if (usernameField.getText().isEmpty()) {
+                usernameField.requestFocus();
+            } else {
+                passwordField.requestFocus();
+            }
+        });
     }
 
     private void checkDatabaseConnection() {
@@ -96,6 +112,37 @@ public class LoginController {
         }
     }
 
+    private void loadPreferences() {
+        Preferences prefs = Preferences.userNodeForPackage(LoginController.class);
+        boolean rememberMe = prefs.getBoolean(PREF_REMEMBER_ME, false);
+        
+        if (rememberMe) {
+            String savedUsername = prefs.get(PREF_USERNAME, "");
+            usernameField.setText(savedUsername);
+            rememberMeCheckBox.setSelected(true);
+        } else {
+            // Forcer la checkbox à être décochée si pas de préférence
+            usernameField.clear();
+            rememberMeCheckBox.setSelected(false);
+        }
+        
+        // Toujours vider le champ mot de passe pour la sécurité
+        passwordField.clear();
+        passwordTextField.clear();
+    }
+
+    private void savePreferences() {
+        Preferences prefs = Preferences.userNodeForPackage(LoginController.class);
+        
+        if (rememberMeCheckBox.isSelected()) {
+            prefs.put(PREF_USERNAME, usernameField.getText());
+            prefs.putBoolean(PREF_REMEMBER_ME, true);
+        } else {
+            prefs.remove(PREF_USERNAME);
+            prefs.putBoolean(PREF_REMEMBER_ME, false);
+        }
+    }
+
     private void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             login(null);  // Appelle la méthode login sans événement
@@ -105,7 +152,30 @@ public class LoginController {
     private void displayConnectionError() {
         statusMessage.setText("Échec de la connexion à la base de données.");
         statusMessage.setStyle("-fx-text-fill: red;");
-        showAlert(Alert.AlertType.ERROR, "Erreur de Connexion", "Impossible de se connecter à la base de données. Veuillez vérifier la connexion et réessayer.");
+        
+        // Créer une alerte avec des boutons personnalisés
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur de Connexion");
+        alert.setHeaderText("Impossible de se connecter à la base de données");
+        alert.setContentText("La connexion à la base de données a échoué.\n\n" +
+                            "Vérifiez que :\n" +
+                            "- Le serveur MySQL est démarré\n" +
+                            "- Les paramètres de connexion sont corrects\n" +
+                            "- Le pare-feu autorise la connexion\n\n" +
+                            "Voulez-vous configurer les paramètres de connexion ?");
+        
+        // Ajouter des boutons personnalisés
+        ButtonType configButton = new ButtonType("⚙ Configurer");
+        ButtonType cancelButton = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(configButton, cancelButton);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == configButton) {
+            // Ouvrir la fenêtre de configuration
+            com.azmicro.moms.util.DatabaseConfigDialog.show();
+            // Re-vérifier la connexion après la configuration
+            checkDatabaseConnection();
+        }
     }
 
     private void loadDashboard(Utilisateur utilisateur) throws IOException {
@@ -161,6 +231,9 @@ public class LoginController {
         Utilisateur utilisateur = utilisateurService.authenticateUser(username, password);
 
         if (utilisateur != null) {
+            // Sauvegarder les préférences si Se souvenir de moi est coché
+            savePreferences();
+            
             try {
                 loadDashboard(utilisateur);
                 Stage primaryStage = (Stage) btnLogin.getScene().getWindow();

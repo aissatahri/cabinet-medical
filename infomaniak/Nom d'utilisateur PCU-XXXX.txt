@@ -1,0 +1,7 @@
+Nom d'utilisateur :PCU-XXXX
+password 1981@Iss@
+Nom de service: service-db
+Mot de passe de l'utilisateur admin : pxqxj9sQ7oLr8iFmhm4zz0n0zRU0Tcr0 
+
+$env:DB_PASSWORD="pxqxj9sQ7oLr8iFmhm4zz0n0zRU0Tcr0"
+mvn javafx:run

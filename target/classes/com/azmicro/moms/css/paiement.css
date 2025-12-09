@@ -1,18 +1,219 @@
 /*
- * Empty Stylesheet file.
+ * Paiement View - Modern Stylesheet
  */
 
 .mainFxmlClass {
-
+    -fx-background-color: #f5f7fa;
 }
-#lblTotal {
+
+/* Statistics Cards */
+.payment-stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.payment-stat-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 5);
+    -fx-translate-y: -2;
+}
+
+.payment-icon {
+    -fx-min-width: 60;
+    -fx-min-height: 60;
+    -fx-max-width: 60;
+    -fx-max-height: 60;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 2);
+}
+
+.payment-label {
+    -fx-text-fill: #6c757d;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+}
+
+.payment-value {
+    -fx-text-fill: #212529;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+/* Search Field */
+.payment-search-field {
+    -fx-background-color: white;
+    -fx-background-radius: 25;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 2;
+    -fx-border-radius: 25;
+    -fx-padding: 10 45 10 20;
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+    -fx-prompt-text-fill: #adb5bd;
+}
+
+.payment-search-field:focused {
+    -fx-border-color: #27ae60;
+    -fx-effect: dropshadow(three-pass-box, rgba(39,174,96,0.25), 8, 0, 0, 2);
+}
+
+/* Action Buttons */
+.payment-action-button {
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.payment-action-button:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 3);
+    -fx-translate-y: -1;
+}
+
+.home-button {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+}
+
+.home-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #2980b9, #21618c);
+}
+
+.waiting-button {
+    -fx-background-color: linear-gradient(to bottom, #e67e22, #d35400);
+}
+
+.waiting-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #d35400, #ba4a00);
+}
+
+/* Filter Container */
+.payment-filter-container {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 12 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+}
+
+.payment-filter-radio {
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #495057;
+}
+
+.payment-filter-radio:selected {
+    -fx-text-fill: #27ae60;
+    -fx-font-weight: bold;
+}
+
+/* Table Container */
+.payment-table-container {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 3);
+    -fx-padding: 20;
+}
+
+.payment-table-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #4CAF50;
-    -fx-padding: 10px;
-    -fx-border-color: #CCCCCC;
-    -fx-border-width: 2px;
-    -fx-background-color: #F0F0F0;
-    -fx-background-radius: 5px;
+    -fx-text-fill: #212529;
+    -fx-padding: 0 0 15 0;
 }
 
+/* Payment Table */
+.payment-table {
+    -fx-background-color: transparent;
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+}
+
+.payment-table .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+}
+
+.payment-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 12 10;
+}
+
+.payment-table .column-header .label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
+.payment-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #f1f3f5;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 4 0;
+    -fx-cell-size: 32;
+}
+
+.payment-table .table-row-cell:odd {
+    -fx-background-color: #f8f9fa;
+}
+
+.payment-table .table-row-cell:selected {
+    -fx-background-color: #d4edda;
+    -fx-border-color: #28a745;
+}
+
+.payment-table .table-row-cell:hover {
+    -fx-background-color: #e8f5e9;
+}
+
+.payment-table .table-cell {
+    -fx-padding: 6 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #495057;
+    -fx-font-size: 13px;
+}
+
+/* Total Section */
+.payment-total-section {
+    -fx-padding: 15 0 0 0;
+}
+
+.payment-total-card {
+    -fx-background-color: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    -fx-background-radius: 10;
+    -fx-padding: 15 25;
+    -fx-effect: dropshadow(three-pass-box, rgba(39,174,96,0.2), 8, 0, 0, 2);
+    -fx-border-color: #28a745;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+.payment-total-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #155724;
+}
+
+/* ScrollBar Styling */
+.payment-table .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.payment-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #ced4da;
+    -fx-background-radius: 5;
+}
+
+.payment-table .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #adb5bd;
+}

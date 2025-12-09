@@ -39,7 +39,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
 
     @Override
     public boolean save(Consultations consultation) {
-        String sql = "INSERT INTO consultations (RendezVousID, DateConsultation, symptome, diagnostique, cat, poids, taille, imc, frequencequardiaque, pression, pression_droite, frequencerespiratoire, glycimie, temperature, saO, idPatient, examenClinique, ett) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO consultations (RendezVousID, DateConsultation, symptome, diagnostique, cat, poids, taille, imc, frequencequardiaque, pression, pression_droite, frequencerespiratoire, glycimie, temperature, saO, idPatient, examenClinique, ecg, ett) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             // Remplir les paramètres
@@ -53,6 +53,8 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(8, consultation.getImc());
             stmt.setInt(9, consultation.getFrequencequardiaque());
             stmt.setString(10, consultation.getPression());
+            System.out.println("DEBUG DAO save: pression = " + consultation.getPression());
+            System.out.println("DEBUG DAO save: pression_droite = " + consultation.getPressionDroite());
             stmt.setString(11, consultation.getPressionDroite());
             stmt.setInt(12, consultation.getFrequencerespiratoire());
             stmt.setDouble(13, consultation.getGlycimie());
@@ -60,7 +62,8 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(15, consultation.getSaO());
             stmt.setInt(16, consultation.getPatient().getPatientID()); // Associer le patient
             stmt.setString(17, consultation.getExamenClinique()); // Ajouter examenClinique
-            stmt.setString(18, consultation.getEtt()); // Ajouter ett
+            stmt.setString(18, consultation.getEcg()); // Ajouter ecg
+            stmt.setString(19, consultation.getEtt()); // Ajouter ett
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -84,9 +87,13 @@ public class ConsultationDAOImpl implements ConsultationDAO {
     // Méthode pour mettre à jour une consultation
     @Override
     public boolean update(Consultations consultation) {
-        String sql = "UPDATE consultations SET RendezVousID = ?, DateConsultation = ?, symptome = ?, diagnostique = ?, cat = ?, poids = ?, taille = ?, imc = ?, frequencequardiaque = ?, pression = ?, pression_droite = ?, frequencerespiratoire = ?, glycimie = ?, temperature = ?, saO = ?, idPatient = ?, examenClinique = ?, ett = ? WHERE ConsultationID = ?";
+        String sql = "UPDATE consultations SET RendezVousID = ?, DateConsultation = ?, symptome = ?, diagnostique = ?, cat = ?, poids = ?, taille = ?, imc = ?, frequencequardiaque = ?, pression = ?, pression_droite = ?, frequencerespiratoire = ?, glycimie = ?, temperature = ?, saO = ?, idPatient = ?, examenClinique = ?, ecg = ?, ett = ? WHERE ConsultationID = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            System.out.println("DEBUG DAO update: ConsultationID = " + consultation.getConsultationID());
+            System.out.println("DEBUG DAO update: pression (TA gauche) = " + consultation.getPression());
+            System.out.println("DEBUG DAO update: pression_droite (TA droit) = " + consultation.getPressionDroite());
+            
             stmt.setObject(1, consultation.getRendezVous() != null ? consultation.getRendezVous().getRendezVousID() : null);
             stmt.setObject(2, consultation.getDateConsultation());
             stmt.setString(3, consultation.getSymptome());
@@ -104,8 +111,9 @@ public class ConsultationDAOImpl implements ConsultationDAO {
             stmt.setDouble(15, consultation.getSaO());
             stmt.setInt(16, consultation.getPatient().getPatientID()); // Associer le patient
             stmt.setString(17, consultation.getExamenClinique()); // Ajouter examenClinique
-            stmt.setString(18, consultation.getEtt()); // Ajouter ett
-            stmt.setInt(19, consultation.getConsultationID());
+            stmt.setString(18, consultation.getEcg()); // Ajouter ecg
+            stmt.setString(19, consultation.getEtt()); // Ajouter ett
+            stmt.setInt(20, consultation.getConsultationID());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -141,6 +149,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setTemperature(rs.getDouble("temperature"));
                     consultation.setSaO(rs.getInt("saO"));
                     consultation.setExamenClinique(rs.getString("examenClinique")); // Ajouter examenClinique
+                    consultation.setEcg(rs.getString("ecg")); // Ajouter ecg
                     consultation.setEtt(rs.getString("ett")); // Ajouter ett
                     return consultation;
                 }
@@ -178,6 +187,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                 consultation.setTemperature(rs.getDouble("temperature"));
                 consultation.setSaO(rs.getInt("saO"));
                 consultation.setExamenClinique(rs.getString("examenClinique")); // Ajouter examenClinique
+                consultation.setEcg(rs.getString("ecg")); // Ajouter ecg
                 consultation.setEtt(rs.getString("ett")); // Ajouter ett
                 consultations.add(consultation);
             }
@@ -227,6 +237,7 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setTemperature(rs.getDouble("temperature"));
                     consultation.setSaO(rs.getInt("saO"));
                     consultation.setExamenClinique(rs.getString("examenClinique")); // Ajouter examenClinique
+                    consultation.setEcg(rs.getString("ecg")); // Ajouter ecg
                     consultation.setEtt(rs.getString("ett")); // Ajouter ett
                     consultations.add(consultation);
                 }

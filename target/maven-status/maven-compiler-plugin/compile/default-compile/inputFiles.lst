@@ -13,6 +13,7 @@ D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\BilanController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\DescriptionFormController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\CreateUserController.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\DatabaseConfigController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\HomeController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\BatchImagerieController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\DescriptionImagerieController.java
@@ -25,6 +26,7 @@ D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medec
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\ParametreController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\PatientController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\PlanningController.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\UtilisateurDialogController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\ParametreController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\patient\FichePatientController.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\patient\FichePatientDetailsController.java
@@ -70,6 +72,7 @@ D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeImagerie
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeImagerieDAOImpl.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\UtilisateurDAO.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\UtilisateurDAOImpl.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\Launcher.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Acte.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Allergie.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Analyse.java
@@ -127,11 +130,15 @@ D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\Speciali
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeAnalyseService.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeImagerieService.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\UtilisateurService.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AlertUtil.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfig.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfigDialog.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseInitializer.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseUtil.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\CustomLineDrawer.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\ImpressionUtil.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfGenerator.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfSuccessDialog.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfViewer.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\TypeImpression.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\ListViewConfigurator.java

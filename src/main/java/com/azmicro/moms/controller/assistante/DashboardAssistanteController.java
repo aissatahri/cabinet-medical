@@ -10,6 +10,7 @@ import com.azmicro.moms.model.Patient;
 import com.azmicro.moms.model.SituationFamiliale;
 import com.azmicro.moms.model.Utilisateur;
 import com.azmicro.moms.service.PatientService;
+import com.azmicro.moms.util.TimeUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,6 +34,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
@@ -42,6 +44,9 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.util.Callback;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
@@ -55,8 +60,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Paint;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 /**
 import javafx.scene.control.Pagination;
@@ -72,6 +81,18 @@ public class DashboardAssistanteController implements Initializable {
     private Utilisateur utilisateur;
     @FXML
     private Button btnLogout;
+    @FXML
+    private Label lblUser;
+    @FXML
+    private Label lblDate;
+    @FXML
+    private Label lblTime;
+    @FXML
+    private Label lblPatientsToday;
+    @FXML
+    private Label lblWaitingRoom;
+    @FXML
+    private Label lblAppointments;
     @FXML
     private TextField tfKeyword;
     @FXML
@@ -125,6 +146,10 @@ public class DashboardAssistanteController implements Initializable {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+        // Afficher le nom de l'utilisateur
+        if (utilisateur != null) {
+            lblUser.setText(utilisateur.getNomUtilisateur());
+        }
         // Vous pouvez maintenant utiliser l'objet utilisateur pour initialiser les données de la fenêtre
     }
 
@@ -140,6 +165,14 @@ public class DashboardAssistanteController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(DashboardAssistanteController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        // Initialiser la date et l'heure
+        updateDateTime();
+        
+        // Créer un timer pour mettre à jour l'heure toutes les secondes
+        Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateDateTime()));
+        clock.setCycleCount(Timeline.INDEFINITE);
+        clock.play();
 
         // Définissez la cellule de la colonne d'action
         Callback<TableColumn<Patient, Void>, TableCell<Patient, Void>> cellFactory = new Callback<TableColumn<Patient, Void>, TableCell<Patient, Void>>() {
@@ -403,14 +436,18 @@ public class DashboardAssistanteController implements Initializable {
 
     @FXML
     private void logout(ActionEvent event) throws IOException {
+        // Ne PAS effacer les préférences pour que "Se souvenir de moi" fonctionne
+        // Les préférences seront gérées par l'utilisateur via la checkbox
+        
         Stage stage = new Stage();
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/azmicro/moms/images/cardiology.png")));
         stage.getIcons().add(icon);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.initStyle(StageStyle.DECORATED.UNDECORATED);
+        stage.initStyle(StageStyle.UNDECORATED); // Supprimer la barre de titre
         stage.setScene(scene);
-        stage.setWidth(800);
+        stage.setResizable(false); // Rendre la fenêtre non redimensionnable
+        stage.setWidth(900);
         stage.setHeight(600);
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getBounds();
@@ -437,6 +474,12 @@ public class DashboardAssistanteController implements Initializable {
         stage.getIcons().add(icon);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/listeAttente-view.fxml"));
         Pane root = loader.load();
+        
+        // Pass utilisateur to controller
+        ListeAttenteController controller = loader.getController();
+        if (controller != null && utilisateur != null) {
+            controller.setUtilisateur(utilisateur);
+        }
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         Scene dashboardScene = new Scene(root, bounds.getWidth(), bounds.getHeight());
         dashboardScene.getStylesheets().add(getClass().getResource("/com/azmicro/moms/css/listeattente.css").toExternalForm());
@@ -742,6 +785,12 @@ public class DashboardAssistanteController implements Initializable {
         stage.getIcons().add(icon);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/rendezVous-view.fxml"));
         Pane root = loader.load();
+        
+        // Pass utilisateur to controller
+        RendezVousController controller = loader.getController();
+        if (controller != null && utilisateur != null) {
+            controller.setUtilisateur(utilisateur);
+        }
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         Scene dashboardScene = new Scene(root, bounds.getWidth(), bounds.getHeight());
         dashboardScene.getStylesheets().add(getClass().getResource("/com/azmicro/moms/css/listeattente.css").toExternalForm());
@@ -751,6 +800,15 @@ public class DashboardAssistanteController implements Initializable {
         stage.show();
         Stage primaryStage = (Stage) btnOpenSalleAttente.getScene().getWindow();
         primaryStage.close();
+    }
+    
+    private void updateDateTime() {
+        String heureActuelle = TimeUtil.getCurrentTime();
+        String currentDate = TimeUtil.getCurrentDate();
+        if (lblDate != null && lblTime != null) {
+            lblDate.setText(currentDate);
+            lblTime.setText(heureActuelle);
+        }
     }
 
 }

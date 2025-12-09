@@ -2,6 +2,7 @@ module com.azmicro.moms {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.base;
+    requires java.prefs;
     
     requires java.sql;
     requires org.controlsfx.controls;

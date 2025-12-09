@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\Project_JavaFX\CabinetMedical\target\CabinetMedical-1.0-SNAPSHOT.jar</jar>
+  <outfile>D:\Project_JavaFX\CabinetMedical\installers\CabinetMedical-Localhost.exe</outfile>
+  <errTitle>Cabinet Medical - Localhost</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\cardiology.ico</icon>
+  <jre>
+    <path>%JAVA_HOME%</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>true</requires64Bit>
+    <minVersion>21</minVersion>
+    <maxVersion></maxVersion>
+    <opt>-Ddb.host=localhost -Ddb.port=3306</opt>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.0</txtFileVersion>
+    <fileDescription>Cabinet Medical - Version Localhost</fileDescription>
+    <copyright>AzMicro 2025</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.0</txtProductVersion>
+    <productName>Cabinet Medical</productName>
+    <companyName>AzMicro</companyName>
+    <internalName>CabinetMedical</internalName>
+    <originalFilename>CabinetMedical-Localhost.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>

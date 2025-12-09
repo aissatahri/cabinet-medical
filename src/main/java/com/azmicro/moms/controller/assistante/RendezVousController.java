@@ -5,14 +5,21 @@
 package com.azmicro.moms.controller.assistante;
 
 import com.azmicro.moms.model.RendezVous;
+import com.azmicro.moms.model.Utilisateur;
 import com.azmicro.moms.service.RendezVousService;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +33,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -67,15 +75,47 @@ public class RendezVousController implements Initializable {
 
     @FXML
     private TableColumn<RendezVous, Void> clmActions; // Colonne pour les boutons
+    @FXML
+    private Label lblUser;
+    @FXML
+    private Label lblDate;
+    @FXML
+    private Label lblTime;
 
     private ObservableList<RendezVous> rendezVousList;
     private RendezVousService rendezVousService;
+    private Utilisateur utilisateur;
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+        // Update label immediately if it's already initialized
+        if (lblUser != null && utilisateur != null) {
+            lblUser.setText(utilisateur.getNomUtilisateur());
+        }
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Set current date
+        LocalDate currentDate = LocalDate.now();
+        lblDate.setText(currentDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        
+        // Real-time clock
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            LocalTime currentTime = LocalTime.now();
+            lblTime.setText(currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+        
+        // Set user name if utilisateur was set before initialize
+        if (utilisateur != null) {
+            lblUser.setText(utilisateur.getNomUtilisateur());
+        }
+        
         // TODO
         this.rendezVousService = new RendezVousService();
 
@@ -172,6 +212,12 @@ public class RendezVousController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/assistante/dashboardAssistante-view.fxml"));
 
         Pane root = loader.load();
+        
+        // Pass utilisateur to controller
+        DashboardAssistanteController controller = loader.getController();
+        if (controller != null && utilisateur != null) {
+            controller.setUtilisateur(utilisateur);
+        }
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         Scene dashboardScene = new Scene(root, bounds.getWidth(), bounds.getHeight());
         dashboardScene.getStylesheets().add(getClass().getResource("/com/azmicro/moms/css/dashboardassistante.css").toExternalForm());

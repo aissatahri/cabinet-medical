@@ -1,7 +1,152 @@
 /*
- * Empty Stylesheet file.
+ * Patient View - Modern Stylesheet
  */
 
 .mainFxmlClass {
+    -fx-background-color: #f5f7fa;
+}
 
+/* Modern Table Styles */
+.modern-table {
+    -fx-background-color: transparent;
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+}
+
+.modern-table .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+}
+
+.modern-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 12 10;
+}
+
+.modern-table .column-header .label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
+.modern-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #f1f3f5;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 4 0;
+    -fx-cell-size: 32;
+}
+
+.modern-table .table-row-cell:odd {
+    -fx-background-color: #f8f9fa;
+}
+
+.modern-table .table-row-cell:selected {
+    -fx-background-color: #e3f2fd;
+    -fx-border-color: #90caf9;
+}
+
+.modern-table .table-row-cell:hover {
+    -fx-background-color: #f0f7ff;
+}
+
+.modern-table .table-cell {
+    -fx-padding: 6 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #495057;
+    -fx-font-size: 13px;
+}
+
+/* Patient Pagination */
+.patient-pagination .pagination-control {
+    -fx-background-color: transparent;
+    -fx-padding: 5 0;
+}
+
+.patient-pagination .pagination-control .number-button {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-padding: 8 12;
+    -fx-min-width: 40;
+    -fx-min-height: 36;
+}
+
+.patient-pagination .pagination-control .number-button .label {
+    -fx-text-fill: #495057;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+.patient-pagination .pagination-control .number-button:hover {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #2193b0;
+}
+
+.patient-pagination .pagination-control .number-button:hover .label {
+    -fx-text-fill: #2193b0;
+}
+
+.patient-pagination .pagination-control .number-button.selected {
+    -fx-background-color: #2193b0;
+    -fx-border-color: #2193b0;
+}
+
+.patient-pagination .pagination-control .number-button.selected .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Pagination arrows */
+.patient-pagination .pagination-control .left-arrow-button,
+.patient-pagination .pagination-control .right-arrow-button {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-padding: 8 12;
+}
+
+.patient-pagination .pagination-control .left-arrow-button:hover,
+.patient-pagination .pagination-control .right-arrow-button:hover {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #2193b0;
+}
+
+.patient-pagination .pagination-control .left-arrow-button .label,
+.patient-pagination .pagination-control .right-arrow-button .label {
+    -fx-text-fill: #495057;
+    -fx-font-weight: bold;
+}
+
+/* ScrollBar Styling */
+.modern-table .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.modern-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #ced4da;
+    -fx-background-radius: 5;
+}
+
+.modern-table .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #adb5bd;
+}
+
+.modern-table .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.modern-table .scroll-bar:horizontal .thumb {
+    -fx-background-color: #ced4da;
+    -fx-background-radius: 5;
+}
+
+.modern-table .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #adb5bd;
 }

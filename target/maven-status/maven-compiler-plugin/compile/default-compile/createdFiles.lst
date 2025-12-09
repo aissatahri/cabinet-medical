@@ -40,6 +40,7 @@ com\azmicro\moms\controller\medecin\PatientController$3.class
 com\azmicro\moms\util\TableViewConfigurator$4.class
 com\azmicro\moms\model\Jours.class
 com\azmicro\moms\model\HistoriqueMedical.class
+com\azmicro\moms\controller\medecin\UtilisateurDialogController.class
 com\azmicro\moms\model\Vaccins.class
 com\azmicro\moms\util\MedicalFieldValidator.class
 com\azmicro\moms\controller\acte\ActeController.class
@@ -84,6 +85,7 @@ com\azmicro\moms\dao\SpecialitesDAO.class
 com\azmicro\moms\util\ListViewConfigurator.class
 com\azmicro\moms\controller\bilan\BatchAnalyseController$AnalyseRow.class
 com\azmicro\moms\model\Equipements.class
+com\azmicro\moms\util\impression\PdfGenerator$FontConfig.class
 com\azmicro\moms\controller\assistante\EditPaiementController.class
 com\azmicro\moms\model\TypeAnalyse.class
 com\azmicro\moms\controller\bilan\BatchAnalyseController.class
@@ -100,6 +102,7 @@ com\azmicro\moms\util\impression\ImpressionUtil.class
 com\azmicro\moms\controller\medecin\DossierController$2.class
 com\azmicro\moms\service\TypeImagerieService.class
 com\azmicro\moms\dao\PaiementsDAOImpl.class
+com\azmicro\moms\util\DatabaseConfigDialog.class
 com\azmicro\moms\model\Appointment.class
 com\azmicro\moms\service\HistoriqueMedicalService.class
 com\azmicro\moms\controller\medecin\DossierController.class
@@ -115,6 +118,7 @@ com\azmicro\moms\dao\RendezVousDAO.class
 com\azmicro\moms\controller\assistante\ListeAttenteController.class
 com\azmicro\moms\model\MedicamentTemplate.class
 com\azmicro\moms\controller\assistante\ListeAttenteController$2.class
+com\azmicro\moms\util\impression\PdfSuccessDialog.class
 com\azmicro\moms\dao\MedecinDAOImpl.class
 com\azmicro\moms\model\Medicaments.class
 com\azmicro\moms\util\TableViewConfigurator$3.class
@@ -149,9 +153,13 @@ com\azmicro\moms\dao\FilesAttenteDAOImpl.class
 com\azmicro\moms\controller\assistante\AjoutRendervousController.class
 com\azmicro\moms\dao\HistoriqueMedicalDAOImpl.class
 com\azmicro\moms\dao\MedicamentsDAOImpl.class
+com\azmicro\moms\controller\medecin\ParametreController$4.class
 com\azmicro\moms\controller\AjoutRendezVousController.class
+com\azmicro\moms\util\AlertUtil.class
 com\azmicro\moms\service\MedicamentsService.class
+com\azmicro\moms\Launcher.class
 com\azmicro\moms\service\PatientService.class
+com\azmicro\moms\controller\DatabaseConfigController.class
 com\azmicro\moms\controller\medecin\ParametreController.class
 com\azmicro\moms\dao\MedecinDAO.class
 com\azmicro\moms\model\FilesAttente.class
@@ -165,6 +173,7 @@ com\azmicro\moms\controller\bilan\BilanController.class
 com\azmicro\moms\util\DatabaseInitializer.class
 com\azmicro\moms\util\MedicalCalculationService$IMCClassification.class
 com\azmicro\moms\util\impression\TypeImpression.class
+com\azmicro\moms\util\DatabaseConfig.class
 com\azmicro\moms\dao\ConsultationDetailsDAOImpl.class
 com\azmicro\moms\controller\medecin\FacturationController.class
 com\azmicro\moms\controller\imagerie\BatchImagerieController$ImagerieRow.class
@@ -172,6 +181,7 @@ com\azmicro\moms\controller\medecin\PatientController.class
 com\azmicro\moms\service\ConsultationActeService.class
 com\azmicro\moms\model\RendezVous.class
 com\azmicro\moms\service\ActeService.class
+com\azmicro\moms\controller\medecin\UtilisateurDialogController$1.class
 com\azmicro\moms\controller\imagerie\ImagerieController.class
 com\azmicro\moms\util\TypeAnalyseStringConverter.class
 com\azmicro\moms\controller\medecin\DossierController$3.class

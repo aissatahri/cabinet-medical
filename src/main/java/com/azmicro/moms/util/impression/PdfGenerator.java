@@ -31,16 +31,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Collectors;
-import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfViewerPreferences;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
@@ -52,14 +50,34 @@ import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 
 public class PdfGenerator {
-    // Exact A5 page size: 148 x 209.97 mm (width x height)
-    // Convert mm to points: 1 mm = 72 / 25.4 pt
+    // A5 en orientation Portrait : utiliser PageSize.A5 standard ISO
+    // PageSize.A5 = 420 x 595 points (valeurs arrondies standard reconnues par tous les systèmes)
     private static com.itextpdf.kernel.geom.PageSize getExactA5PageSize() {
-        final float mmToPt = 72f / 25.4f;
-        final float widthPt = 148f * mmToPt;      // ~419.53 pt
-        final float heightPt = 209.97f * mmToPt;  // ~595.28 pt
-        System.out.println("DEBUG A5: Creating page size " + widthPt + " x " + heightPt + " pt (" + 148 + " x " + 209.97 + " mm)");
-        return new com.itextpdf.kernel.geom.PageSize(widthPt, heightPt);
+        // Utiliser PageSize.A5 standard mais vérifier l'orientation
+        // A5 portrait DOIT avoir largeur < hauteur (420 x 595)
+        PageSize a5 = PageSize.A5;
+        
+        // S'assurer que c'est en portrait (largeur < hauteur)
+        if (a5.getWidth() > a5.getHeight()) {
+            // Si en paysage, créer manuellement en portrait
+            return new PageSize(420, 595);
+        }
+        
+        return a5;
+    }
+    
+    /**
+     * Configure un PdfDocument avec le format A5 et les métadonnées nécessaires
+     * pour une reconnaissance automatique par les imprimantes
+     */
+    private static void configureA5Document(PdfDocument pdfDoc) {
+        PageSize a5 = getExactA5PageSize();
+        pdfDoc.setDefaultPageSize(a5);
+        
+        // Ajouter les préférences du viewer pour forcer le format A5
+        PdfViewerPreferences viewerPreferences = new PdfViewerPreferences();
+        viewerPreferences.setPrintScaling(PdfViewerPreferences.PdfViewerPreferencesConstants.NONE);
+        pdfDoc.getCatalog().setViewerPreferences(viewerPreferences);
     }
 
     private static String getOutputDirectory() {
@@ -172,9 +190,11 @@ public class PdfGenerator {
         String pdfPath = patientDir.getPath() + "/ordonnance_" + dateStr + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
-        pdfDoc.setDefaultPageSize(a5);
-        Document document = new Document(pdfDoc, a5);
+        
+        // Configurer le format A5 avec métadonnées pour reconnaissance automatique
+        configureA5Document(pdfDoc);
+        
+        Document document = new Document(pdfDoc, getExactA5PageSize());
 
         // Set margins
         document.setMargins(140f, 30, 50f, 30);
@@ -220,19 +240,26 @@ public class PdfGenerator {
         // Liste des prescriptions
         int index = 1;
         for (Prescriptions prescription : prescriptions) {
-            // Clean description - extract ONLY the Instructions line, ignore Posologie and Durée lines
+            // Clean description - handle both structured (with prefix) and free text modes
             String description = "";
             if (prescription.getDescription() != null && !prescription.getDescription().trim().isEmpty()) {
                 String fullDesc = prescription.getDescription();
                 String[] descLines = fullDesc.split("\n");
                 
+                boolean foundInstructionsPrefix = false;
                 for (String line : descLines) {
                     line = line.trim();
-                    // Only keep the Instructions line
+                    // Only keep the Instructions line if prefix exists
                     if (line.startsWith("Instructions:")) {
                         description = line.substring("Instructions:".length()).trim();
+                        foundInstructionsPrefix = true;
                         break; // Stop after finding instructions
                     }
+                }
+                
+                // Si aucun préfixe trouvé, c'est du texte libre - prendre tout
+                if (!foundInstructionsPrefix) {
+                    description = fullDesc.trim();
                 }
             }
             
@@ -289,14 +316,23 @@ public class PdfGenerator {
 
             // Construire la posologie complète sur une seule ligne
             StringBuilder posologyText = new StringBuilder();
-            posologyText.append(dose);
             
-            // Ajouter la durée seulement si elle n'est pas vide et pas déjà dans dose
-            if (!duree.trim().isEmpty() && !dose.toLowerCase().contains(duree.toLowerCase())) {
-                if (posologyText.length() > 0) {
-                    posologyText.append(" • pdt ");
+            // Si dose et duree sont vides, c'est du texte libre stocké dans description
+            if (dose.trim().isEmpty() && duree.trim().isEmpty() && !description.isEmpty()) {
+                // Mode texte libre : afficher la description comme posologie
+                posologyText.append(description);
+                description = ""; // Vider description pour ne pas la dupliquer
+            } else {
+                // Mode structuré : construire dose + durée
+                posologyText.append(dose);
+                
+                // Ajouter la durée seulement si elle n'est pas vide et pas déjà dans dose
+                if (!duree.trim().isEmpty() && !dose.toLowerCase().contains(duree.toLowerCase())) {
+                    if (posologyText.length() > 0) {
+                        posologyText.append(" • pdt ");
+                    }
+                    posologyText.append(duree);
                 }
-                posologyText.append(duree);
             }
             
             Paragraph posologyPara = new Paragraph()
@@ -306,7 +342,7 @@ public class PdfGenerator {
                     .add(new Text(posologyText.toString())
                         .setFontSize(fontSize));
             
-            // Ajouter les instructions sur la même ligne si elles existent
+            // Ajouter les instructions sur la même ligne si elles existent (mode structuré uniquement)
             if (!description.isEmpty()) {
                 posologyPara.add(new Text("  •  ")
                         .setFontColor(new DeviceRgb(241, 196, 15)))
@@ -372,9 +408,8 @@ public class PdfGenerator {
         String pdfPath = patientDir.getPath() + "/demande_imagerie_" + dateStr.replace("/", "-") + uniqueTimeStamp + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
-        pdfDoc.setDefaultPageSize(a5);
-        Document document = new Document(pdfDoc, a5);
+        configureA5Document(pdfDoc);
+        Document document = new Document(pdfDoc, getExactA5PageSize());
 
         // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
         document.setMargins(140f, 30, 50f, 30);
@@ -489,9 +524,8 @@ public class PdfGenerator {
         String pdfPath = patientDir.getPath() + "/demande_analyse_" + dateStr.replace("/", "-") + uniqueTimeStamp + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
-        pdfDoc.setDefaultPageSize(a5);
-        Document document = new Document(pdfDoc, a5);
+        configureA5Document(pdfDoc);
+        Document document = new Document(pdfDoc, getExactA5PageSize());
 
         // Set top margin to 4 cm (113.39 points), bottom margin to 48.24f, left and right to 20
         document.setMargins(140f, 30, 50f, 30);
@@ -605,10 +639,8 @@ public class PdfGenerator {
         String pdfPath = patientDir.getPath() + "/certificat_medical_" + dateStr + ".pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        // Ensure exact A5 default page size in this generator as well
-        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
-        pdfDoc.setDefaultPageSize(a5);
-        Document document = new Document(pdfDoc, a5);
+        configureA5Document(pdfDoc);
+        Document document = new Document(pdfDoc, getExactA5PageSize());
         // Compact margins similar to generic certificat
         document.setMargins(90f, 24f, 30f, 24f);
 
@@ -692,9 +724,8 @@ public class PdfGenerator {
 
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
-        pdfDoc.setDefaultPageSize(a5);
-        Document document = new Document(pdfDoc, a5);
+        configureA5Document(pdfDoc);
+        Document document = new Document(pdfDoc, getExactA5PageSize());
         // Réduire les marges pour maximiser l'espace sur une seule page
         document.setMargins(80, 20, 30, 20);
 
@@ -952,8 +983,8 @@ public class PdfGenerator {
         // Exam section
         document.add(new Paragraph("Examen :").setBold().setFontSize(labelSize + 1).setFontColor(new DeviceRgb(0, 0, 255)).setMarginTop(12).setMarginBottom(6));
         Table exam = new Table(UnitValue.createPercentArray(new float[]{1, 1, 1, 1})).useAllAvailableWidth();
-        exam.addCell(makeLabelValueRed("TA bras droit :", safe(consultation.getPressionDroite()), labelSize, valueSize));
         exam.addCell(makeLabelValueRed("TA bras gauche :", safe(consultation.getPression()), labelSize, valueSize));
+        exam.addCell(makeLabelValueRed("TA bras droit :", safe(consultation.getPressionDroite()), labelSize, valueSize));
         exam.addCell(makeLabelValueRed("FC :", formatInt(consultation.getFrequencequardiaque()), labelSize, valueSize));
         exam.addCell(makeLabelValueRed("SaO2 :", formatInt(consultation.getSaO()), labelSize, valueSize));
         exam.addCell(makeLabelValueRed("Glycémie :", formatDouble(consultation.getGlycimie()), labelSize, valueSize));
@@ -966,7 +997,7 @@ public class PdfGenerator {
         document.add(makeLabelValueMultilineRed("Clinique :", safe(consultation.getExamenClinique()), labelSize, valueSize));
         document.add(new Paragraph(""));
 
-        document.add(makeSectionWithBulletsRed("ECG :", "", labelSize, valueSize));
+        document.add(makeSectionWithBulletsRed("ECG :", safe(consultation.getEcg()), labelSize, valueSize));
         document.add(makeSectionWithBulletsRed("ETT :", safe(consultation.getEtt()), labelSize, valueSize));
         document.add(makeSectionWithBulletsBlue("Traitement de sortie :", formatPrescriptions(traitementSortie), labelSize, valueSize));
         document.add(makeSectionWithBulletsBlue("Remarques :", "", labelSize, valueSize));
@@ -1225,19 +1256,111 @@ public class PdfGenerator {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String dateStr = dateFormat.format(new Date());
-        String pdfPath = patientDir.getPath() + "/lettre_orientation_" + dateStr + ".pdf";
+        String pdfPath = patientDir.getPath() + "/lettre_reference_" + dateStr + ".pdf";
+
+        // Utiliser le format A4 pour la lettre de référence au lieu de A5
+        return generateLettreOrientationA4(pdfPath, "Lettre de Référence", lettreText, patient, medecin);
+    }
+
+    private static String generateLettreOrientationA4(String pdfPath, String titre, String contenu, Patient patient, Medecin medecin) {
+        try {
+            System.out.println("DEBUG: Génération Lettre de Référence avec PageSize.A4 - Largeur: " + PageSize.A4.getWidth() + " Hauteur: " + PageSize.A4.getHeight());
+            PdfWriter writer = new PdfWriter(pdfPath);
+            PdfDocument pdfDoc = new PdfDocument(writer);
+            pdfDoc.setDefaultPageSize(PageSize.A4);
+            Document document = new Document(pdfDoc, PageSize.A4);
+            // Marges réduites pour une seule page A4
+            document.setMargins(50f, 40f, 40f, 40f);
+            FontConfig fc = loadFontConfig();
+            PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+            PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
+        float titleSize = fc.titleSize;
+        float textSize = fc.textSize;
+
+        // Titre du document centré (pas de header médecin)
+        Paragraph titleParagraph = new Paragraph("Lettre de Référence")
+                .setFont(titleFont != null ? titleFont : document.getPdfDocument().getDefaultFont())
+                .setFontSize(titleSize + 2)
+                .setBold()
+                .setTextAlignment(TextAlignment.CENTER)
+                .setMarginBottom(15f);
+        document.add(titleParagraph);
+
+        // Date du jour
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Paragraph dateParagraph = new Paragraph("Fait à Oujda, le " + sdf.format(new Date()))
+                .setFont(textFont != null ? textFont : document.getPdfDocument().getDefaultFont())
+                .setFontSize(textSize - 1)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setMarginBottom(15f);
+        document.add(dateParagraph);
+
+        // Informations patient
+        if (patient != null) {
+            Paragraph patientInfo = new Paragraph()
+                    .setFont(textFont != null ? textFont : document.getPdfDocument().getDefaultFont())
+                    .setFontSize(textSize - 1)
+                    .setMarginBottom(15f);
+            
+            patientInfo.add(new Text("Concernant : ").setBold());
+            patientInfo.add(patient.getNom() + " " + patient.getPrenom() + "\n");
+            
+            if (patient.getDateNaissance() != null) {
+                patientInfo.add(new Text("Né(e) le : ").setBold());
+                patientInfo.add(patient.getDateNaissance().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            }
+            
+            document.add(patientInfo);
+        }
+
+        // Contenu de la lettre (texte compact)
+        String[] paragraphes = contenu.split("\n\n");
+        for (String para : paragraphes) {
+            if (para.trim().isEmpty()) continue;
+            Paragraph p = new Paragraph(para.trim())
+                    .setFont(textFont != null ? textFont : document.getPdfDocument().getDefaultFont())
+                    .setFontSize(textSize - 1)
+                    .setTextAlignment(TextAlignment.JUSTIFIED)
+                    .setMarginBottom(8f)
+                    .setFirstLineIndent(15f);
+            document.add(p);
+        }
+
+        // Signature compacte
+        document.add(new Paragraph("")
+                .setMarginTop(20f));
         
-        return generateGenericCertificat(pdfPath, "Lettre d'Orientation", lettreText, patient, medecin);
+        Paragraph signatureParagraph = new Paragraph()
+                .setFont(textFont != null ? textFont : document.getPdfDocument().getDefaultFont())
+                .setFontSize(textSize - 1)
+                .setTextAlignment(TextAlignment.RIGHT);
+        
+        signatureParagraph.add(new Text("Signature et cachet\n\n").setBold());
+        if (medecin != null) {
+            signatureParagraph.add("Dr. " + medecin.getNom() + " " + medecin.getPrenom());
+        }
+        
+        document.add(signatureParagraph);
+
+        document.close();
+        System.out.println("Lettre de référence A4 générée : " + pdfPath);
+        return pdfPath;
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la génération de la lettre de référence: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static String generateGenericCertificat(String pdfPath, String titre, String contenu, Patient patient, Medecin medecin) throws FileNotFoundException {
         System.out.println("DEBUG: Génération PDF avec PageSize.A5 - Largeur: " + PageSize.A5.getWidth() + " Hauteur: " + PageSize.A5.getHeight());
         PdfWriter writer = new PdfWriter(pdfPath);
         PdfDocument pdfDoc = new PdfDocument(writer);
-        // Enforce exact A5 as the default page size on the PdfDocument
-        com.itextpdf.kernel.geom.PageSize a5 = getExactA5PageSize();
-        pdfDoc.setDefaultPageSize(a5);
-        Document document = new Document(pdfDoc, a5);
+        configureA5Document(pdfDoc);
+        Document document = new Document(pdfDoc, getExactA5PageSize());
         // Compact margins to keep everything on a single A5 page
         document.setMargins(90f, 24f, 30f, 24f);
         FontConfig fc = loadFontConfig();

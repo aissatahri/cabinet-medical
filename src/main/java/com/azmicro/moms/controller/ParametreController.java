@@ -32,6 +32,7 @@ public class ParametreController implements Initializable {
     @FXML private Spinner<Integer> fontSizeSpinner;
     @FXML private Spinner<Integer> titleSizeSpinner;
     @FXML private Button saveFontSettingsBtn;
+    @FXML private Button configureDatabaseBtn;
     @FXML private Label saveStatusLabel;
 
     private static final List<String> FONT_FAMILIES = Arrays.asList(
@@ -47,6 +48,9 @@ public class ParametreController implements Initializable {
         setupControls();
         loadSettings();
         saveFontSettingsBtn.setOnAction(e -> saveSettings());
+        if (configureDatabaseBtn != null) {
+            configureDatabaseBtn.setOnAction(e -> openDatabaseConfig());
+        }
     }
 
     private void setupConfig() {
@@ -104,6 +108,14 @@ public class ParametreController implements Initializable {
 
     private int parseInt(String s, int def) {
         try { return Integer.parseInt(s); } catch (Exception e) { return def; }
+    }
+    
+    /**
+     * Ouvre la fenêtre de configuration de la base de données
+     */
+    @FXML
+    private void openDatabaseConfig() {
+        com.azmicro.moms.util.DatabaseConfigDialog.show();
     }
     
 }

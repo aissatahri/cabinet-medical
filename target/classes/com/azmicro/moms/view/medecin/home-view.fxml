@@ -115,13 +115,17 @@
                     <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="vbox-container" stylesheets="@../../css/home.css" HBox.hgrow="ALWAYS">
                             <children>
-                                <AnchorPane>
+                                <AnchorPane styleClass="waiting-room-header">
                                     <children>
-                                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="537.0" style="-fx-background-color: purple;" text="Salle d'attente" textFill="#fcfcfc" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <font>
-                                                <Font name="System Bold" />
-                                            </font>
-                                        </Label>
+                                        <HBox alignment="CENTER" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <children>
+                                                <FontIcon iconLiteral="fas-users" iconSize="18" iconColor="white" />
+                                                <Label text="Salle d'attente" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+                                            </children>
+                                            <padding>
+                                                <Insets top="12" right="15" bottom="12" left="15" />
+                                            </padding>
+                                        </HBox>
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane VBox.vgrow="ALWAYS">
@@ -146,31 +150,31 @@
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="vbox-container" stylesheets="@../../css/home.css" HBox.hgrow="ALWAYS">
                             <children>
-                                <AnchorPane>
+                                <AnchorPane styleClass="appointments-header">
                                     <children>
-                                        <Label alignment="CENTER" layoutY="8.0" prefHeight="20.0" prefWidth="507.0" style="-fx-background-color: purple;" text="Rendez-Vous" textFill="#fcfcfc" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
-                                            <font>
-                                                <Font name="System Bold" />
-                                            </font>
-                                        </Label>
-                                        <Button fx:id="btnOpenPlanning" layoutX="515.0" mnemonicParsing="false" onAction="#openPlanning" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: transparent;" styleClass="planning-button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <HBox alignment="CENTER_LEFT" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
+                                            <children>
+                                                <FontIcon iconLiteral="fas-calendar-check" iconSize="18" iconColor="white" />
+                                                <Label text="Rendez-Vous" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+                                            </children>
+                                            <padding>
+                                                <Insets top="12" right="15" bottom="12" left="15" />
+                                            </padding>
+                                        </HBox>
+                                        <Button fx:id="btnOpenPlanning" mnemonicParsing="false" onAction="#openPlanning" styleClass="planning-icon-button" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="8.0">
                                             <graphic>
-                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../images/calendar.png" />
-                                                    </image>
-                                                </ImageView>
+                                                <FontIcon iconLiteral="fas-calendar-alt" iconSize="20" iconColor="white" />
                                             </graphic>
                                         </Button>
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane prefHeight="0.0" prefWidth="295.0">
                                     <children>
-                                        <HBox alignment="CENTER" prefHeight="28.0" prefWidth="295.0" spacing="5.0" styleClass="filter-pane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                        <HBox alignment="CENTER" prefHeight="28.0" prefWidth="295.0" spacing="8.0" styleClass="filter-pane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                                             <children>
-                                                <RadioButton fx:id="JourRb" mnemonicParsing="false" text="Ce Jour" />
-                                                <RadioButton fx:id="semaineRb" mnemonicParsing="false" text="Cette Semaine" />
-                                                <RadioButton fx:id="moisRb" mnemonicParsing="false" text="Ce mois" />
+                                                <RadioButton fx:id="JourRb" mnemonicParsing="false" text="Ce Jour" styleClass="filter-radio" />
+                                                <RadioButton fx:id="semaineRb" mnemonicParsing="false" text="Cette Semaine" styleClass="filter-radio" />
+                                                <RadioButton fx:id="moisRb" mnemonicParsing="false" text="Ce mois" styleClass="filter-radio" />
                                             </children>
                                         </HBox>
                                     </children>

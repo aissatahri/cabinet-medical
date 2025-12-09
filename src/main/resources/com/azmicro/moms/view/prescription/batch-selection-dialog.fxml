@@ -42,7 +42,7 @@
          <columns>
             <TableColumn fx:id="colSelect" text="✓" prefWidth="50.0" editable="true"/>
             <TableColumn fx:id="colNom" text="Nom du Médicament" prefWidth="400.0"/>
-            <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="150.0"/>
+            <TableColumn fx:id="colDosage" text="Dosage" prefWidth="200.0"/>
          </columns>
       </TableView>
       

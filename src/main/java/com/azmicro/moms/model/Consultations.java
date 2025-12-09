@@ -33,6 +33,7 @@ public class Consultations {
     private double temperature;
     private int saO;
     private String examenClinique;
+    private String ecg;
     private String ett;
     private List<Prescriptions> prescriptions;
 
@@ -182,6 +183,14 @@ public class Consultations {
         this.examenClinique = examenClinique;
     }
 
+    public String getEcg() {
+        return ecg;
+    }
+
+    public void setEcg(String ecg) {
+        this.ecg = ecg;
+    }
+
     public String getEtt() {
         return ett;
     }
@@ -219,6 +228,7 @@ public class Consultations {
                 + ", temperature=" + temperature
                 + ", saO=" + saO
                 + ", examenClinique='" + examenClinique + '\''
+                + ", ecg='" + ecg + '\''
                 + ", ett='" + ett + '\''
                 + '}';
     }
