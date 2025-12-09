@@ -131,6 +131,7 @@ D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeAnal
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeImagerieService.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\UtilisateurService.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AlertUtil.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AutoCompleteUtil.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfig.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfigDialog.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseInitializer.java
@@ -147,4 +148,5 @@ D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\MedicalFiel
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TableViewConfigurator.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TimeUtil.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TypeAnalyseStringConverter.java
+D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\ValidationUtil.java
 D:\Project_JavaFX\CabinetMedical\src\main\java\module-info.java

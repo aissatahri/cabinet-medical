@@ -12,6 +12,7 @@ import com.azmicro.moms.model.Sexe;
 import com.azmicro.moms.model.SituationFamiliale;
 import com.azmicro.moms.service.HistoriqueMedicalService;
 import com.azmicro.moms.service.PatientService;
+import com.azmicro.moms.util.ValidationUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -216,6 +217,10 @@ public class FichePatientController implements Initializable {
         cbxSituationFamilial.getSelectionModel().selectFirst();
         rbMale.setToggleGroup(tgSexe);
         rbFemelle.setToggleGroup(tgSexe);
+        
+        // Setup phone validation
+        ValidationUtil.setupPhoneValidation(tfTelephone1, null);
+        
         dpDateNaissancePatient.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 // Calculez l'âge à partir de la date de naissance
