@@ -982,6 +982,11 @@
                                                                                     <FontIcon iconLiteral="fas-share" iconSize="16" />
                                                                                  </graphic>
                                                                               </Button>
+                                                                              <Button fx:id="btnETT" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePrintAction" prefHeight="32.0" prefWidth="189.0" text="Compte Rendu ETT">
+                                                                                 <graphic>
+                                                                                    <FontIcon iconColor="#2fe20b" iconLiteral="fas-heartbeat" iconSize="16" />
+                                                                                 </graphic>
+                                                                              </Button>
                                                                            </children>
                                                                         </VBox>
                                                                      </children>
