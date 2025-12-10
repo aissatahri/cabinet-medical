@@ -50,7 +50,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="txtCompteRendu" prefHeight="300.0" promptText="Saisissez le compte rendu de l'échocardiographie transthoracique..." wrapText="true" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="txtCompteRendu" maxHeight="280.0" prefHeight="280.0" promptText="Saisissez le compte rendu de l'échocardiographie transthoracique..." wrapText="true" VBox.vgrow="ALWAYS" />
                   <Label fx:id="lblCharCount" text="0 caractères">
                      <font>
                         <Font size="11.0" />
