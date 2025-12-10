@@ -14,5 +14,6 @@ public enum TypeImpression {
     ORDONNANCE_IMAGERIE,
     CERTIFICAT_MEDICAL,
     FACTURE,
+    COMPTE_RENDU_ETT,
     // Ajoutez d'autres types si nécessaire
 }

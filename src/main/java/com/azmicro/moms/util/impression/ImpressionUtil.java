@@ -5,6 +5,7 @@
 package com.azmicro.moms.util.impression;
 
 import com.azmicro.moms.model.Analyse;
+import com.azmicro.moms.model.CompteRenduETT;
 import com.azmicro.moms.model.ConsultationActe;
 import com.azmicro.moms.model.Imagerie;
 import com.azmicro.moms.model.Medecin;
@@ -91,5 +92,18 @@ public class ImpressionUtil {
     // Afficher le message de succès et ouvrir le PDF
     PdfSuccessDialog.showSuccessAndOpenPdf(pdfPath, parentWindow, "Facture");
 }
+
+    /**
+     * Méthode pour imprimer un compte rendu d'Échocardiographie Transthoracique (ETT)
+     */
+    public static void imprimerCompteRenduETT(CompteRenduETT compteRendu, Medecin medecin, Window parentWindow) throws FileNotFoundException {
+        System.out.println("Impression du compte rendu ETT.");
+        
+        // Générer le PDF et récupérer le chemin du fichier
+        String pdfPath = PdfGenerator.generateCompteRenduETTPdf(compteRendu, medecin);
+        
+        // Afficher le message de succès et ouvrir le PDF
+        PdfSuccessDialog.showSuccessAndOpenPdf(pdfPath, parentWindow, "Compte Rendu ETT");
+    }
 
 }

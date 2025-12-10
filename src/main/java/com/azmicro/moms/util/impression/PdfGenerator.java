@@ -9,6 +9,7 @@ package com.azmicro.moms.util.impression;
  * @author Aissa
  */
 import com.azmicro.moms.model.Analyse;
+import com.azmicro.moms.model.CompteRenduETT;
 import com.azmicro.moms.model.ConsultationActe;
 import com.azmicro.moms.model.Consultations;
 import com.azmicro.moms.model.Imagerie;
@@ -1353,6 +1354,181 @@ public class PdfGenerator {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Génère un PDF pour un compte rendu d'Échocardiographie Transthoracique (ETT)
+     */
+    public static String generateCompteRenduETTPdf(CompteRenduETT compteRendu, Medecin medecin) throws FileNotFoundException {
+        Patient patient = compteRendu.getPatient();
+        String outputDirectory = getOutputDirectory();
+        String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
+        File patientDir = new File(outputDirectory + "/" + patientFolderName);
+        if (!patientDir.exists()) {
+            patientDir.mkdirs();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateStr = dateFormat.format(new Date());
+        String pdfPath = patientDir.getPath() + "/compte_rendu_ett_" + dateStr + ".pdf";
+        
+        System.out.println("DEBUG: Génération compte rendu ETT - PDF path: " + pdfPath);
+        
+        PdfWriter writer = new PdfWriter(pdfPath);
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        pdfDoc.setDefaultPageSize(PageSize.A4);
+        Document document = new Document(pdfDoc, PageSize.A4);
+        document.setMargins(50f, 36f, 50f, 36f);
+        
+        FontConfig fc = loadFontConfig();
+        PdfFont textFont = resolveConfiguredFont(fc.textFamily);
+        PdfFont titleFont = resolveConfiguredFont(fc.titleFamily);
+        if (textFont != null) {
+            document.setFont(textFont);
+        }
+        float fontSize = fc.textSize;
+
+        // En-tête - Informations du médecin
+        Paragraph medecinHeader = new Paragraph()
+                .setTextAlignment(TextAlignment.CENTER)
+                .setMarginBottom(10);
+        
+        medecinHeader.add(new Text("Dr " + medecin.getNom() + " " + medecin.getPrenom() + "\n")
+                .setFontSize(fontSize + 2)
+                .setBold());
+        
+        if (medecin.getSpecialite() != null) {
+            medecinHeader.add(new Text(medecin.getSpecialite().getNomSpecialite() + "\n")
+                    .setFontSize(fontSize));
+        }
+        
+        if (medecin.getAdresse() != null && !medecin.getAdresse().isEmpty()) {
+            medecinHeader.add(new Text(medecin.getAdresse() + "\n")
+                    .setFontSize(fontSize - 1));
+        }
+        
+        if (medecin.getTelephone() != null && !medecin.getTelephone().isEmpty()) {
+            medecinHeader.add(new Text("Tél: " + medecin.getTelephone())
+                    .setFontSize(fontSize - 1));
+        }
+        
+        document.add(medecinHeader);
+        
+        // Ligne de séparation
+        document.add(new Paragraph("")
+            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
+            .setMarginBottom(15));
+        
+        // Titre du document
+        Paragraph title = new Paragraph("COMPTE RENDU")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(fc.titleSize + 2)
+                .setUnderline()
+                .setMarginTop(10)
+                .setMarginBottom(5);
+        if (titleFont != null) { 
+            title.setFont(titleFont); 
+        }
+        document.add(title);
+        
+        Paragraph subtitle = new Paragraph("Échocardiographie Transthoracique (ETT)")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setFontSize(fontSize + 2)
+                .setBold()
+                .setMarginBottom(15);
+        if (titleFont != null) { 
+            subtitle.setFont(titleFont); 
+        }
+        document.add(subtitle);
+        
+        // Ligne de séparation
+        document.add(new Paragraph("")
+            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
+            .setMarginBottom(10));
+
+        // Date
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dateExamen = compteRendu.getDateCreation().format(formatter);
+        Paragraph dateParagraph = new Paragraph("Date de l'examen : " + dateExamen)
+                .setFontSize(fontSize)
+                .setMarginBottom(15);
+        document.add(dateParagraph);
+
+        // Informations patient
+        Paragraph patientTitle = new Paragraph("Informations du Patient")
+                .setBold()
+                .setFontSize(fontSize + 1)
+                .setMarginBottom(5);
+        if (titleFont != null) { 
+            patientTitle.setFont(titleFont); 
+        }
+        document.add(patientTitle);
+        
+        String patientInfo = String.format(
+            "Nom : %s %s\n" +
+            "Date de naissance : %s\n" +
+            "Âge : %s ans\n" +
+            "Sexe : %s",
+            patient.getNom(),
+            patient.getPrenom(),
+            patient.getDateNaissance() != null ? patient.getDateNaissance().format(formatter) : "Non renseigné",
+            patient.getAge(),
+            patient.getSexe() != null ? patient.getSexe() : "Non renseigné"
+        );
+        
+        Paragraph patientInfoPara = new Paragraph(patientInfo)
+                .setFontSize(fontSize)
+                .setMarginBottom(20);
+        document.add(patientInfoPara);
+        
+        // Ligne de séparation
+        document.add(new Paragraph("")
+            .setBorderBottom(new SolidBorder(new DeviceRgb(200, 200, 200), 0.5f))
+            .setMarginBottom(15));
+
+        // Contenu du compte rendu
+        Paragraph compteRenduTitle = new Paragraph("Compte Rendu de l'Examen")
+                .setBold()
+                .setFontSize(fontSize + 1)
+                .setMarginBottom(10);
+        if (titleFont != null) { 
+            compteRenduTitle.setFont(titleFont); 
+        }
+        document.add(compteRenduTitle);
+        
+        Paragraph contenuParagraph = new Paragraph(compteRendu.getContenu())
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setFontSize(fontSize)
+                .setMarginBottom(30);
+        document.add(contenuParagraph);
+        
+        // Signature
+        Paragraph signature = new Paragraph("Signature et cachet du médecin")
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fontSize)
+                .setMarginTop(30);
+        document.add(signature);
+
+        Paragraph medecinInfo = new Paragraph("Dr " + medecin.getNom() + " " + medecin.getPrenom())
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fontSize)
+                .setBold();
+        if (titleFont != null) { 
+            medecinInfo.setFont(titleFont); 
+        }
+        document.add(medecinInfo);
+        
+        Paragraph specialite = new Paragraph(medecin.getSpecialite() != null ? 
+                medecin.getSpecialite().getNomSpecialite() : "")
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFontSize(fontSize - 1)
+                .setItalic();
+        document.add(specialite);
+
+        document.close();
+        System.out.println("DEBUG: Compte rendu ETT généré avec succès: " + pdfPath);
+        return pdfPath;
     }
 
     private static String generateGenericCertificat(String pdfPath, String titre, String contenu, Patient patient, Medecin medecin) throws FileNotFoundException {

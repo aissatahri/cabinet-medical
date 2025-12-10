@@ -106,6 +106,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -326,6 +327,8 @@ public class DossierController implements Initializable {
     ConsultationActeService consultationActeService;
     @FXML
     private Button btnPrintFacture;
+    @FXML
+    private Button btnETT;
     @FXML
     private DatePicker dateConsultaion;
 
