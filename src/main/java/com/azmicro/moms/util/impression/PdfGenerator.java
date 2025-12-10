@@ -1388,37 +1388,6 @@ public class PdfGenerator {
         }
         float fontSize = fc.textSize;
 
-        // En-tête - Informations du médecin
-        Paragraph medecinHeader = new Paragraph()
-                .setTextAlignment(TextAlignment.CENTER)
-                .setMarginBottom(10);
-        
-        medecinHeader.add(new Text("Dr " + medecin.getNom() + " " + medecin.getPrenom() + "\n")
-                .setFontSize(fontSize + 2)
-                .setBold());
-        
-        if (medecin.getSpecialite() != null) {
-            medecinHeader.add(new Text(medecin.getSpecialite().getNomSpecialite() + "\n")
-                    .setFontSize(fontSize));
-        }
-        
-        if (medecin.getAdresse() != null && !medecin.getAdresse().isEmpty()) {
-            medecinHeader.add(new Text(medecin.getAdresse() + "\n")
-                    .setFontSize(fontSize - 1));
-        }
-        
-        if (medecin.getTelephone() != null && !medecin.getTelephone().isEmpty()) {
-            medecinHeader.add(new Text("Tél: " + medecin.getTelephone())
-                    .setFontSize(fontSize - 1));
-        }
-        
-        document.add(medecinHeader);
-        
-        // Ligne de séparation
-        document.add(new Paragraph("")
-            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
-            .setMarginBottom(15));
-        
         // Titre du document
         Paragraph title = new Paragraph("COMPTE RENDU")
                 .setTextAlignment(TextAlignment.CENTER)
@@ -1447,10 +1416,10 @@ public class PdfGenerator {
             .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
             .setMarginBottom(10));
 
-        // Date
+        // Date de consultation
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String dateExamen = compteRendu.getDateCreation().format(formatter);
-        Paragraph dateParagraph = new Paragraph("Date de l'examen : " + dateExamen)
+        String dateConsultation = compteRendu.getConsultation().getDateConsultation().format(formatter);
+        Paragraph dateParagraph = new Paragraph("Date de consultation : " + dateConsultation)
                 .setFontSize(fontSize)
                 .setMarginBottom(15);
         document.add(dateParagraph);
