@@ -1107,7 +1107,7 @@ public class DossierController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getDateConsultation().toString());
+                    setText(item.getDateConsultation() != null ? item.getDateConsultation().toString() : "Date non définie");
                 }
             }
 
@@ -1120,7 +1120,7 @@ public class DossierController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getDateConsultation().toString());
+                    setText(item.getDateConsultation() != null ? item.getDateConsultation().toString() : "Date non définie");
                 }
             }
         });

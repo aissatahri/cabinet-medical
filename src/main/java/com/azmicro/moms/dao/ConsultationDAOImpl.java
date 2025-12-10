@@ -134,7 +134,8 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setConsultationID(rs.getInt("ConsultationID"));
                     consultation.setRendezVous(rs.getObject("RendezVousID") != null ? rendezVousDAO.findById(rs.getInt("RendezVousID")) : null);
                     consultation.setPatient(patientDAO.findById(rs.getInt("idPatient")));
-                    consultation.setDateConsultation(rs.getDate("DateConsultation").toLocalDate());
+                    java.sql.Date dateConsultation = rs.getDate("DateConsultation");
+                    consultation.setDateConsultation(dateConsultation != null ? dateConsultation.toLocalDate() : null);
                     consultation.setSymptome(rs.getString("symptome"));
                     consultation.setDiagnostique(rs.getString("diagnostique"));
                     consultation.setCat(rs.getString("cat"));
@@ -172,7 +173,8 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                 consultation.setConsultationID(rs.getInt("ConsultationID"));
                 consultation.setRendezVous(rs.getObject("RendezVousID") != null ? rendezVousDAO.findById(rs.getInt("RendezVousID")) : null);
                 consultation.setPatient(patientDAO.findById(rs.getInt("idPatient")));
-                consultation.setDateConsultation(rs.getDate("DateConsultation").toLocalDate());
+                java.sql.Date dateConsultation = rs.getDate("DateConsultation");
+                consultation.setDateConsultation(dateConsultation != null ? dateConsultation.toLocalDate() : null);
                 consultation.setSymptome(rs.getString("symptome"));
                 consultation.setDiagnostique(rs.getString("diagnostique"));
                 consultation.setCat(rs.getString("cat"));
@@ -222,7 +224,8 @@ public class ConsultationDAOImpl implements ConsultationDAO {
                     consultation.setConsultationID(rs.getInt("ConsultationID"));
                     consultation.setRendezVous(rs.getObject("RendezVousID") != null ? rendezVousDAO.findById(rs.getInt("RendezVousID")) : null);
                     consultation.setPatient(patientDAO.findById(rs.getInt("idPatient")));
-                    consultation.setDateConsultation(rs.getDate("DateConsultation").toLocalDate());
+                    java.sql.Date dateConsultation = rs.getDate("DateConsultation");
+                    consultation.setDateConsultation(dateConsultation != null ? dateConsultation.toLocalDate() : null);
                     consultation.setSymptome(rs.getString("symptome"));
                     consultation.setDiagnostique(rs.getString("diagnostique"));
                     consultation.setCat(rs.getString("cat"));

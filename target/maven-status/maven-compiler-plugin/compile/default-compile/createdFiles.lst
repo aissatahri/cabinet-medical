@@ -57,6 +57,7 @@ com\azmicro\moms\controller\prescription\TemplateSelectionController$1.class
 com\azmicro\moms\controller\HomeController.class
 com\azmicro\moms\model\LignePrescription.class
 com\azmicro\moms\service\DisponibilitesService.class
+com\azmicro\moms\util\ValidationUtil.class
 com\azmicro\moms\model\Consultations.class
 com\azmicro\moms\model\Specialites.class
 com\azmicro\moms\util\ListViewConfigurator$1.class
@@ -108,6 +109,7 @@ com\azmicro\moms\service\HistoriqueMedicalService.class
 com\azmicro\moms\controller\medecin\DossierController.class
 com\azmicro\moms\controller\imagerie\BatchImagerieController.class
 com\azmicro\moms\controller\assistante\DashboardAssistanteController.class
+com\azmicro\moms\util\AutoCompleteUtil.class
 com\azmicro\moms\util\impression\PdfViewer.class
 com\azmicro\moms\controller\LoginController$1.class
 com\azmicro\moms\controller\patient\FichePatientDetailsController$1.class
