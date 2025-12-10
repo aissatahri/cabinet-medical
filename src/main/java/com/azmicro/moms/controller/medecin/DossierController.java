@@ -8,6 +8,7 @@ import com.azmicro.moms.controller.AjoutRendezVousController;
 import com.azmicro.moms.controller.acte.ActeController;
 import com.azmicro.moms.controller.bilan.BilanController;
 import com.azmicro.moms.controller.imagerie.ImagerieController;
+import com.azmicro.moms.controller.medecin.CompteRenduETTDialogController;
 import com.azmicro.moms.controller.patient.FichePatientDetailsController;
 import com.azmicro.moms.controller.prescription.PrescriptionController;
 import com.azmicro.moms.dao.AnalyseDAOImpl;
@@ -2027,6 +2028,14 @@ public class DossierController implements Initializable {
                 }
                 break;
 
+            case "btnETT":
+                selectedConsultation = resolveSelectedConsultation();
+                if (selectedConsultation != null) {
+                    openCompteRenduETTDialog(selectedConsultation);
+                    isConsultationSelected = true;
+                }
+                break;
+
             default:
                 System.out.println("Aucun cas correspondant trouvé pour l'ID: " + buttonId);
                 break;
@@ -2044,6 +2053,37 @@ public class DossierController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void openCompteRenduETTDialog(Consultations consultation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/azmicro/moms/view/medecin/compterendu-ett-dialog.fxml"));
+            AnchorPane dialogContent = loader.load();
+            
+            CompteRenduETTDialogController controller = loader.getController();
+            
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Compte Rendu ETT - " + patient.getNom() + " " + patient.getPrenom());
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(btnETT.getScene().getWindow());
+            dialogStage.setResizable(false);
+            
+            Scene scene = new Scene(dialogContent);
+            dialogStage.setScene(scene);
+            
+            controller.setDialogStage(dialogStage);
+            controller.setData(patient, consultation, medecin);
+            
+            dialogStage.showAndWait();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de l'ouverture du dialogue de compte rendu ETT.");
+            alert.showAndWait();
+        }
     }
 
     private DashboardMedecinController dashboardMedecinController;
