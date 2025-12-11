@@ -28,6 +28,9 @@ public class CompteRenduETTDialogController {
     private TextArea txtCompteRendu;
     
     @FXML
+    private TextArea txtConclusion;
+    
+    @FXML
     private Label lblCharCount;
     
     private Stage dialogStage;
@@ -41,6 +44,12 @@ public class CompteRenduETTDialogController {
         txtCompteRendu.textProperty().addListener((observable, oldValue, newValue) -> {
             lblCharCount.setText(newValue.length() + " caractères");
         });
+        // Optionnel: on peut ajouter un listener pour la conclusion si besoin
+        if (txtConclusion != null) {
+            txtConclusion.textProperty().addListener((o, oldV, newV) -> {
+                // Pas d'affichage séparé pour l'instant; conserve place pour évolution
+            });
+        }
     }
     
     public void setDialogStage(Stage dialogStage) {
@@ -76,6 +85,7 @@ public class CompteRenduETTDialogController {
     @FXML
     private void handleImprimer() {
         String contenu = txtCompteRendu.getText();
+        String conclusion = txtConclusion != null ? txtConclusion.getText() : null;
         
         if (contenu == null || contenu.trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -88,7 +98,7 @@ public class CompteRenduETTDialogController {
         
         try {
             // Créer l'objet CompteRenduETT
-            CompteRenduETT compteRendu = new CompteRenduETT(consultation, patient, contenu);
+            CompteRenduETT compteRendu = new CompteRenduETT(consultation, patient, contenu, conclusion);
             
             // Appeler la méthode d'impression
             ImpressionUtil.imprimerCompteRenduETT(compteRendu, medecin, dialogStage.getOwner());

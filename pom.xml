@@ -143,6 +143,17 @@
             <version>8.0.5</version>
             <type>jar</type>
         </dependency>
+        <!-- Explicit iText transitive dependencies to avoid module/classpath resolution issues -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>io</artifactId>
+            <version>8.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>commons</artifactId>
+            <version>8.0.5</version>
+        </dependency>
         
         <!-- JFXtras controls for JavaFX 17+ -->
         <dependency>

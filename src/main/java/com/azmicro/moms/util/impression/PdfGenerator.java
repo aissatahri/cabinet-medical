@@ -1466,11 +1466,30 @@ public class PdfGenerator {
         }
         document.add(compteRenduTitle);
         
-        Paragraph contenuParagraph = new Paragraph(compteRendu.getContenu())
+        // Contenu principal du compte rendu
+        Paragraph contenuParagraph = new Paragraph(compteRendu.getContenu() != null ? compteRendu.getContenu() : "")
+            .setTextAlignment(TextAlignment.JUSTIFIED)
+            .setFontSize(fontSize)
+            .setMarginBottom(20);
+        document.add(contenuParagraph);
+
+        // Ajouter "Conclusion :" en gras, italique et souligné, puis la conclusion saisie
+        String conclusionText = compteRendu.getConclusion();
+        if (conclusionText != null && !conclusionText.trim().isEmpty()) {
+            Paragraph conclusionLabel = new Paragraph("Conclusion : ")
+                .setBold()
+                .setItalic()
+                .setUnderline()
+                .setFontSize(fontSize)
+                .setMarginBottom(5);
+            document.add(conclusionLabel);
+
+            Paragraph conclusionParagraph = new Paragraph(conclusionText)
                 .setTextAlignment(TextAlignment.JUSTIFIED)
                 .setFontSize(fontSize)
                 .setMarginBottom(30);
-        document.add(contenuParagraph);
+            document.add(conclusionParagraph);
+        }
         
         // Signature
         Paragraph signature = new Paragraph("Signature et cachet du médecin")

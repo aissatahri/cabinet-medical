@@ -1,0 +1,1791 @@
+Apache Maven 3.9.8 (36645f6c9b5079805ea5009217e36f2cffd34256)
+Maven home: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8
+Java version: 22.0.1, vendor: Azul Systems, Inc., runtime: C:\Program Files\Zulu\zulu-22
+Default locale: fr_FR, platform encoding: UTF-8
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: javax.annotation.* < plexus.core
+[DEBUG]   Imported: javax.annotation.security.* < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution.scope < plexus.core
+[DEBUG]   Imported: org.apache.maven.graph < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.util < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.fusesource.jansi.* < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: org.slf4j.event.* < plexus.core
+[DEBUG]   Imported: org.slf4j.helpers.* < plexus.core
+[DEBUG]   Imported: org.slf4j.spi.* < plexus.core
+[DEBUG] Populating class realm maven.api
+[DEBUG] Created adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[INFO] Error stacktraces are turned on.
+[DEBUG] Message scheme: color
+[DEBUG] Message styles: debug info warning error success failure strong mojo project
+[DEBUG] Reading global settings from C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\conf\settings.xml
+[DEBUG] Reading user settings from C:\Users\Aissa\.m2\settings.xml
+[DEBUG] Reading global toolchains from C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\conf\toolchains.xml
+[DEBUG] Reading user toolchains from C:\Users\Aissa\.m2\toolchains.xml
+[DEBUG] Using local repository at C:\Users\Aissa\.m2\repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for C:\Users\Aissa\.m2\repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project com.azmicro:CabinetMedical:jar:1.0-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: com.azmicro:CabinetMedical:jar:1.0-SNAPSHOT
+[DEBUG] Tasks:   [clean, compile]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] ---------------------< com.azmicro:CabinetMedical >---------------------
+[INFO] Building CabinetMedical 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Creating adapter using nameMapper 'gav' and factory 'rwlock-local'
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       com.azmicro:CabinetMedical:1.0-SNAPSHOT
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): [compile]
+[DEBUG] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.resources.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compilePath default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}">${maven.compiler.outputDirectory}</outputDirectory>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">${maven.compiler.parameters}</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <release>21</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">${maven.compiler.target}</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] =======================================================================
+[WARNING] 6 problems were encountered while building the effective model for org.openjfx:javafx-controls:jar:20
+[WARNING] 'profiles.profile.id' Duplicate activation for profile linux-x86_64 @ org.openjfx:javafx:20
+[WARNING] 'profiles.profile.id' Duplicate activation for profile linux-aarch64 @ org.openjfx:javafx:20
+[WARNING] 'profiles.profile.id' Duplicate activation for profile macosx-x86_64 @ org.openjfx:javafx:20
+[WARNING] 'profiles.profile.id' Duplicate activation for profile macosx-aarch64 @ org.openjfx:javafx:20
+[WARNING] 'profiles.profile.id' Duplicate activation for profile windows-x86_64 @ org.openjfx:javafx:20
+[WARNING] 'profiles.profile.id' Duplicate activation for profile windows-x86 @ org.openjfx:javafx:20
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=3373600, ConflictMarker.markTime=592800, ConflictMarker.nodeCount=116, ConflictIdSorter.graphTime=1841000, ConflictIdSorter.topsortTime=1474900, ConflictIdSorter.conflictIdCount=56, ConflictIdSorter.conflictIdCycleCount=7, ConflictResolver.totalTime=23910700, ConflictResolver.conflictItemCount=88, DfDependencyCollector.collectTime=902956400, DfDependencyCollector.transformTime=37123100}
+[DEBUG] com.azmicro:CabinetMedical:jar:1.0-SNAPSHOT
+[DEBUG]    org.openjfx:javafx-controls:jar:21.0.5:compile
+[DEBUG]       org.openjfx:javafx-controls:jar:win:21.0.5:compile
+[DEBUG]       org.openjfx:javafx-graphics:jar:21.0.5:compile
+[DEBUG]          org.openjfx:javafx-graphics:jar:win:21.0.5:compile
+[DEBUG]          org.openjfx:javafx-base:jar:21.0.5:compile
+[DEBUG]             org.openjfx:javafx-base:jar:win:21.0.5:compile
+[DEBUG]    org.openjfx:javafx-fxml:jar:21.0.5:compile
+[DEBUG]       org.openjfx:javafx-fxml:jar:win:21.0.5:compile
+[DEBUG]    org.openjfx:javafx-web:jar:21.0.5:compile
+[DEBUG]       org.openjfx:javafx-web:jar:win:21.0.5:compile
+[DEBUG]       org.openjfx:javafx-media:jar:21.0.5:compile
+[DEBUG]          org.openjfx:javafx-media:jar:win:21.0.5:compile
+[DEBUG]    org.openjfx:javafx-swing:jar:21.0.5:compile
+[DEBUG]       org.openjfx:javafx-swing:jar:win:21.0.5:compile
+[DEBUG]    io.github.mkpaz:atlantafx-base:jar:2.0.1:compile
+[DEBUG]    com.mysql:mysql-connector-j:jar:8.0.32:compile
+[DEBUG]       com.google.protobuf:protobuf-java:jar:3.21.9:compile
+[DEBUG]    org.kordamp.bootstrapfx:bootstrapfx-core:jar:0.4.0:compile
+[DEBUG]    org.controlsfx:controlsfx:jar:11.2.1:compile
+[DEBUG]    com.dlsc.formsfx:formsfx-core:jar:11.6.0:compile
+[DEBUG]    net.synedra:validatorfx:jar:0.5.0:compile
+[DEBUG]    eu.hansolo:tilesfx:jar:21.0.9:compile
+[DEBUG]       eu.hansolo.fx:countries:jar:21.0.17:compile
+[DEBUG]          eu.hansolo.fx:heatmap:jar:21.0.5:compile
+[DEBUG]             eu.hansolo:toolboxfx:jar:21.0.5:compile
+[DEBUG]                eu.hansolo:toolbox:jar:21.0.9:compile
+[DEBUG]    com.github.almasb:fxgl:jar:21.1:compile
+[DEBUG]       com.github.almasb:fxgl-core:jar:21.1:compile
+[DEBUG]          com.gluonhq.attach:audio:jar:4.0.17:compile
+[DEBUG]       com.github.almasb:fxgl-io:jar:21.1:compile
+[DEBUG]          com.gluonhq.attach:storage:jar:4.0.17:compile
+[DEBUG]          com.gluonhq.attach:util:jar:4.0.17:compile
+[DEBUG]       com.github.almasb:fxgl-entity:jar:21.1:compile
+[DEBUG]       com.github.almasb:fxgl-scene:jar:21.1:compile
+[DEBUG]       com.github.almasb:fxgl-gameplay:jar:21.1:compile
+[DEBUG]          com.fasterxml.jackson.core:jackson-annotations:jar:2.14.2:compile
+[DEBUG]       com.fasterxml.jackson.core:jackson-databind:jar:2.14.2:compile
+[DEBUG]          com.fasterxml.jackson.core:jackson-core:jar:2.14.2:compile
+[DEBUG]       com.gluonhq.attach:lifecycle:jar:4.0.17:compile
+[DEBUG]       org.jetbrains.kotlin:kotlin-stdlib:jar:1.8.10:compile
+[DEBUG]          org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.8.10:compile
+[DEBUG]          org.jetbrains:annotations:jar:13.0:compile
+[DEBUG]    org.apache.logging.log4j:log4j-core:jar:2.23.1:compile
+[DEBUG]    org.apache.logging.log4j:log4j-api:jar:2.23.1:compile
+[DEBUG]    org.kordamp.ikonli:ikonli-javafx:jar:12.3.1:compile
+[DEBUG]       org.kordamp.ikonli:ikonli-core:jar:12.3.1:compile
+[DEBUG]    org.kordamp.ikonli:ikonli-fontawesome5-pack:jar:12.3.1:compile
+[DEBUG]    com.itextpdf:kernel:jar:8.0.5:compile
+[DEBUG]       com.itextpdf:io:jar:8.0.5:compile
+[DEBUG]          com.itextpdf:commons:jar:8.0.5:compile
+[DEBUG]       com.itextpdf:bouncy-castle-connector:jar:8.0.5:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]    com.itextpdf:layout:jar:8.0.5:compile
+[DEBUG]    org.jfxtras:jfxtras-common:jar:17-r1:compile
+[DEBUG]    org.jfxtras:jfxtras-controls:jar:17-r1:compile
+[DEBUG]       org.jfxtras:jfxtras-fxml:jar:17-r1:compile
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ CabinetMedical ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=163800, ConflictMarker.markTime=162800, ConflictMarker.nodeCount=3, ConflictIdSorter.graphTime=22300, ConflictIdSorter.topsortTime=26700, ConflictIdSorter.conflictIdCount=3, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=381600, ConflictResolver.conflictItemCount=3, DfDependencyCollector.collectTime=85833000, DfDependencyCollector.transformTime=797000}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.3.4:compile
+[DEBUG]       commons-io:commons-io:jar:2.6:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.3.4
+[DEBUG]   Included: commons-io:commons-io:jar:2.6
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@33909752]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean:default-clean' with basic configurator -->
+[DEBUG]   (f) directory = D:\Project_JavaFX\CabinetMedical\target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = D:\Project_JavaFX\CabinetMedical\target\classes
+[DEBUG]   (f) reportDirectory = D:\Project_JavaFX\CabinetMedical\target\classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@6c9320c2
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = D:\Project_JavaFX\CabinetMedical\target\test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting D:\Project_JavaFX\CabinetMedical\target
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\test-classes
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\original-CabinetMedical-1.0-SNAPSHOT.jar
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\testCompile\default-testCompile\inputFiles.lst
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\testCompile\default-testCompile\createdFiles.lst
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\testCompile\default-testCompile
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\testCompile
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\compile\default-compile\inputFiles.lst
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\compile\default-compile\createdFiles.lst
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\compile\default-compile
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin\compile
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-status\maven-compiler-plugin
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-status
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\maven-archiver\pom.properties
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\maven-archiver
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\generated-test-sources\test-annotations
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\generated-test-sources
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\generated-sources
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\module-info.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\log4j2.xml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\database.properties.example
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\database.properties
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\config.properties
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\utilisateur-dialog.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\template-selection-dialog.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\prescription-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\posology-form-dialog.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\batch-selection-dialog.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\patient\fichePatientDetails-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\patient\fichePatient-view.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\patient
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\parametre-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\planning-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\patient-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\parametre-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\home-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\facturation-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\dossier-view.fxml.backup
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\dossier-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\dashboardMedecin-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\compterendu-ett-dialog.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\login-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie\imagerie-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie\description-imagerie-dialog.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie\batch-imagerie-dialog.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\home-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\database-config-dialog.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\createUser-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan\description-form-dialog.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan\bilan-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan\batch-analyse-dialog.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\rendezVous-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\paiement-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\listeAttente-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\editPaiement-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\dashboardAssistante-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\constantesVitales-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\ajoutRendezvous-view.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\ajoutRendezVous-view.fxml
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\acte\acte-view.fxml
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\acte
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\ValidationUtil.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TypeAnalyseStringConverter.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TimeUtil.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TableViewConfigurator.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TableViewConfigurator$5.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TableViewConfigurator$4.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TableViewConfigurator$3.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TableViewConfigurator$2.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\TableViewConfigurator$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\MedicalFieldValidator.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\MedicalCalculationService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\MedicalCalculationService$IMCClassification.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\ListViewConfigurator.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\ListViewConfigurator$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\TypeImpression.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\PdfViewer.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\PdfSuccessDialog.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\PdfGenerator.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\PdfGenerator$FontConfig.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\ImpressionUtil.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression\CustomLineDrawer.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\impression
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\DatabaseUtil.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\DatabaseInitializer.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\DatabaseConfigDialog.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\DatabaseConfig.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\AutoCompleteUtil.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util\AlertUtil.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\util
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\UtilisateurService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\TypeImagerieService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\TypeAnalyseService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\SpecialitesService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\RendezVousService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\PrescriptionService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\PatientService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\PaiementsService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\MedicamentsService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\MedecinService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\ImagerieService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\HistoriqueMedicalService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\FilesAttenteService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\DisponibilitesService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\ConsultationService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\ConsultationDetailsService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\ConsultationActeService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\AnalyseService.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service\ActeService.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\service
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Vaccins.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Utilisateur.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\TypeImagerie.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\TypeAnalyse.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Type.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Statut.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Specialites.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\SituationFamiliale.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Sexe.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Role.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\RendezVous.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\PrescriptionTemplate.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Prescriptions.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Patient.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Paiements.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\ModePaiement.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\MedicamentTemplate.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Medicaments.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Medecin.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\LignePrescription.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Jours.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\ImagerieTemplate.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Imagerie.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\HistoriqueMedical.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\FilesAttente.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\EtatArrive.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Equipements.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Disponibilites.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\DayOfWeek.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Consultations.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\ConsultationDetails.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\ConsultationActe.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\ConditionPhysique.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\CompteRenduETT.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Appointment.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\AnalyseTemplate.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Analyse.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Allergie.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model\Acte.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\model
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\Launcher.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\waiting-room.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\waiting-room-.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\visual.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\user.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\stethoscope.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\stethoscope-blanc.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\shutdown.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\Screenshot 2025-11-27 014749.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\Screenshot 2025-10-28 194518.PNG
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\schedule.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\report1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\report.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\profile.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\pencil.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\padlock.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\menu1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\menu.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\logo.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\key.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\info.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\heart.gif
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\heart-attack.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\healthcare.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\health-insurance.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\group.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\eye.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\eye-open.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\exit.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\doctor_1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\doctor1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\doctor.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\data1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\data.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\dash1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\dash.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\coin-cardio.jpg
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\close.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\cardiology.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\cardiology.ico
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\calendar.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\book.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\bell.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\add1.png
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\add.png
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\README.txt
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\Helvetica.ttf
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\Garamond.ttf
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\Cambria.ttf
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\.gitkeep
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\UtilisateurDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\UtilisateurDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\TypeImagerieDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\TypeImagerieDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\TypeAnalyseDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\TypeAnalyseDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\SpecialitesDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\SpecialitesDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\RendezVousDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\RendezVousDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\PrescriptionDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\PrescriptionDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\PatientDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\PatientDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\PaiementsDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\PaiementsDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\MedicamentsDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\MedicamentsDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\MedecinDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\MedecinDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ImagerieDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ImagerieDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\HistoriqueMedicalDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\HistoriqueMedicalDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\FilesAttenteDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\FilesAttenteDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\DisponibilitesDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\DisponibilitesDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ConsultationDetailsDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ConsultationDetailsDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ConsultationDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ConsultationDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ConsultationActeDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ConsultationActeDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\AnalyseDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\AnalyseDAO.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ActeDAOImpl.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao\ActeDAO.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\dao
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\rendezvou.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\prescription.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\planning.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\patient.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\parametre.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\paiement.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\login.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\listeattente.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\imagerie.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\home.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\fichepatientdetails-views.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\fichepatient.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\facturation.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\editpaiement.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\dossier.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\dashboardmedecin.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\dashboardassistante.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\createuse.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\constantesvitales.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\bilan.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\atlantafx-custom.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\ajoutrendezvous.css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\acte.css
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription\TemplateSelectionController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription\TemplateSelectionController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription\PrescriptionController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription\PosologyFormController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription\BatchSelectionController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription\BatchSelectionController$MedicamentRow.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\prescription
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\patient\FichePatientDetailsController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\patient\FichePatientDetailsController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\patient\FichePatientController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\patient\FichePatientController$1.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\patient
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\ParametreController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\UtilisateurDialogController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\UtilisateurDialogController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PlanningController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PatientController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PatientController$4.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PatientController$3.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PatientController$2.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PatientController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\PatientController$1$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\ParametreController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\ParametreController$4.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\ParametreController$3.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\ParametreController$2.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\ParametreController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\HomeController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\FacturationController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DossierController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DossierController$4.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DossierController$3.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DossierController$2.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DossierController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DashboardMedecinController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\DashboardMedecinController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin\CompteRenduETTDialogController.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\medecin
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\LoginController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\imagerie\ImagerieController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\imagerie\DescriptionImagerieController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\imagerie\BatchImagerieController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\imagerie\BatchImagerieController$ImagerieRow.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\imagerie
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\HomeController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\DatabaseConfigController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\CreateUserController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\bilan\DescriptionFormController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\bilan\BilanController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\bilan\BatchAnalyseController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\bilan\BatchAnalyseController$AnalyseRow.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\bilan
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\RendezVousController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\RendezVousController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\PaiementController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\ListeAttenteController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\ListeAttenteController$2.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\ListeAttenteController$2$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\ListeAttenteController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\EditPaiementController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController$5.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController$4.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController$3.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController$2.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\DashboardAssistanteController$1$1.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\ConstantesVitalesController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante\AjoutRendervousController.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\assistante
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\AjoutRendezVousController.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\acte\ActeController.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller\acte
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\controller
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\App_AtlantaFX.class
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\App.class
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes\com
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target\classes
+[INFO] Deleting file D:\Project_JavaFX\CabinetMedical\target\CabinetMedical-1.0-SNAPSHOT.jar
+[INFO] Deleting directory D:\Project_JavaFX\CabinetMedical\target
+[DEBUG] Skipping non-existing directory D:\Project_JavaFX\CabinetMedical\target\classes
+[DEBUG] Skipping non-existing directory D:\Project_JavaFX\CabinetMedical\target\test-classes
+[DEBUG] Skipping non-existing directory D:\Project_JavaFX\CabinetMedical\target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ CabinetMedical ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=159800, ConflictMarker.markTime=190000, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=51000, ConflictIdSorter.topsortTime=39600, ConflictIdSorter.conflictIdCount=9, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=623800, ConflictResolver.conflictItemCount=13, DfDependencyCollector.collectTime=182640700, DfDependencyCollector.transformTime=1125400}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.26:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]    commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.12.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@33909752]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources:default-resources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = D:\Project_JavaFX\CabinetMedical\target\classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.azmicro:CabinetMedical:1.0-SNAPSHOT @ D:\Project_JavaFX\CabinetMedical\pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: D:\Project_JavaFX\CabinetMedical\src\main\resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@6c9320c2
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] classworlds.conf: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\bin\m2.conf
+[DEBUG] env.=D:: D:\Project_JavaFX\CabinetMedical
+[DEBUG] env.ALLUSERSPROFILE: C:\ProgramData
+[DEBUG] env.APPDATA: C:\Users\Aissa\AppData\Roaming
+[DEBUG] env.CHOCOLATEYINSTALL: C:\ProgramData\chocolatey
+[DEBUG] env.CHROME_CRASHPAD_PIPE_NAME: \\.\pipe\crashpad_23456_XHFYXXOFDWAXNKWC
+[DEBUG] env.CLASSWORLDS_JAR: "C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\boot\plexus-classworlds-2.8.0.jar"
+[DEBUG] env.CLASSWORLDS_LAUNCHER: org.codehaus.plexus.classworlds.launcher.Launcher
+[DEBUG] env.CLION: C:\Program Files\JetBrains\CLion 2025.2.3\bin
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMMONPROGRAMFILES: C:\Program Files\Common Files
+[DEBUG] env.COMMONPROGRAMFILES(X86): C:\Program Files (x86)\Common Files
+[DEBUG] env.COMMONPROGRAMW6432: C:\Program Files\Common Files
+[DEBUG] env.COMPUTERNAME: A-TAHRI
+[DEBUG] env.COMSPEC: C:\WINDOWS\system32\cmd.exe
+[DEBUG] env.DRIVERDATA: C:\Windows\System32\Drivers\DriverData
+[DEBUG] env.EFC_3156_1592913036: 1
+[DEBUG] env.ERROR_CODE: 0
+[DEBUG] env.EXEC_DIR: D:\Project_JavaFX\CabinetMedical
+[DEBUG] env.FPS_BROWSER_APP_PROFILE_STRING: Internet Explorer
+[DEBUG] env.FPS_BROWSER_USER_PROFILE_STRING: Default
+[DEBUG] env.GETTEXTCLDRDIR: C:\Program Files\gettext-iconv\lib\gettext
+[DEBUG] env.GIT_ASKPASS: c:\Users\Aissa\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\git\dist\askpass.sh
+[DEBUG] env.GIT_PAGER: cat
+[DEBUG] env.HOMEDRIVE: C:
+[DEBUG] env.HOMEPATH: \Users\Aissa
+[DEBUG] env.INTELLIJ IDEA: C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.5\bin;
+[DEBUG] env.INTEL_DEV_REDIST: C:\Program Files (x86)\Common Files\Intel\Shared Libraries\
+[DEBUG] env.JAVACMD: C:\Program Files\Zulu\zulu-22\\bin\java.exe
+[DEBUG] env.JAVA_HOME: C:\Program Files\Zulu\zulu-22\
+[DEBUG] env.JVMCONFIG: \.mvn\jvm.config
+[DEBUG] env.LANG: en_US.UTF-8
+[DEBUG] env.LOCALAPPDATA: C:\Users\Aissa\AppData\Local
+[DEBUG] env.LOGONSERVER: \\A-TAHRI
+[DEBUG] env.MAVEN_CMD_LINE_ARGS: -X clean compile
+[DEBUG] env.MAVEN_HOME: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8
+[DEBUG] env.MAVEN_PROJECTBASEDIR: D:\Project_JavaFX\CabinetMedical
+[DEBUG] env.MIC_LD_LIBRARY_PATH: C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\mic
+[DEBUG] env.NUMBER_OF_PROCESSORS: 8
+[DEBUG] env.ONEDRIVE: C:\Users\Aissa\OneDrive
+[DEBUG] env.ONEDRIVECONSUMER: C:\Users\Aissa\OneDrive
+[DEBUG] env.OPENAI_API_KEY: ta_cle_api
+[DEBUG] env.ORIGINAL_XDG_CURRENT_DESKTOP: undefined
+[DEBUG] env.OS: Windows_NT
+[DEBUG] env.PATH: C:\Program Files\PowerShell\7;c:\Users\Aissa\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\Aissa\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\gettext-iconv\bin;C:\Program Files\Zulu\zulu-22\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Java\graalvm-jdk-22.0.1+8.1\bin\;C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\ProgramData\chocolatey\bin;C:\Program Files\Calibre2\;c:\Users\Aissa\AppData\Local\Programs\cursor\resources\app\bin;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PowerShell\7\;c:\Users\Aissa\AppData\Local\Programs\Trae\bin;C:\Users\Aissa\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\Aissa\AppData\Local\Programs\Python\Python312\;C:\Users\Aissa\AppData\Local\Programs\Python\Launcher\;C:\Users\Aissa\AppData\Local\Microsoft\WindowsApps;C:\Users\Aissa\AppData\Roaming\npm;C:\Program Files\JetBrains\PyCharm 2024.3.1.1\bin;;C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.5\bin;;C:\Users\Aissa\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\WebStorm 2023.2.5\bin;;C:\Users\Aissa\.dotnet\tools;C:\Program Files\JetBrains\CLion 2025.2.3\bin;C:\Users\Aissa\AppData\Local\Programs\Ollama;c:\Users\Aissa\.vscode\extensions\vscjava.vscode-java-debug-0.58.4\bundled\scripts\noConfigScripts
+[DEBUG] env.PATHEXT: .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+[DEBUG] env.POWERSHELL_DISTRIBUTION_CHANNEL: MSI:Windows 10 Pro
+[DEBUG] env.POWERSHELL_TELEMETRY_OPTOUT: 1
+[DEBUG] env.PROCESSOR_ARCHITECTURE: AMD64
+[DEBUG] env.PROCESSOR_IDENTIFIER: Intel64 Family 6 Model 140 Stepping 1, GenuineIntel
+[DEBUG] env.PROCESSOR_LEVEL: 6
+[DEBUG] env.PROCESSOR_REVISION: 8c01
+[DEBUG] env.PROGRAMDATA: C:\ProgramData
+[DEBUG] env.PROGRAMFILES: C:\Program Files
+[DEBUG] env.PROGRAMFILES(X86): C:\Program Files (x86)
+[DEBUG] env.PROGRAMW6432: C:\Program Files
+[DEBUG] env.PROMPT: $P$G
+[DEBUG] env.PSMODULEPATH: C:\Users\Aissa\Documents\PowerShell\Modules;C:\Program Files\PowerShell\Modules;c:\program files\powershell\7\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+[DEBUG] env.PUBLIC: C:\Users\Public
+[DEBUG] env.PYCHARM: C:\Program Files\JetBrains\PyCharm 2024.3.1.1\bin;
+[DEBUG] env.PYTHONSTARTUP: c:\Users\Aissa\AppData\Roaming\Code\User\workspaceStorage\d9e789ad346c30b05d03d28386d5600e\ms-python.python\pythonrc.py
+[DEBUG] env.PYTHON_BASIC_REPL: 1
+[DEBUG] env.SESSIONNAME: Console
+[DEBUG] env.SYSTEMDRIVE: C:
+[DEBUG] env.SYSTEMROOT: C:\WINDOWS
+[DEBUG] env.TEMP: C:\Users\Aissa\AppData\Local\Temp
+[DEBUG] env.TERM_PROGRAM: vscode
+[DEBUG] env.TERM_PROGRAM_VERSION: 1.106.3
+[DEBUG] env.TMP: C:\Users\Aissa\AppData\Local\Temp
+[DEBUG] env.USERDOMAIN: A-TAHRI
+[DEBUG] env.USERDOMAIN_ROAMINGPROFILE: A-TAHRI
+[DEBUG] env.USERNAME: Aissa
+[DEBUG] env.USERPROFILE: C:\Users\Aissa
+[DEBUG] env.VBOX_MSI_INSTALL_PATH: C:\Program Files\Oracle\VirtualBox\
+[DEBUG] env.VSCODE_GIT_ASKPASS_EXTRA_ARGS: 
+[DEBUG] env.VSCODE_GIT_ASKPASS_MAIN: c:\Users\Aissa\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\git\dist\askpass-main.js
+[DEBUG] env.VSCODE_GIT_ASKPASS_NODE: C:\Users\Aissa\AppData\Local\Programs\Microsoft VS Code\Code.exe
+[DEBUG] env.VSCODE_GIT_IPC_HANDLE: \\.\pipe\vscode-git-f428ad3b89-sock
+[DEBUG] env.VSCODE_INJECTION: 1
+[DEBUG] env.VSCODE_JAVA_EXEC: C:\Program Files\Zulu\zulu-22\bin\java
+[DEBUG] env.VSCODE_JDWP_ADAPTER_ENDPOINTS: c:\Users\Aissa\.vscode\extensions\vscjava.vscode-java-debug-0.58.4\.noConfigDebugAdapterEndpoints\endpoint-15efb3ac731440d2.txt
+[DEBUG] env.VSCODE_PYTHON_AUTOACTIVATE_GUARD: 1
+[DEBUG] env.WDIR: D:\
+[DEBUG] env.WEBSTORM: C:\Program Files\JetBrains\WebStorm 2023.2.5\bin;
+[DEBUG] env.WINDIR: C:\WINDOWS
+[DEBUG] env.ZES_ENABLE_SYSMAN: 1
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: \
+[DEBUG] java.class.path: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\boot\plexus-classworlds-2.8.0.jar
+[DEBUG] java.class.version: 66.0
+[DEBUG] java.home: C:\Program Files\Zulu\zulu-22
+[DEBUG] java.io.tmpdir: C:\Users\Aissa\AppData\Local\Temp\
+[DEBUG] java.library.path: C:\Program Files\Zulu\zulu-22\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\PowerShell\7;c:\Users\Aissa\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\Aissa\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\gettext-iconv\bin;C:\Program Files\Zulu\zulu-22\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Java\graalvm-jdk-22.0.1+8.1\bin\;C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\ProgramData\chocolatey\bin;C:\Program Files\Calibre2\;c:\Users\Aissa\AppData\Local\Programs\cursor\resources\app\bin;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PowerShell\7\;c:\Users\Aissa\AppData\Local\Programs\Trae\bin;C:\Users\Aissa\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\Aissa\AppData\Local\Programs\Python\Python312\;C:\Users\Aissa\AppData\Local\Programs\Python\Launcher\;C:\Users\Aissa\AppData\Local\Microsoft\WindowsApps;C:\Users\Aissa\AppData\Roaming\npm;C:\Program Files\JetBrains\PyCharm 2024.3.1.1\bin;;C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.5\bin;;C:\Users\Aissa\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\WebStorm 2023.2.5\bin;;C:\Users\Aissa\.dotnet\tools;C:\Program Files\JetBrains\CLion 2025.2.3\bin;C:\Users\Aissa\AppData\Local\Programs\Ollama;c:\Users\Aissa\.vscode\extensions\vscjava.vscode-java-debug-0.58.4\bundled\scripts\noConfigScripts;.
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 22.0.1+8
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 22
+[DEBUG] java.vendor: Azul Systems, Inc.
+[DEBUG] java.vendor.url: http://www.azul.com/
+[DEBUG] java.vendor.url.bug: http://www.azul.com/support/
+[DEBUG] java.vendor.version: Zulu22.30+13-CA
+[DEBUG] java.version: 22.0.1
+[DEBUG] java.version.date: 2024-04-16
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 22
+[DEBUG] java.vm.vendor: Azul Systems, Inc.
+[DEBUG] java.vm.version: 22.0.1+8
+[DEBUG] javafx.version: 21.0.5
+[DEBUG] jdk.debug: release
+[DEBUG] library.jansi.path: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8\lib\jansi-native
+[DEBUG] line.separator: 
+
+[DEBUG] maven.build.timestamp: 2025-12-11T10:58:04Z
+[DEBUG] maven.build.version: Apache Maven 3.9.8 (36645f6c9b5079805ea5009217e36f2cffd34256)
+[DEBUG] maven.compiler.source: 21
+[DEBUG] maven.compiler.target: 21
+[DEBUG] maven.conf: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8/conf
+[DEBUG] maven.home: C:\Program Files\apache-maven-3.9.8-bin\apache-maven-3.9.8
+[DEBUG] maven.multiModuleProjectDirectory: D:\Project_JavaFX\CabinetMedical
+[DEBUG] maven.version: 3.9.8
+[DEBUG] native.encoding: Cp1256
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Windows 11
+[DEBUG] os.version: 10.0
+[DEBUG] path.separator: ;
+[DEBUG] project.baseUri: file:/D:/Project_JavaFX/CabinetMedical/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] stderr.encoding: Cp1256
+[DEBUG] stdout.encoding: Cp1256
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: C:\Program Files\Zulu\zulu-22\bin
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.cpu.isalist: amd64
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.codehaus.plexus.classworlds.launcher.Launcher -X clean compile
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: Cp1256
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] sun.os.patch.level: 
+[DEBUG] user.country: FR
+[DEBUG] user.dir: D:\Project_JavaFX\CabinetMedical
+[DEBUG] user.home: C:\Users\Aissa
+[DEBUG] user.language: fr
+[DEBUG] user.name: Aissa
+[DEBUG] user.script: 
+[DEBUG] user.variant: 
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory D:\Project_JavaFX\CabinetMedical\src\main\resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 112 resources from src\main\resources to target\classes
+[DEBUG] Copying file com\azmicro\moms\css\acte.css
+[DEBUG] file acte.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'acte.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\acte.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\acte.css
+[DEBUG] Copying file com\azmicro\moms\css\ajoutrendezvous.css
+[DEBUG] file ajoutrendezvous.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'ajoutrendezvous.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\ajoutrendezvous.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\ajoutrendezvous.css
+[DEBUG] Copying file com\azmicro\moms\css\atlantafx-custom.css
+[DEBUG] file atlantafx-custom.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'atlantafx-custom.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\atlantafx-custom.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\atlantafx-custom.css
+[DEBUG] Copying file com\azmicro\moms\css\bilan.css
+[DEBUG] file bilan.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'bilan.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\bilan.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\bilan.css
+[DEBUG] Copying file com\azmicro\moms\css\constantesvitales.css
+[DEBUG] file constantesvitales.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'constantesvitales.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\constantesvitales.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\constantesvitales.css
+[DEBUG] Copying file com\azmicro\moms\css\createuse.css
+[DEBUG] file createuse.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'createuse.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\createuse.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\createuse.css
+[DEBUG] Copying file com\azmicro\moms\css\dashboardassistante.css
+[DEBUG] file dashboardassistante.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dashboardassistante.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\dashboardassistante.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\dashboardassistante.css
+[DEBUG] Copying file com\azmicro\moms\css\dashboardmedecin.css
+[DEBUG] file dashboardmedecin.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dashboardmedecin.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\dashboardmedecin.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\dashboardmedecin.css
+[DEBUG] Copying file com\azmicro\moms\css\dossier.css
+[DEBUG] file dossier.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dossier.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\dossier.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\dossier.css
+[DEBUG] Copying file com\azmicro\moms\css\editpaiement.css
+[DEBUG] file editpaiement.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'editpaiement.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\editpaiement.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\editpaiement.css
+[DEBUG] Copying file com\azmicro\moms\css\facturation.css
+[DEBUG] file facturation.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'facturation.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\facturation.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\facturation.css
+[DEBUG] Copying file com\azmicro\moms\css\fichepatient.css
+[DEBUG] file fichepatient.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'fichepatient.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\fichepatient.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\fichepatient.css
+[DEBUG] Copying file com\azmicro\moms\css\fichepatientdetails-views.css
+[DEBUG] file fichepatientdetails-views.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'fichepatientdetails-views.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\fichepatientdetails-views.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\fichepatientdetails-views.css
+[DEBUG] Copying file com\azmicro\moms\css\home.css
+[DEBUG] file home.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'home.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\home.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\home.css
+[DEBUG] Copying file com\azmicro\moms\css\imagerie.css
+[DEBUG] file imagerie.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'imagerie.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\imagerie.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\imagerie.css
+[DEBUG] Copying file com\azmicro\moms\css\listeattente.css
+[DEBUG] file listeattente.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'listeattente.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\listeattente.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\listeattente.css
+[DEBUG] Copying file com\azmicro\moms\css\login.css
+[DEBUG] file login.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'login.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\login.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\login.css
+[DEBUG] Copying file com\azmicro\moms\css\paiement.css
+[DEBUG] file paiement.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'paiement.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\paiement.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\paiement.css
+[DEBUG] Copying file com\azmicro\moms\css\parametre.css
+[DEBUG] file parametre.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'parametre.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\parametre.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\parametre.css
+[DEBUG] Copying file com\azmicro\moms\css\patient.css
+[DEBUG] file patient.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'patient.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\patient.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\patient.css
+[DEBUG] Copying file com\azmicro\moms\css\planning.css
+[DEBUG] file planning.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'planning.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\planning.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\planning.css
+[DEBUG] Copying file com\azmicro\moms\css\prescription.css
+[DEBUG] file prescription.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'prescription.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\prescription.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\prescription.css
+[DEBUG] Copying file com\azmicro\moms\css\rendezvou.css
+[DEBUG] file rendezvou.css has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'rendezvou.css'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\css\rendezvou.css to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\css\rendezvou.css
+[DEBUG] Copying file com\azmicro\moms\fonts\.gitkeep
+[DEBUG] file .gitkeep has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource '.gitkeep'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\fonts\.gitkeep to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\.gitkeep
+[DEBUG] Copying file com\azmicro\moms\fonts\Cambria.ttf
+[DEBUG] file Cambria.ttf has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'Cambria.ttf'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\fonts\Cambria.ttf to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\Cambria.ttf
+[DEBUG] Copying file com\azmicro\moms\fonts\Garamond.ttf
+[DEBUG] file Garamond.ttf has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'Garamond.ttf'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\fonts\Garamond.ttf to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\Garamond.ttf
+[DEBUG] Copying file com\azmicro\moms\fonts\Helvetica.ttf
+[DEBUG] file Helvetica.ttf has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'Helvetica.ttf'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\fonts\Helvetica.ttf to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\Helvetica.ttf
+[DEBUG] Copying file com\azmicro\moms\fonts\README.txt
+[DEBUG] file README.txt has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'README.txt'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\fonts\README.txt to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\fonts\README.txt
+[DEBUG] Copying file com\azmicro\moms\images\add.png
+[DEBUG] file add.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'add.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\add.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\add.png
+[DEBUG] Copying file com\azmicro\moms\images\add1.png
+[DEBUG] file add1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'add1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\add1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\add1.png
+[DEBUG] Copying file com\azmicro\moms\images\bell.png
+[DEBUG] file bell.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'bell.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\bell.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\bell.png
+[DEBUG] Copying file com\azmicro\moms\images\book.png
+[DEBUG] file book.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'book.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\book.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\book.png
+[DEBUG] Copying file com\azmicro\moms\images\calendar.png
+[DEBUG] file calendar.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'calendar.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\calendar.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\calendar.png
+[DEBUG] Copying file com\azmicro\moms\images\cardiology.ico
+[DEBUG] file cardiology.ico has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'cardiology.ico'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\cardiology.ico to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\cardiology.ico
+[DEBUG] Copying file com\azmicro\moms\images\cardiology.png
+[DEBUG] file cardiology.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'cardiology.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\cardiology.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\cardiology.png
+[DEBUG] Copying file com\azmicro\moms\images\close.png
+[DEBUG] file close.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'close.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\close.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\close.png
+[DEBUG] Copying file com\azmicro\moms\images\coin-cardio.jpg
+[DEBUG] file coin-cardio.jpg has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'coin-cardio.jpg'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\coin-cardio.jpg to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\coin-cardio.jpg
+[DEBUG] Copying file com\azmicro\moms\images\dash.png
+[DEBUG] file dash.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dash.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\dash.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\dash.png
+[DEBUG] Copying file com\azmicro\moms\images\dash1.png
+[DEBUG] file dash1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dash1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\dash1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\dash1.png
+[DEBUG] Copying file com\azmicro\moms\images\data.png
+[DEBUG] file data.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'data.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\data.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\data.png
+[DEBUG] Copying file com\azmicro\moms\images\data1.png
+[DEBUG] file data1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'data1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\data1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\data1.png
+[DEBUG] Copying file com\azmicro\moms\images\doctor.png
+[DEBUG] file doctor.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'doctor.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\doctor.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\doctor.png
+[DEBUG] Copying file com\azmicro\moms\images\doctor1.png
+[DEBUG] file doctor1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'doctor1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\doctor1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\doctor1.png
+[DEBUG] Copying file com\azmicro\moms\images\doctor_1.png
+[DEBUG] file doctor_1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'doctor_1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\doctor_1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\doctor_1.png
+[DEBUG] Copying file com\azmicro\moms\images\exit.png
+[DEBUG] file exit.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'exit.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\exit.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\exit.png
+[DEBUG] Copying file com\azmicro\moms\images\eye-open.png
+[DEBUG] file eye-open.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'eye-open.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\eye-open.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\eye-open.png
+[DEBUG] Copying file com\azmicro\moms\images\eye.png
+[DEBUG] file eye.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'eye.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\eye.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\eye.png
+[DEBUG] Copying file com\azmicro\moms\images\group.png
+[DEBUG] file group.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'group.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\group.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\group.png
+[DEBUG] Copying file com\azmicro\moms\images\health-insurance.png
+[DEBUG] file health-insurance.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'health-insurance.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\health-insurance.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\health-insurance.png
+[DEBUG] Copying file com\azmicro\moms\images\healthcare.png
+[DEBUG] file healthcare.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'healthcare.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\healthcare.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\healthcare.png
+[DEBUG] Copying file com\azmicro\moms\images\heart-attack.png
+[DEBUG] file heart-attack.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'heart-attack.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\heart-attack.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\heart-attack.png
+[DEBUG] Copying file com\azmicro\moms\images\heart.gif
+[DEBUG] file heart.gif has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'heart.gif'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\heart.gif to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\heart.gif
+[DEBUG] Copying file com\azmicro\moms\images\info.png
+[DEBUG] file info.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'info.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\info.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\info.png
+[DEBUG] Copying file com\azmicro\moms\images\key.png
+[DEBUG] file key.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'key.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\key.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\key.png
+[DEBUG] Copying file com\azmicro\moms\images\logo.png
+[DEBUG] file logo.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'logo.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\logo.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\logo.png
+[DEBUG] Copying file com\azmicro\moms\images\menu.png
+[DEBUG] file menu.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'menu.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\menu.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\menu.png
+[DEBUG] Copying file com\azmicro\moms\images\menu1.png
+[DEBUG] file menu1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'menu1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\menu1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\menu1.png
+[DEBUG] Copying file com\azmicro\moms\images\padlock.png
+[DEBUG] file padlock.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'padlock.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\padlock.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\padlock.png
+[DEBUG] Copying file com\azmicro\moms\images\pencil.png
+[DEBUG] file pencil.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'pencil.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\pencil.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\pencil.png
+[DEBUG] Copying file com\azmicro\moms\images\profile.png
+[DEBUG] file profile.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'profile.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\profile.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\profile.png
+[DEBUG] Copying file com\azmicro\moms\images\report.png
+[DEBUG] file report.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'report.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\report.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\report.png
+[DEBUG] Copying file com\azmicro\moms\images\report1.png
+[DEBUG] file report1.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'report1.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\report1.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\report1.png
+[DEBUG] Copying file com\azmicro\moms\images\schedule.png
+[DEBUG] file schedule.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'schedule.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\schedule.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\schedule.png
+[DEBUG] Copying file com\azmicro\moms\images\Screenshot 2025-10-28 194518.PNG
+[DEBUG] file Screenshot 2025-10-28 194518.PNG has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'Screenshot 2025-10-28 194518.PNG'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\Screenshot 2025-10-28 194518.PNG to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\Screenshot 2025-10-28 194518.PNG
+[DEBUG] Copying file com\azmicro\moms\images\Screenshot 2025-11-27 014749.png
+[DEBUG] file Screenshot 2025-11-27 014749.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'Screenshot 2025-11-27 014749.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\Screenshot 2025-11-27 014749.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\Screenshot 2025-11-27 014749.png
+[DEBUG] Copying file com\azmicro\moms\images\shutdown.png
+[DEBUG] file shutdown.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'shutdown.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\shutdown.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\shutdown.png
+[DEBUG] Copying file com\azmicro\moms\images\stethoscope-blanc.png
+[DEBUG] file stethoscope-blanc.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'stethoscope-blanc.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\stethoscope-blanc.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\stethoscope-blanc.png
+[DEBUG] Copying file com\azmicro\moms\images\stethoscope.png
+[DEBUG] file stethoscope.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'stethoscope.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\stethoscope.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\stethoscope.png
+[DEBUG] Copying file com\azmicro\moms\images\user.png
+[DEBUG] file user.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'user.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\user.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\user.png
+[DEBUG] Copying file com\azmicro\moms\images\visual.png
+[DEBUG] file visual.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'visual.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\visual.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\visual.png
+[DEBUG] Copying file com\azmicro\moms\images\waiting-room-.png
+[DEBUG] file waiting-room-.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'waiting-room-.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\waiting-room-.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\waiting-room-.png
+[DEBUG] Copying file com\azmicro\moms\images\waiting-room.png
+[DEBUG] file waiting-room.png has a non filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'waiting-room.png'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\images\waiting-room.png to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\images\waiting-room.png
+[DEBUG] Copying file com\azmicro\moms\view\acte\acte-view.fxml
+[DEBUG] file acte-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'acte-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\acte\acte-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\acte\acte-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\ajoutRendezVous-view.fxml
+[DEBUG] file ajoutRendezVous-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'ajoutRendezVous-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\ajoutRendezVous-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\ajoutRendezVous-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\ajoutRendezvous-view.fxml
+[DEBUG] file ajoutRendezvous-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'ajoutRendezvous-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\ajoutRendezvous-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\ajoutRendezvous-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\constantesVitales-view.fxml
+[DEBUG] file constantesVitales-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'constantesVitales-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\constantesVitales-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\constantesVitales-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\dashboardAssistante-view.fxml
+[DEBUG] file dashboardAssistante-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dashboardAssistante-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\dashboardAssistante-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\dashboardAssistante-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\editPaiement-view.fxml
+[DEBUG] file editPaiement-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'editPaiement-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\editPaiement-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\editPaiement-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\listeAttente-view.fxml
+[DEBUG] file listeAttente-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'listeAttente-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\listeAttente-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\listeAttente-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\paiement-view.fxml
+[DEBUG] file paiement-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'paiement-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\paiement-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\paiement-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\assistante\rendezVous-view.fxml
+[DEBUG] file rendezVous-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'rendezVous-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\assistante\rendezVous-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\assistante\rendezVous-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\bilan\batch-analyse-dialog.fxml
+[DEBUG] file batch-analyse-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'batch-analyse-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\bilan\batch-analyse-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan\batch-analyse-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\bilan\bilan-view.fxml
+[DEBUG] file bilan-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'bilan-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\bilan\bilan-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan\bilan-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\bilan\description-form-dialog.fxml
+[DEBUG] file description-form-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'description-form-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\bilan\description-form-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\bilan\description-form-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\createUser-view.fxml
+[DEBUG] file createUser-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'createUser-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\createUser-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\createUser-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\database-config-dialog.fxml
+[DEBUG] file database-config-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'database-config-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\database-config-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\database-config-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\home-view.fxml
+[DEBUG] file home-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'home-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\home-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\home-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\imagerie\batch-imagerie-dialog.fxml
+[DEBUG] file batch-imagerie-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'batch-imagerie-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\imagerie\batch-imagerie-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie\batch-imagerie-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\imagerie\description-imagerie-dialog.fxml
+[DEBUG] file description-imagerie-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'description-imagerie-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\imagerie\description-imagerie-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie\description-imagerie-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\imagerie\imagerie-view.fxml
+[DEBUG] file imagerie-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'imagerie-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\imagerie\imagerie-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\imagerie\imagerie-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\login-view.fxml
+[DEBUG] file login-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'login-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\login-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\login-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\compterendu-ett-dialog.fxml
+[DEBUG] file compterendu-ett-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'compterendu-ett-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\compterendu-ett-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\compterendu-ett-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\dashboardMedecin-view.fxml
+[DEBUG] file dashboardMedecin-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dashboardMedecin-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\dashboardMedecin-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\dashboardMedecin-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\dossier-view.fxml
+[DEBUG] file dossier-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dossier-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\dossier-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\dossier-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\dossier-view.fxml.backup
+[DEBUG] file dossier-view.fxml.backup has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'dossier-view.fxml.backup'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\dossier-view.fxml.backup to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\dossier-view.fxml.backup
+[DEBUG] Copying file com\azmicro\moms\view\medecin\facturation-view.fxml
+[DEBUG] file facturation-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'facturation-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\facturation-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\facturation-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\home-view.fxml
+[DEBUG] file home-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'home-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\home-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\home-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\parametre-view.fxml
+[DEBUG] file parametre-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'parametre-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\parametre-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\parametre-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\patient-view.fxml
+[DEBUG] file patient-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'patient-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\patient-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\patient-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\medecin\planning-view.fxml
+[DEBUG] file planning-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'planning-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\medecin\planning-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\medecin\planning-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\parametre-view.fxml
+[DEBUG] file parametre-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'parametre-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\parametre-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\parametre-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\patient\fichePatient-view.fxml
+[DEBUG] file fichePatient-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'fichePatient-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\patient\fichePatient-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\patient\fichePatient-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\patient\fichePatientDetails-view.fxml
+[DEBUG] file fichePatientDetails-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'fichePatientDetails-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\patient\fichePatientDetails-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\patient\fichePatientDetails-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\prescription\batch-selection-dialog.fxml
+[DEBUG] file batch-selection-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'batch-selection-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\prescription\batch-selection-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\batch-selection-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\prescription\posology-form-dialog.fxml
+[DEBUG] file posology-form-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'posology-form-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\prescription\posology-form-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\posology-form-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\prescription\prescription-view.fxml
+[DEBUG] file prescription-view.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'prescription-view.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\prescription\prescription-view.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\prescription-view.fxml
+[DEBUG] Copying file com\azmicro\moms\view\prescription\template-selection-dialog.fxml
+[DEBUG] file template-selection-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'template-selection-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\prescription\template-selection-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\prescription\template-selection-dialog.fxml
+[DEBUG] Copying file com\azmicro\moms\view\utilisateur-dialog.fxml
+[DEBUG] file utilisateur-dialog.fxml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'utilisateur-dialog.fxml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\com\azmicro\moms\view\utilisateur-dialog.fxml to D:\Project_JavaFX\CabinetMedical\target\classes\com\azmicro\moms\view\utilisateur-dialog.fxml
+[DEBUG] Copying file config.properties
+[DEBUG] file config.properties has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'config.properties'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\config.properties to D:\Project_JavaFX\CabinetMedical\target\classes\config.properties
+[DEBUG] Copying file database.properties
+[DEBUG] file database.properties has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'database.properties'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\database.properties to D:\Project_JavaFX\CabinetMedical\target\classes\database.properties
+[DEBUG] Copying file database.properties.example
+[DEBUG] file database.properties.example has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'database.properties.example'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\database.properties.example to D:\Project_JavaFX\CabinetMedical\target\classes\database.properties.example
+[DEBUG] Copying file log4j2.xml
+[DEBUG] file log4j2.xml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'log4j2.xml'.
+[DEBUG] copy D:\Project_JavaFX\CabinetMedical\src\main\resources\log4j2.xml to D:\Project_JavaFX\CabinetMedical\target\classes\log4j2.xml
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ CabinetMedical ---
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for apache.snapshots (http://repository.apache.org/snapshots).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=196600, ConflictMarker.markTime=231100, ConflictMarker.nodeCount=22, ConflictIdSorter.graphTime=80200, ConflictIdSorter.topsortTime=50400, ConflictIdSorter.conflictIdCount=14, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=1910800, ConflictResolver.conflictItemCount=22, DfDependencyCollector.collectTime=268327300, DfDependencyCollector.transformTime=2529500}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-java:jar:1.2.0:compile
+[DEBUG]       org.ow2.asm:asm:jar:9.6:compile
+[DEBUG]       com.thoughtworks.qdox:qdox:jar:2.0.3:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.15.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.codehaus.plexus:plexus-xml:jar:3.0.0:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.2.0
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.6
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.0.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@33909752]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile:default-compile' with basic configurator -->
+[DEBUG]   (f) annotationProcessorPathsUseDepMgmt = false
+[DEBUG]   (f) basedir = D:\Project_JavaFX\CabinetMedical
+[DEBUG]   (f) buildDirectory = D:\Project_JavaFX\CabinetMedical\target
+[DEBUG]   (f) compilePath = [D:\Project_JavaFX\CabinetMedical\target\classes, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-controls\21.0.5\javafx-controls-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-controls\21.0.5\javafx-controls-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-graphics\21.0.5\javafx-graphics-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-graphics\21.0.5\javafx-graphics-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-base\21.0.5\javafx-base-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-base\21.0.5\javafx-base-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-fxml\21.0.5\javafx-fxml-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-fxml\21.0.5\javafx-fxml-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-web\21.0.5\javafx-web-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-web\21.0.5\javafx-web-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-media\21.0.5\javafx-media-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-media\21.0.5\javafx-media-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-swing\21.0.5\javafx-swing-21.0.5.jar, C:\Users\Aissa\.m2\repository\org\openjfx\javafx-swing\21.0.5\javafx-swing-21.0.5-win.jar, C:\Users\Aissa\.m2\repository\io\github\mkpaz\atlantafx-base\2.0.1\atlantafx-base-2.0.1.jar, C:\Users\Aissa\.m2\repository\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar, C:\Users\Aissa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar, C:\Users\Aissa\.m2\repository\org\kordamp\bootstrapfx\bootstrapfx-core\0.4.0\bootstrapfx-core-0.4.0.jar, C:\Users\Aissa\.m2\repository\org\controlsfx\controlsfx\11.2.1\controlsfx-11.2.1.jar, C:\Users\Aissa\.m2\repository\com\dlsc\formsfx\formsfx-core\11.6.0\formsfx-core-11.6.0.jar, C:\Users\Aissa\.m2\repository\net\synedra\validatorfx\0.5.0\validatorfx-0.5.0.jar, C:\Users\Aissa\.m2\repository\eu\hansolo\tilesfx\21.0.9\tilesfx-21.0.9.jar, C:\Users\Aissa\.m2\repository\eu\hansolo\fx\countries\21.0.17\countries-21.0.17.jar, C:\Users\Aissa\.m2\repository\eu\hansolo\fx\heatmap\21.0.5\heatmap-21.0.5.jar, C:\Users\Aissa\.m2\repository\eu\hansolo\toolboxfx\21.0.5\toolboxfx-21.0.5.jar, C:\Users\Aissa\.m2\repository\eu\hansolo\toolbox\21.0.9\toolbox-21.0.9.jar, C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl\21.1\fxgl-21.1.jar, C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-core\21.1\fxgl-core-21.1.jar, C:\Users\Aissa\.m2\repository\com\gluonhq\attach\audio\4.0.17\audio-4.0.17.jar, C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-io\21.1\fxgl-io-21.1.jar, C:\Users\Aissa\.m2\repository\com\gluonhq\attach\storage\4.0.17\storage-4.0.17.jar, C:\Users\Aissa\.m2\repository\com\gluonhq\attach\util\4.0.17\util-4.0.17.jar, C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-entity\21.1\fxgl-entity-21.1.jar, C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-scene\21.1\fxgl-scene-21.1.jar, C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-gameplay\21.1\fxgl-gameplay-21.1.jar, C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.14.2\jackson-annotations-2.14.2.jar, C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.14.2\jackson-databind-2.14.2.jar, C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.14.2\jackson-core-2.14.2.jar, C:\Users\Aissa\.m2\repository\com\gluonhq\attach\lifecycle\4.0.17\lifecycle-4.0.17.jar, C:\Users\Aissa\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib\1.8.10\kotlin-stdlib-1.8.10.jar, C:\Users\Aissa\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-common\1.8.10\kotlin-stdlib-common-1.8.10.jar, C:\Users\Aissa\.m2\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar, C:\Users\Aissa\.m2\repository\org\apache\logging\log4j\log4j-core\2.23.1\log4j-core-2.23.1.jar, C:\Users\Aissa\.m2\repository\org\apache\logging\log4j\log4j-api\2.23.1\log4j-api-2.23.1.jar, C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-javafx\12.3.1\ikonli-javafx-12.3.1.jar, C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-core\12.3.1\ikonli-core-12.3.1.jar, C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-fontawesome5-pack\12.3.1\ikonli-fontawesome5-pack-12.3.1.jar, C:\Users\Aissa\.m2\repository\com\itextpdf\kernel\8.0.5\kernel-8.0.5.jar, C:\Users\Aissa\.m2\repository\com\itextpdf\io\8.0.5\io-8.0.5.jar, C:\Users\Aissa\.m2\repository\com\itextpdf\commons\8.0.5\commons-8.0.5.jar, C:\Users\Aissa\.m2\repository\com\itextpdf\bouncy-castle-connector\8.0.5\bouncy-castle-connector-8.0.5.jar, C:\Users\Aissa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar, C:\Users\Aissa\.m2\repository\com\itextpdf\layout\8.0.5\layout-8.0.5.jar, C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-common\17-r1\jfxtras-common-17-r1.jar, C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-controls\17-r1\jfxtras-controls-17-r1.jar, C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-fxml\17-r1\jfxtras-fxml-17-r1.jar]
+[DEBUG]   (f) compileSourceRoots = [D:\Project_JavaFX\CabinetMedical\src\main\java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) fileExtensions = [jar, class]
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) forceLegacyJavacApi = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = D:\Project_JavaFX\CabinetMedical\target\classes
+[DEBUG]   (f) parameters = false
+[DEBUG]   (f) project = MavenProject: com.azmicro:CabinetMedical:1.0-SNAPSHOT @ D:\Project_JavaFX\CabinetMedical\pom.xml
+[DEBUG]   (f) projectArtifact = com.azmicro:CabinetMedical:jar:1.0-SNAPSHOT
+[DEBUG]   (s) release = 21
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@6c9320c2
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 21
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 21
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Adding D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations to compile source roots:
+  D:\Project_JavaFX\CabinetMedical\src\main\java
+[DEBUG] New compile source roots:
+  D:\Project_JavaFX\CabinetMedical\src\main\java
+  D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[WARNING] ****************************************************************************************************************************************************************************************
+[WARNING] * Required filename-based automodules detected: [mysql-connector-j-8.0.32.jar, kernel-8.0.5.jar, layout-8.0.5.jar]. Please don't publish this project to a public artifact repository! *
+[WARNING] ****************************************************************************************************************************************************************************************
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\UtilisateurDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\CreateUserController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\ImagerieController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TableViewConfigurator.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\TemplateSelectionController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Acte.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\SpecialitesService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\DescriptionFormController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Imagerie.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ConsultationDetailsService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\TypeImpression.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\EtatArrive.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\PatientService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Jours.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Patient.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\PaiementsService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\FilesAttente.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Medecin.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PrescriptionDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDetailsDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\UtilisateurDialogController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\patient\FichePatientController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ConsultationActe.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PatientDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\PlanningController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\TypeImagerie.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AlertUtil.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\MedicamentTemplate.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\RendezVousDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Allergie.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Medicaments.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AutoCompleteUtil.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeAnalyseDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Paiements.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Utilisateur.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ActeService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\AjoutRendezVousController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\DisponibilitesDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\App_AtlantaFX.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\FacturationController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\AjoutRendervousController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\ParametreController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationActeDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\AnalyseDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Specialites.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\ListViewConfigurator.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\TypeAnalyse.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeAnalyseDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\RendezVous.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\BatchImagerieController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PaiementsDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\patient\FichePatientDetailsController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDetailsDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ImagerieService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\ListeAttenteController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedecinDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\HistoriqueMedicalService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\UtilisateurService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\PrescriptionTemplate.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\SituationFamiliale.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfGenerator.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\EditPaiementController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\UtilisateurDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ConsultationDetails.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\ParametreController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\AnalyseService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfViewer.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\PaiementController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\PosologyFormController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedecinDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\CustomLineDrawer.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedicamentsDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\HistoriqueMedicalDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ImagerieTemplate.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\PrescriptionService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\ImpressionUtil.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedicamentsDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ImagerieDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Statut.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\module-info.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeImagerieDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseUtil.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\AnalyseTemplate.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\FilesAttenteService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\LignePrescription.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ModePaiement.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\DescriptionImagerieController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\HomeController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\DashboardAssistanteController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Role.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\DossierController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\RendezVousDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\DisponibilitesService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ConditionPhysique.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Vaccins.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\MedicamentsService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Appointment.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfig.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ConsultationActeService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ActeDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PatientDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\DashboardMedecinController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\CompteRenduETTDialogController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\SpecialitesDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\HistoriqueMedical.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\SpecialitesDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Equipements.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\DatabaseConfigController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PrescriptionDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\DayOfWeek.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\MedicalFieldValidator.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Analyse.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfSuccessDialog.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\ValidationUtil.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Consultations.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\RendezVousService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseInitializer.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PaiementsDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\AnalyseDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\MedecinService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\PatientController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\HistoriqueMedicalDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\RendezVousController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ConsultationService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\BatchSelectionController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\CompteRenduETT.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\FilesAttenteDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Type.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeAnalyseService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\MedicalCalculationService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\Launcher.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\App.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\LoginController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Disponibilites.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Prescriptions.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Sexe.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TimeUtil.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\acte\ActeController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TypeAnalyseStringConverter.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\ConstantesVitalesController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\HomeController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\BilanController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationActeDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfigDialog.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\DisponibilitesDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeImagerieDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ImagerieDAOImpl.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\BatchAnalyseController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ActeDAO.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\PrescriptionController.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeImagerieService.java
+[INFO] 	Stale source detected: D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\FilesAttenteDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\App.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\App_AtlantaFX.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\acte\ActeController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\AjoutRendezVousController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\AjoutRendervousController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\ConstantesVitalesController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\DashboardAssistanteController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\EditPaiementController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\ListeAttenteController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\PaiementController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\assistante\RendezVousController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\BatchAnalyseController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\BilanController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\bilan\DescriptionFormController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\CreateUserController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\DatabaseConfigController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\HomeController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\BatchImagerieController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\DescriptionImagerieController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\imagerie\ImagerieController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\LoginController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\CompteRenduETTDialogController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\DashboardMedecinController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\DossierController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\FacturationController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\HomeController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\ParametreController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\PatientController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\PlanningController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\medecin\UtilisateurDialogController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\ParametreController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\patient\FichePatientController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\patient\FichePatientDetailsController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\BatchSelectionController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\PosologyFormController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\PrescriptionController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\controller\prescription\TemplateSelectionController.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ActeDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ActeDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\AnalyseDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\AnalyseDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationActeDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationActeDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDetailsDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ConsultationDetailsDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\DisponibilitesDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\DisponibilitesDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\FilesAttenteDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\FilesAttenteDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\HistoriqueMedicalDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\HistoriqueMedicalDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ImagerieDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\ImagerieDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedecinDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedecinDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedicamentsDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\MedicamentsDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PaiementsDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PaiementsDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PatientDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PatientDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PrescriptionDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\PrescriptionDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\RendezVousDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\RendezVousDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\SpecialitesDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\SpecialitesDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeAnalyseDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeAnalyseDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeImagerieDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\TypeImagerieDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\UtilisateurDAO.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\dao\UtilisateurDAOImpl.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\Launcher.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Acte.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Allergie.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Analyse.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\AnalyseTemplate.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Appointment.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\CompteRenduETT.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ConditionPhysique.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ConsultationActe.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ConsultationDetails.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Consultations.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\DayOfWeek.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Disponibilites.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Equipements.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\EtatArrive.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\FilesAttente.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\HistoriqueMedical.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Imagerie.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ImagerieTemplate.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Jours.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\LignePrescription.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Medecin.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Medicaments.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\MedicamentTemplate.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\ModePaiement.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Paiements.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Patient.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Prescriptions.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\PrescriptionTemplate.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\RendezVous.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Role.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Sexe.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\SituationFamiliale.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Specialites.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Statut.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Type.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\TypeAnalyse.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\TypeImagerie.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Utilisateur.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\model\Vaccins.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ActeService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\AnalyseService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ConsultationActeService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ConsultationDetailsService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ConsultationService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\DisponibilitesService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\FilesAttenteService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\HistoriqueMedicalService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\ImagerieService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\MedecinService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\MedicamentsService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\PaiementsService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\PatientService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\PrescriptionService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\RendezVousService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\SpecialitesService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeAnalyseService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\TypeImagerieService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\service\UtilisateurService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AlertUtil.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\AutoCompleteUtil.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfig.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseConfigDialog.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseInitializer.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\DatabaseUtil.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\CustomLineDrawer.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\ImpressionUtil.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfGenerator.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfSuccessDialog.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\PdfViewer.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\impression\TypeImpression.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\ListViewConfigurator.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\MedicalCalculationService.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\MedicalFieldValidator.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TableViewConfigurator.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TimeUtil.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\TypeAnalyseStringConverter.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\com\azmicro\moms\util\ValidationUtil.java
+[INFO] 	Input tree files (+): D:\Project_JavaFX\CabinetMedical\src\main\java\module-info.java
+[INFO] Recompiling the module because of changed source code.
+[DEBUG] Classpath:
+[DEBUG]  D:\Project_JavaFX\CabinetMedical\target\classes
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-controls\21.0.5\javafx-controls-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-graphics\21.0.5\javafx-graphics-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-base\21.0.5\javafx-base-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-fxml\21.0.5\javafx-fxml-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-web\21.0.5\javafx-web-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-media\21.0.5\javafx-media-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-swing\21.0.5\javafx-swing-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-common\1.8.10\kotlin-stdlib-common-1.8.10.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\apache\logging\log4j\log4j-core\2.23.1\log4j-core-2.23.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\itextpdf\io\8.0.5\io-8.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\itextpdf\commons\8.0.5\commons-8.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\itextpdf\bouncy-castle-connector\8.0.5\bouncy-castle-connector-8.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar
+[DEBUG] Modulepath:
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-controls\21.0.5\javafx-controls-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-graphics\21.0.5\javafx-graphics-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-base\21.0.5\javafx-base-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-fxml\21.0.5\javafx-fxml-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-web\21.0.5\javafx-web-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-media\21.0.5\javafx-media-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\openjfx\javafx-swing\21.0.5\javafx-swing-21.0.5-win.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\io\github\mkpaz\atlantafx-base\2.0.1\atlantafx-base-2.0.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\kordamp\bootstrapfx\bootstrapfx-core\0.4.0\bootstrapfx-core-0.4.0.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\controlsfx\controlsfx\11.2.1\controlsfx-11.2.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\dlsc\formsfx\formsfx-core\11.6.0\formsfx-core-11.6.0.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\net\synedra\validatorfx\0.5.0\validatorfx-0.5.0.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\eu\hansolo\tilesfx\21.0.9\tilesfx-21.0.9.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\eu\hansolo\fx\countries\21.0.17\countries-21.0.17.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\eu\hansolo\fx\heatmap\21.0.5\heatmap-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\eu\hansolo\toolboxfx\21.0.5\toolboxfx-21.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\eu\hansolo\toolbox\21.0.9\toolbox-21.0.9.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl\21.1\fxgl-21.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-core\21.1\fxgl-core-21.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\gluonhq\attach\audio\4.0.17\audio-4.0.17.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-io\21.1\fxgl-io-21.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\gluonhq\attach\storage\4.0.17\storage-4.0.17.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\gluonhq\attach\util\4.0.17\util-4.0.17.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-entity\21.1\fxgl-entity-21.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-scene\21.1\fxgl-scene-21.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-gameplay\21.1\fxgl-gameplay-21.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.14.2\jackson-annotations-2.14.2.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.14.2\jackson-databind-2.14.2.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.14.2\jackson-core-2.14.2.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\gluonhq\attach\lifecycle\4.0.17\lifecycle-4.0.17.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib\1.8.10\kotlin-stdlib-1.8.10.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\apache\logging\log4j\log4j-api\2.23.1\log4j-api-2.23.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-javafx\12.3.1\ikonli-javafx-12.3.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-core\12.3.1\ikonli-core-12.3.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-fontawesome5-pack\12.3.1\ikonli-fontawesome5-pack-12.3.1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\itextpdf\kernel\8.0.5\kernel-8.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\com\itextpdf\layout\8.0.5\layout-8.0.5.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-common\17-r1\jfxtras-common-17-r1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-controls\17-r1\jfxtras-controls-17-r1.jar
+[DEBUG]  C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-fxml\17-r1\jfxtras-fxml-17-r1.jar
+[DEBUG] Source roots:
+[DEBUG]  D:\Project_JavaFX\CabinetMedical\src\main\java
+[DEBUG]  D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations
+[DEBUG] Command line options:
+[DEBUG] -d D:\Project_JavaFX\CabinetMedical\target\classes -classpath D:\Project_JavaFX\CabinetMedical\target\classes;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-controls\21.0.5\javafx-controls-21.0.5.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-graphics\21.0.5\javafx-graphics-21.0.5.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-base\21.0.5\javafx-base-21.0.5.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-fxml\21.0.5\javafx-fxml-21.0.5.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-web\21.0.5\javafx-web-21.0.5.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-media\21.0.5\javafx-media-21.0.5.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-swing\21.0.5\javafx-swing-21.0.5.jar;C:\Users\Aissa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Aissa\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-common\1.8.10\kotlin-stdlib-common-1.8.10.jar;C:\Users\Aissa\.m2\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar;C:\Users\Aissa\.m2\repository\org\apache\logging\log4j\log4j-core\2.23.1\log4j-core-2.23.1.jar;C:\Users\Aissa\.m2\repository\com\itextpdf\io\8.0.5\io-8.0.5.jar;C:\Users\Aissa\.m2\repository\com\itextpdf\commons\8.0.5\commons-8.0.5.jar;C:\Users\Aissa\.m2\repository\com\itextpdf\bouncy-castle-connector\8.0.5\bouncy-castle-connector-8.0.5.jar;C:\Users\Aissa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar; --module-path C:\Users\Aissa\.m2\repository\org\openjfx\javafx-controls\21.0.5\javafx-controls-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-graphics\21.0.5\javafx-graphics-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-base\21.0.5\javafx-base-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-fxml\21.0.5\javafx-fxml-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-web\21.0.5\javafx-web-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-media\21.0.5\javafx-media-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\org\openjfx\javafx-swing\21.0.5\javafx-swing-21.0.5-win.jar;C:\Users\Aissa\.m2\repository\io\github\mkpaz\atlantafx-base\2.0.1\atlantafx-base-2.0.1.jar;C:\Users\Aissa\.m2\repository\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar;C:\Users\Aissa\.m2\repository\org\kordamp\bootstrapfx\bootstrapfx-core\0.4.0\bootstrapfx-core-0.4.0.jar;C:\Users\Aissa\.m2\repository\org\controlsfx\controlsfx\11.2.1\controlsfx-11.2.1.jar;C:\Users\Aissa\.m2\repository\com\dlsc\formsfx\formsfx-core\11.6.0\formsfx-core-11.6.0.jar;C:\Users\Aissa\.m2\repository\net\synedra\validatorfx\0.5.0\validatorfx-0.5.0.jar;C:\Users\Aissa\.m2\repository\eu\hansolo\tilesfx\21.0.9\tilesfx-21.0.9.jar;C:\Users\Aissa\.m2\repository\eu\hansolo\fx\countries\21.0.17\countries-21.0.17.jar;C:\Users\Aissa\.m2\repository\eu\hansolo\fx\heatmap\21.0.5\heatmap-21.0.5.jar;C:\Users\Aissa\.m2\repository\eu\hansolo\toolboxfx\21.0.5\toolboxfx-21.0.5.jar;C:\Users\Aissa\.m2\repository\eu\hansolo\toolbox\21.0.9\toolbox-21.0.9.jar;C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl\21.1\fxgl-21.1.jar;C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-core\21.1\fxgl-core-21.1.jar;C:\Users\Aissa\.m2\repository\com\gluonhq\attach\audio\4.0.17\audio-4.0.17.jar;C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-io\21.1\fxgl-io-21.1.jar;C:\Users\Aissa\.m2\repository\com\gluonhq\attach\storage\4.0.17\storage-4.0.17.jar;C:\Users\Aissa\.m2\repository\com\gluonhq\attach\util\4.0.17\util-4.0.17.jar;C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-entity\21.1\fxgl-entity-21.1.jar;C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-scene\21.1\fxgl-scene-21.1.jar;C:\Users\Aissa\.m2\repository\com\github\almasb\fxgl-gameplay\21.1\fxgl-gameplay-21.1.jar;C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.14.2\jackson-annotations-2.14.2.jar;C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.14.2\jackson-databind-2.14.2.jar;C:\Users\Aissa\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.14.2\jackson-core-2.14.2.jar;C:\Users\Aissa\.m2\repository\com\gluonhq\attach\lifecycle\4.0.17\lifecycle-4.0.17.jar;C:\Users\Aissa\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib\1.8.10\kotlin-stdlib-1.8.10.jar;C:\Users\Aissa\.m2\repository\org\apache\logging\log4j\log4j-api\2.23.1\log4j-api-2.23.1.jar;C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-javafx\12.3.1\ikonli-javafx-12.3.1.jar;C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-core\12.3.1\ikonli-core-12.3.1.jar;C:\Users\Aissa\.m2\repository\org\kordamp\ikonli\ikonli-fontawesome5-pack\12.3.1\ikonli-fontawesome5-pack-12.3.1.jar;C:\Users\Aissa\.m2\repository\com\itextpdf\kernel\8.0.5\kernel-8.0.5.jar;C:\Users\Aissa\.m2\repository\com\itextpdf\layout\8.0.5\layout-8.0.5.jar;C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-common\17-r1\jfxtras-common-17-r1.jar;C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-controls\17-r1\jfxtras-controls-17-r1.jar;C:\Users\Aissa\.m2\repository\org\jfxtras\jfxtras-fxml\17-r1\jfxtras-fxml-17-r1.jar; -sourcepath D:\Project_JavaFX\CabinetMedical\src\main\java;D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations; -s D:\Project_JavaFX\CabinetMedical\target\generated-sources\annotations -g --release 21 -encoding UTF-8 --module-version 1.0-SNAPSHOT -XDuseUnsharedTable=true
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 154 source files with javac [debug release 21 module-path] to target\classes
+[DEBUG] incrementalBuildHelper#afterRebuildExecution
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] /D:/Project_JavaFX/CabinetMedical/src/main/java/com/azmicro/moms/controller/prescription/PrescriptionController.java: Some input files use unchecked or unsafe operations.
+[INFO] /D:/Project_JavaFX/CabinetMedical/src/main/java/com/azmicro/moms/controller/prescription/PrescriptionController.java: Recompile with -Xlint:unchecked for details.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  19.630 s
+[INFO] Finished at: 2025-12-11T11:58:21+01:00
+[INFO] ------------------------------------------------------------------------
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory

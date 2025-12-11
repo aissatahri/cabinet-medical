@@ -100,10 +100,17 @@ public class ImpressionUtil {
         System.out.println("Impression du compte rendu ETT.");
         
         // Générer le PDF et récupérer le chemin du fichier
-        String pdfPath = PdfGenerator.generateCompteRenduETTPdf(compteRendu, medecin);
-        
-        // Afficher le message de succès et ouvrir le PDF
-        PdfSuccessDialog.showSuccessAndOpenPdf(pdfPath, parentWindow, "Compte Rendu ETT");
+        try {
+            String pdfPath = PdfGenerator.generateCompteRenduETTPdf(compteRendu, medecin);
+            // Afficher le message de succès et ouvrir le PDF
+            PdfSuccessDialog.showSuccessAndOpenPdf(pdfPath, parentWindow, "Compte Rendu ETT");
+        } catch (Throwable t) {
+            // Loguer l'erreur complète pour diagnostiquer les problèmes de compilation/chargement de classes
+            System.err.println("Erreur lors de l'impression du compte rendu ETT : " + t);
+            t.printStackTrace();
+            // Renvoyer une exception contrôlée pour le flux appelant (on conserve la signature actuelle)
+            throw new FileNotFoundException("Impossible de générer le PDF du compte rendu ETT : " + t.getMessage());
+        }
     }
 
 }

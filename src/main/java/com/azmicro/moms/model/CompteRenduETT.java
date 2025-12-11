@@ -10,6 +10,7 @@ public class CompteRenduETT {
     private Consultations consultation;
     private Patient patient;
     private String contenu;
+    private String conclusion;
     private LocalDate dateCreation;
 
     public CompteRenduETT() {
@@ -20,6 +21,14 @@ public class CompteRenduETT {
         this.consultation = consultation;
         this.patient = patient;
         this.contenu = contenu;
+        this.dateCreation = LocalDate.now();
+    }
+
+    public CompteRenduETT(Consultations consultation, Patient patient, String contenu, String conclusion) {
+        this.consultation = consultation;
+        this.patient = patient;
+        this.contenu = contenu;
+        this.conclusion = conclusion;
         this.dateCreation = LocalDate.now();
     }
 
@@ -56,6 +65,14 @@ public class CompteRenduETT {
         this.contenu = contenu;
     }
 
+    public String getConclusion() {
+        return conclusion;
+    }
+
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
+    }
+
     public LocalDate getDateCreation() {
         return dateCreation;
     }
@@ -70,6 +87,7 @@ public class CompteRenduETT {
                 "id=" + id +
                 ", consultation=" + consultation +
                 ", patient=" + patient +
+                ", conclusion=" + conclusion +
                 ", dateCreation=" + dateCreation +
                 '}';
     }

@@ -107,6 +107,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -2067,6 +2068,14 @@ public class DossierController implements Initializable {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(btnETT.getScene().getWindow());
             dialogStage.setResizable(false);
+            
+            // Ajouter l'icône à la barre de titre
+            try {
+                Image icon = new Image(getClass().getResourceAsStream("/com/azmicro/moms/images/cardiology.ico"));
+                dialogStage.getIcons().add(icon);
+            } catch (Exception e) {
+                System.err.println("Impossible de charger l'icône: " + e.getMessage());
+            }
             
             Scene scene = new Scene(dialogContent);
             dialogStage.setScene(scene);
