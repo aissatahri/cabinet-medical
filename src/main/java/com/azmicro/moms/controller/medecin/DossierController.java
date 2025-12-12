@@ -2027,6 +2027,67 @@ public class DossierController implements Initializable {
                 }
                 break;
 
+            case "btnETT":
+                // Ouvrir le dialogue Compte Rendu ETT si disponible
+                try {
+                    java.net.URL fxmlUrl = getClass().getResource("/com/azmicro/moms/view/medecin/compterendu-ett-dialog.fxml");
+                    if (fxmlUrl == null) {
+                        afficherAlerte("Fonction non disponible", "Le dialogue Compte Rendu ETT n'est pas installé dans cette version de l'application.");
+                        break;
+                    }
+                    FXMLLoader loader = new FXMLLoader(fxmlUrl);
+                    Parent root = loader.load();
+
+                    // Passer les objets patient/medecin/consultation au contrôleur du dialogue s'il les accepte
+                    Object controller = loader.getController();
+                    if (controller != null) {
+                        try {
+                            java.lang.reflect.Method m;
+                            m = controller.getClass().getMethod("setPatient", com.azmicro.moms.model.Patient.class);
+                            m.invoke(controller, this.patient);
+                        } catch (NoSuchMethodException ignored) {}
+                        try {
+                            java.lang.reflect.Method m = controller.getClass().getMethod("setMedecin", com.azmicro.moms.model.Medecin.class);
+                            m.invoke(controller, this.medecin);
+                        } catch (NoSuchMethodException ignored) {}
+                        try {
+                            com.azmicro.moms.model.Consultations sel = tvConsultationOrd.getSelectionModel().getSelectedItem();
+                            java.lang.reflect.Method m = controller.getClass().getMethod("setConsultation", com.azmicro.moms.model.Consultations.class);
+                            m.invoke(controller, sel);
+                        } catch (NoSuchMethodException ignored) {}
+                    }
+
+                    Stage stage = new Stage();
+                    stage.setTitle("Compte Rendu ETT");
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    Stage primaryStage = (Stage) clickedButton.getScene().getWindow();
+                    stage.initOwner(primaryStage);
+                    stage.setScene(new Scene(root));
+                    stage.setResizable(false);
+
+                    // Fournir la stage au contrôleur s'il expose setDialogStage
+                    if (controller != null) {
+                        try {
+                            java.lang.reflect.Method setDialog = controller.getClass().getMethod("setDialogStage", javafx.stage.Stage.class);
+                            setDialog.invoke(controller, stage);
+                        } catch (NoSuchMethodException ignored) {}
+
+                        // Essayer également d'appeler setData(Patient, Consultations, Medecin) si présent
+                        try {
+                            com.azmicro.moms.model.Consultations sel = tvConsultationOrd.getSelectionModel().getSelectedItem();
+                            java.lang.reflect.Method setData = controller.getClass().getMethod("setData", com.azmicro.moms.model.Patient.class, com.azmicro.moms.model.Consultations.class, com.azmicro.moms.model.Medecin.class);
+                            setData.invoke(controller, this.patient, sel, this.medecin);
+                        } catch (NoSuchMethodException ignored) {}
+                    }
+
+                    stage.showAndWait();
+                    isConsultationSelected = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    afficherAlerte("Erreur", "Impossible d'ouvrir le dialogue ETT : " + e.getMessage());
+                }
+                break;
+
             default:
                 System.out.println("Aucun cas correspondant trouvé pour l'ID: " + buttonId);
                 break;

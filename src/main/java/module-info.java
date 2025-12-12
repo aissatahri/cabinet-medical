@@ -21,6 +21,8 @@ module com.azmicro.moms {
     requires javafx.swing;
     requires kernel;
     requires layout;
+    requires io;
+    requires commons;
     requires jfxtras.common;
     requires jfxtras.controls;
     

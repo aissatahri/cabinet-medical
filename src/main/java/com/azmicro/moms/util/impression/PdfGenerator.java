@@ -395,6 +395,34 @@ public class PdfGenerator {
         }
     }
 
+    private static String formatSexLabel(Patient patient) {
+        try {
+            Integer age = patient.getAge();
+            com.azmicro.moms.model.Sexe sexe = patient.getSexe();
+            if (age == null || age <= 0) {
+                return sexe != null ? sexe.getDescription().toLowerCase() : "Non renseigné";
+            }
+            if (age < 12) {
+                return "enfant";
+            } else if (age < 18) {
+                return sexe == com.azmicro.moms.model.Sexe.F ? "jeune fille" : "jeune garçon";
+            } else {
+                return sexe == com.azmicro.moms.model.Sexe.F ? "femme" : "homme";
+            }
+        } catch (Exception e) {
+            return sexeFallback(patient);
+        }
+    }
+
+    private static String sexeFallback(Patient patient) {
+        try {
+            com.azmicro.moms.model.Sexe s = patient.getSexe();
+            return s != null ? s.getDescription().toLowerCase() : "Non renseigné";
+        } catch (Exception e) {
+            return "Non renseigné";
+        }
+    }
+
     public static String generateImageriePdf(String consultationDetails, Patient patient, List<Imagerie> imageries, Medecin medecin) throws FileNotFoundException {
         String outputDirectory = getOutputDirectory();
         String patientFolderName = patient.getNom() + "_" + patient.getPrenom();
@@ -1388,35 +1416,15 @@ public class PdfGenerator {
         }
         float fontSize = fc.textSize;
 
-        // En-tête - Informations du médecin
-        Paragraph medecinHeader = new Paragraph()
-                .setTextAlignment(TextAlignment.CENTER)
-                .setMarginBottom(10);
+        // En-tête laissé vide : le papier contient déjà un en-tête imprimé.
+        // Conserver un espace vide équivalent à l'en-tête + séparation pour l'alignement
+        Paragraph medecinHeaderPlaceholder = new Paragraph("")
+            .setTextAlignment(TextAlignment.CENTER)
+            .setMarginBottom(25); // espace équivalent à l'en-tête (10) + séparation (15)
+        document.add(medecinHeaderPlaceholder);
         
-        medecinHeader.add(new Text("Dr " + medecin.getNom() + " " + medecin.getPrenom() + "\n")
-                .setFontSize(fontSize + 2)
-                .setBold());
-        
-        if (medecin.getSpecialite() != null) {
-            medecinHeader.add(new Text(medecin.getSpecialite().getNomSpecialite() + "\n")
-                    .setFontSize(fontSize));
-        }
-        
-        if (medecin.getAdresse() != null && !medecin.getAdresse().isEmpty()) {
-            medecinHeader.add(new Text(medecin.getAdresse() + "\n")
-                    .setFontSize(fontSize - 1));
-        }
-        
-        if (medecin.getTelephone() != null && !medecin.getTelephone().isEmpty()) {
-            medecinHeader.add(new Text("Tél: " + medecin.getTelephone())
-                    .setFontSize(fontSize - 1));
-        }
-        
-        document.add(medecinHeader);
-        
-        // Ligne de séparation
+        // Remplacer la ligne horizontale par un espace vide conservant le même espacement
         document.add(new Paragraph("")
-            .setBorderBottom(new SolidBorder(new DeviceRgb(0, 0, 0), 1))
             .setMarginBottom(15));
         
         // Titre du document
@@ -1465,16 +1473,15 @@ public class PdfGenerator {
         }
         document.add(patientTitle);
         
+        String nameWithSex = patient.getNom() + " " + patient.getPrenom() + " (" + formatSexLabel(patient) + ")";
+
         String patientInfo = String.format(
-            "Nom : %s %s\n" +
+            "Nom : %s\n" +
             "Date de naissance : %s\n" +
-            "Âge : %s ans\n" +
-            "Sexe : %s",
-            patient.getNom(),
-            patient.getPrenom(),
+            "Âge : %s ans",
+            nameWithSex,
             patient.getDateNaissance() != null ? patient.getDateNaissance().format(formatter) : "Non renseigné",
-            patient.getAge(),
-            patient.getSexe() != null ? patient.getSexe() : "Non renseigné"
+            patient.getAge()
         );
         
         Paragraph patientInfoPara = new Paragraph(patientInfo)
@@ -1502,7 +1509,25 @@ public class PdfGenerator {
                 .setFontSize(fontSize)
                 .setMarginBottom(30);
         document.add(contenuParagraph);
-        
+
+        // Section Conclusion (si fournie)
+        String conclusion = compteRendu.getConclusion();
+        if (conclusion != null && !conclusion.trim().isEmpty()) {
+            Paragraph conclusionTitle = new Paragraph("Conclusion")
+                .setBold()
+                .setFontSize(fontSize + 1)
+                .setMarginBottom(8);
+            if (titleFont != null) { conclusionTitle.setFont(titleFont); }
+            document.add(conclusionTitle);
+
+            Paragraph conclusionPara = new Paragraph(conclusion)
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setFontSize(fontSize)
+                .setItalic()
+                .setMarginBottom(30);
+            document.add(conclusionPara);
+        }
+
         // Signature
         Paragraph signature = new Paragraph("Signature et cachet du médecin")
                 .setTextAlignment(TextAlignment.RIGHT)

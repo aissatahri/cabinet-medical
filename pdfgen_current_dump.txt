@@ -1,0 +1,366 @@
+Compiled from "PdfGenerator.java"
+public class com.azmicro.moms.util.impression.PdfGenerator {
+  private static final java.util.regex.Pattern DURATION_PATTERN;
+
+  private static final java.util.regex.Pattern FREQ_PATTERN;
+
+  public com.azmicro.moms.util.impression.PdfGenerator();
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #13                 // String Unresolved compilation problem: \n\tThe type com.itextpdf.io.source.OutputStream cannot be resolved. It is indirectly referenced from required type com.itextpdf.kernel.pdf.PdfOutputStream\n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.kernel.geom.PageSize getExactA5PageSize();
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static void configureA5Document(com.itextpdf.kernel.pdf.PdfDocument);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String getOutputDirectory();
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.azmicro.moms.util.impression.PdfGenerator$FontConfig loadFontConfig();
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static float parseFloat(java.lang.String, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.kernel.font.PdfFont resolveConfiguredFont(java.lang.String);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String mapFamilyToFile(java.lang.String);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generatePrescriptionPdf(java.lang.String, com.azmicro.moms.model.Patient, java.util.List<com.azmicro.moms.model.Prescriptions>, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatAgeDescriptor(com.azmicro.moms.model.Patient);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatSexLabel(com.azmicro.moms.model.Patient);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String sexeFallback(com.azmicro.moms.model.Patient);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateImageriePdf(java.lang.String, com.azmicro.moms.model.Patient, java.util.List<com.azmicro.moms.model.Imagerie>, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateAnalysePdf(java.lang.String, com.azmicro.moms.model.Patient, java.util.List<com.azmicro.moms.model.Analyse>, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static <T> java.lang.String generateCertificatPdf(java.lang.String, com.azmicro.moms.model.Patient, java.util.List<T>, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateFacturePdf(java.lang.String, com.azmicro.moms.model.Patient, java.util.List<com.azmicro.moms.model.ConsultationActe>, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateCertificatConsultationPdf(java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateCertificatAptitudeSportivePdf(java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateCertificatArretScolairePdf(java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateCertificatArretTravailPdf(java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateCertificatMaladieChroniquePdf(java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateFicheSoinsLocauxPdf(com.azmicro.moms.model.Consultations, java.util.List<com.azmicro.moms.model.Prescriptions>, java.util.List<com.azmicro.moms.model.Prescriptions>, java.util.List<com.azmicro.moms.model.RendezVous>, java.util.List<com.azmicro.moms.model.HistoriqueMedical>, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Cell makeLabelValue(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Cell makeLabelValueRed(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Cell makeLabelValueBlue(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Cell makeLabelValueMultiline(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Cell makeLabelValueMultilineBlue(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Cell makeLabelValueMultilineRed(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Paragraph makeSectionWithBullets(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Paragraph makeSectionWithBulletsRed(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static com.itextpdf.layout.element.Paragraph makeSectionWithBulletsBlue(java.lang.String, java.lang.String, float, float);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String safe(java.lang.String);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String safeDate(java.time.LocalDate, java.text.SimpleDateFormat);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatInt(java.lang.Integer);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatDouble(java.lang.Double);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatPrescriptions(java.util.List<com.azmicro.moms.model.Prescriptions>);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatAntecedents(java.util.List<com.azmicro.moms.model.HistoriqueMedical>);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String cleanPosologieText(java.lang.String);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String cleanDureeText(java.lang.String);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static void collectSegments(java.lang.String, java.util.LinkedHashSet<java.lang.String>);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String formatPrescriptionLine(com.azmicro.moms.model.Prescriptions);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateLettreOrientationPdf(java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String generateLettreOrientationA4(java.lang.String, java.lang.String, java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin);
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  public static java.lang.String generateCompteRenduETTPdf(com.azmicro.moms.model.CompteRenduETT, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+
+  private static java.lang.String generateGenericCertificat(java.lang.String, java.lang.String, java.lang.String, com.azmicro.moms.model.Patient, com.azmicro.moms.model.Medecin) throws java.io.FileNotFoundException;
+    Code:
+       0: new           #11                 // class java/lang/Error
+       3: dup
+       4: ldc           #24                 // String Unresolved compilation problem: \n
+       6: invokespecial #15                 // Method java/lang/Error."<init>":(Ljava/lang/String;)V
+       9: athrow
+}

@@ -1,0 +1,144 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.azmicro:CabinetMedical >---------------------
+[INFO] Building CabinetMedical 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] 6 problems were encountered while building the effective model for org.openjfx:javafx-controls:jar:20
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ CabinetMedical ---
+[INFO] Deleting D:\Project_JavaFX\CabinetMedical\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ CabinetMedical ---
+[INFO] Copying 112 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ CabinetMedical ---
+[WARNING] ****************************************************************************************************************************************************************************************
+[WARNING] * Required filename-based automodules detected: [mysql-connector-j-8.0.32.jar, kernel-8.0.5.jar, layout-8.0.5.jar]. Please don't publish this project to a public artifact repository! *
+[WARNING] ****************************************************************************************************************************************************************************************
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 154 source files with javac [debug release 21 module-path] to target\classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] /D:/Project_JavaFX/CabinetMedical/src/main/java/com/azmicro/moms/controller/prescription/PrescriptionController.java: Some input files use unchecked or unsafe operations.
+[INFO] /D:/Project_JavaFX/CabinetMedical/src/main/java/com/azmicro/moms/controller/prescription/PrescriptionController.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ CabinetMedical ---
+[INFO] skip non existing resourceDirectory D:\Project_JavaFX\CabinetMedical\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ CabinetMedical ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ CabinetMedical ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.2.0:jar (default-jar) @ CabinetMedical ---
+[INFO] Building jar: D:\Project_JavaFX\CabinetMedical\target\CabinetMedical-1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- shade:3.5.1:shade (default) @ CabinetMedical ---
+[INFO] Including org.openjfx:javafx-controls:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-controls:jar:win:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-graphics:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-graphics:jar:win:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-base:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-base:jar:win:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-fxml:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-fxml:jar:win:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-web:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-web:jar:win:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-media:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-media:jar:win:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-swing:jar:21.0.5 in the shaded jar.
+[INFO] Including org.openjfx:javafx-swing:jar:win:21.0.5 in the shaded jar.
+[INFO] Including io.github.mkpaz:atlantafx-base:jar:2.0.1 in the shaded jar.
+[INFO] Including com.mysql:mysql-connector-j:jar:8.0.32 in the shaded jar.
+[INFO] Including com.google.protobuf:protobuf-java:jar:3.21.9 in the shaded jar.
+[INFO] Including org.kordamp.bootstrapfx:bootstrapfx-core:jar:0.4.0 in the shaded jar.
+[INFO] Including org.controlsfx:controlsfx:jar:11.2.1 in the shaded jar.
+[INFO] Including com.dlsc.formsfx:formsfx-core:jar:11.6.0 in the shaded jar.
+[INFO] Including net.synedra:validatorfx:jar:0.5.0 in the shaded jar.
+[INFO] Including eu.hansolo:tilesfx:jar:21.0.9 in the shaded jar.
+[INFO] Including eu.hansolo.fx:countries:jar:21.0.17 in the shaded jar.
+[INFO] Including eu.hansolo.fx:heatmap:jar:21.0.5 in the shaded jar.
+[INFO] Including eu.hansolo:toolboxfx:jar:21.0.5 in the shaded jar.
+[INFO] Including eu.hansolo:toolbox:jar:21.0.9 in the shaded jar.
+[INFO] Including com.github.almasb:fxgl:jar:21.1 in the shaded jar.
+[INFO] Including com.github.almasb:fxgl-core:jar:21.1 in the shaded jar.
+[INFO] Including com.gluonhq.attach:audio:jar:4.0.17 in the shaded jar.
+[INFO] Including com.github.almasb:fxgl-io:jar:21.1 in the shaded jar.
+[INFO] Including com.gluonhq.attach:storage:jar:4.0.17 in the shaded jar.
+[INFO] Including com.gluonhq.attach:util:jar:4.0.17 in the shaded jar.
+[INFO] Including com.github.almasb:fxgl-entity:jar:21.1 in the shaded jar.
+[INFO] Including com.github.almasb:fxgl-scene:jar:21.1 in the shaded jar.
+[INFO] Including com.github.almasb:fxgl-gameplay:jar:21.1 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-annotations:jar:2.14.2 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-databind:jar:2.14.2 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-core:jar:2.14.2 in the shaded jar.
+[INFO] Including com.gluonhq.attach:lifecycle:jar:4.0.17 in the shaded jar.
+[INFO] Including org.jetbrains.kotlin:kotlin-stdlib:jar:1.8.10 in the shaded jar.
+[INFO] Including org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.8.10 in the shaded jar.
+[INFO] Including org.jetbrains:annotations:jar:13.0 in the shaded jar.
+[INFO] Including org.apache.logging.log4j:log4j-core:jar:2.23.1 in the shaded jar.
+[INFO] Including org.apache.logging.log4j:log4j-api:jar:2.23.1 in the shaded jar.
+[INFO] Including org.kordamp.ikonli:ikonli-javafx:jar:12.3.1 in the shaded jar.
+[INFO] Including org.kordamp.ikonli:ikonli-core:jar:12.3.1 in the shaded jar.
+[INFO] Including org.kordamp.ikonli:ikonli-fontawesome5-pack:jar:12.3.1 in the shaded jar.
+[INFO] Including com.itextpdf:kernel:jar:8.0.5 in the shaded jar.
+[INFO] Including com.itextpdf:bouncy-castle-connector:jar:8.0.5 in the shaded jar.
+[INFO] Including org.slf4j:slf4j-api:jar:1.7.36 in the shaded jar.
+[INFO] Including com.itextpdf:layout:jar:8.0.5 in the shaded jar.
+[INFO] Including com.itextpdf:io:jar:8.0.5 in the shaded jar.
+[INFO] Including com.itextpdf:commons:jar:8.0.5 in the shaded jar.
+[INFO] Including org.jfxtras:jfxtras-common:jar:17-r1 in the shaded jar.
+[INFO] Including org.jfxtras:jfxtras-controls:jar:17-r1 in the shaded jar.
+[INFO] Including org.jfxtras:jfxtras-fxml:jar:17-r1 in the shaded jar.
+[INFO] Dependency-reduced POM written at: D:\Project_JavaFX\CabinetMedical\dependency-reduced-pom.xml
+[WARNING] bootstrapfx-core-0.4.0.jar, ikonli-core-12.3.1.jar, ikonli-fontawesome5-pack-12.3.1.jar, ikonli-javafx-12.3.1.jar, jackson-annotations-2.14.2.jar, jackson-core-2.14.2.jar, jackson-databind-2.14.2.jar, log4j-api-2.23.1.jar, log4j-core-2.23.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/LICENSE
+[WARNING] javafx-base-21.0.5-win.jar, javafx-controls-21.0.5-win.jar, javafx-fxml-21.0.5-win.jar, javafx-graphics-21.0.5-win.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/substrate/config/reflectionconfig.json
+[WARNING] javafx-graphics-21.0.5-win.jar, javafx-web-21.0.5-win.jar define 7 overlapping resources: 
+[WARNING]   - META-INF/substrate/config/jniconfig-aarch64-android.json
+[WARNING]   - META-INF/substrate/config/jniconfig-aarch64-darwin.json
+[WARNING]   - META-INF/substrate/config/jniconfig-arm64-ios.json
+[WARNING]   - META-INF/substrate/config/jniconfig-x86_64-darwin.json
+[WARNING]   - META-INF/substrate/config/jniconfig-x86_64-ios.json
+[WARNING]   - META-INF/substrate/config/reflectionconfig-aarch64-darwin.json
+[WARNING]   - META-INF/substrate/config/reflectionconfig-x86_64-darwin.json
+[WARNING] CabinetMedical-1.0-SNAPSHOT.jar, annotations-13.0.jar, atlantafx-base-2.0.1.jar, audio-4.0.17.jar, bootstrapfx-core-0.4.0.jar, bouncy-castle-connector-8.0.5.jar, commons-8.0.5.jar, controlsfx-11.2.1.jar, countries-21.0.17.jar, formsfx-core-11.6.0.jar, fxgl-21.1.jar, fxgl-core-21.1.jar, fxgl-entity-21.1.jar, fxgl-gameplay-21.1.jar, fxgl-io-21.1.jar, fxgl-scene-21.1.jar, heatmap-21.0.5.jar, ikonli-core-12.3.1.jar, ikonli-fontawesome5-pack-12.3.1.jar, ikonli-javafx-12.3.1.jar, io-8.0.5.jar, jackson-annotations-2.14.2.jar, jackson-core-2.14.2.jar, jackson-databind-2.14.2.jar, javafx-base-21.0.5-win.jar, javafx-base-21.0.5.jar, javafx-controls-21.0.5-win.jar, javafx-controls-21.0.5.jar, javafx-fxml-21.0.5-win.jar, javafx-fxml-21.0.5.jar, javafx-graphics-21.0.5-win.jar, javafx-graphics-21.0.5.jar, javafx-media-21.0.5-win.jar, javafx-media-21.0.5.jar, javafx-swing-21.0.5-win.jar, javafx-swing-21.0.5.jar, javafx-web-21.0.5-win.jar, javafx-web-21.0.5.jar, jfxtras-common-17-r1.jar, jfxtras-controls-17-r1.jar, jfxtras-fxml-17-r1.jar, kernel-8.0.5.jar, kotlin-stdlib-1.8.10.jar, kotlin-stdlib-common-1.8.10.jar, layout-8.0.5.jar, lifecycle-4.0.17.jar, log4j-api-2.23.1.jar, log4j-core-2.23.1.jar, mysql-connector-j-8.0.32.jar, protobuf-java-3.21.9.jar, slf4j-api-1.7.36.jar, storage-4.0.17.jar, tilesfx-21.0.9.jar, toolbox-21.0.9.jar, toolboxfx-21.0.5.jar, util-4.0.17.jar, validatorfx-0.5.0.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] jackson-core-2.14.2.jar, jackson-databind-2.14.2.jar, kotlin-stdlib-1.8.10.jar define 1 overlapping classes: 
+[WARNING]   - META-INF.versions.9.module-info
+[WARNING] javafx-controls-21.0.5-win.jar, javafx-graphics-21.0.5-win.jar, javafx-web-21.0.5-win.jar define 3 overlapping resources: 
+[WARNING]   - META-INF/substrate/config/reflectionconfig-aarch64-android.json
+[WARNING]   - META-INF/substrate/config/reflectionconfig-arm64-ios.json
+[WARNING]   - META-INF/substrate/config/reflectionconfig-x86_64-ios.json
+[WARNING] log4j-api-2.23.1.jar, log4j-core-2.23.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/DEPENDENCIES
+[WARNING] jackson-annotations-2.14.2.jar, jackson-core-2.14.2.jar, jackson-databind-2.14.2.jar, log4j-api-2.23.1.jar, log4j-core-2.23.1.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/NOTICE
+[WARNING] javafx-controls-21.0.5-win.jar, javafx-graphics-21.0.5-win.jar, javafx-media-21.0.5-win.jar, javafx-web-21.0.5-win.jar define 1 overlapping resource: 
+[WARNING]   - META-INF/substrate/config/resourcebundles
+[WARNING] javafx-graphics-21.0.5-win.jar, javafx-media-21.0.5-win.jar, javafx-web-21.0.5-win.jar define 2 overlapping resources: 
+[WARNING]   - META-INF/substrate/config/jniconfig-x86_64-linux.json
+[WARNING]   - META-INF/substrate/config/reflectionconfig-x86_64-linux.json
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing D:\Project_JavaFX\CabinetMedical\target\CabinetMedical-1.0-SNAPSHOT.jar with D:\Project_JavaFX\CabinetMedical\target\CabinetMedical-1.0-SNAPSHOT-shaded.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  47.794 s
+[INFO] Finished at: 2025-12-12T13:48:19+01:00
+[INFO] ------------------------------------------------------------------------
